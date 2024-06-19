@@ -1,0 +1,56 @@
+﻿<Window x:Class="test2.EmployesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:test2"
+        mc:Ignorable="d"
+        Title="EmployesWindow" Height="750" Width="800">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="675">
+            <TextBlock TextWrapping="Wrap" Text="Id"/>
+            <TextBox x:Name="IdTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Username"/>
+            <TextBox x:Name="UsernameTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Password Hash"/>
+            <TextBox x:Name="PasswordHashTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Salt"/>
+            <TextBox x:Name="SaltTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Full Name"/>
+            <TextBox x:Name="FullNameTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Subdivision"/>
+            <TextBox x:Name="SubdivisionTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Position"/>
+            <TextBox x:Name="PositionTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Status"/>
+            <TextBox x:Name="StatusTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="People Partner"/>
+            <TextBox x:Name="PeoplePartnerTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Out of office Balance"/>
+            <TextBox x:Name="OutOfOfficeBalanceTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Photo"/>
+            <TextBox x:Name="PhotoTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <Button Content="Filter" Width="200" Click="FilterButton_Click" HorizontalAlignment="Left"/>
+            <Button  x:Name="NewButton" Content="New Employee" Width="200" Click="NewEmployeeButton_Click" HorizontalAlignment="Left"/>
+
+            <DataGrid x:Name="ProjectDataGrid" AutoGenerateColumns="False" 
+  CanUserAddRows="True" CanUserDeleteRows="True"
+  CanUserSortColumns="True" IsReadOnly="True"
+  SelectionMode="Single" MouseDoubleClick="DataGrid_MouseDoubleClick">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Username" Binding="{Binding Username}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Password Hash" Binding="{Binding PasswordHash}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Salt" Binding="{Binding Salt, StringFormat=dd/MM/yyyy}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Full Name" Binding="{Binding FullName , StringFormat=dd/MM/yyyy}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Subdivision" Binding="{Binding Subdivision}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Position" Binding="{Binding Position}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="People Partner" Binding="{Binding PeoplePartner}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Out of OfficeBalance" Binding="{Binding Out_of_OfficeBalance}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Photo" Binding="{Binding Photo}" IsReadOnly="False"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>

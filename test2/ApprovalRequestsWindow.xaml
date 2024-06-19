@@ -1,0 +1,39 @@
+﻿<Window x:Class="test2.ApprovalRequestsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:test2"
+        mc:Ignorable="d"
+        Title="ApprovalRequestsWindow" Height="750" Width="800">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="675">
+            <TextBlock TextWrapping="Wrap" Text="Id"/>
+            <TextBox x:Name="IdTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Approver"/>
+            <TextBox x:Name="ApproverTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Leave Request"/>
+            <TextBox x:Name="LeaveRequestTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Status"/>
+            <TextBox x:Name="StatusTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Comment"/>
+            <TextBox x:Name="CommentTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <Button Content="Filter" Width="200" Click="FilterButton_Click" HorizontalAlignment="Left"/>
+            <Button Content="New Approval Request" Width="200" Click="NewApprovalRequestButton_Click" HorizontalAlignment="Left"/>
+
+            <DataGrid x:Name="ProjectDataGrid" AutoGenerateColumns="False" 
+  CanUserAddRows="True" CanUserDeleteRows="True"
+  CanUserSortColumns="True" IsReadOnly="True"
+  SelectionMode="Single" MouseDoubleClick="DataGrid_MouseDoubleClick">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Approver" Binding="{Binding Approver}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Leave Request" Binding="{Binding LeaveRequest}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" IsReadOnly="False"/>
+   
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>
