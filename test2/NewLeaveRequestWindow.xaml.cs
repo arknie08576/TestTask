@@ -27,6 +27,7 @@ namespace test2
         public NewLeaveRequestWindow(OfficeContex officeContex)
         {
             InitializeComponent();
+
             context = officeContex;
             user = AuthenticationHelper.loggedUser;
             LoadNewLeaveRequest();
@@ -43,7 +44,7 @@ namespace test2
 
                // EmployeeTextBox.Text = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToList()[0];
                 var obj = new LeaveRequest();
-                obj.Employee= context.Employes.Where(e => e.Username == user).Select(x => x.Id).ToList()[0];
+                obj.Employee= context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefault();
                 switch (comboBox.Text)
                 {
                     case "A":
@@ -80,6 +81,11 @@ namespace test2
                 }
 
                 context.LeaveRequests.Add(obj);
+            context.SaveChanges();
+            var ar = new ApprovalRequest();
+            ar.LeaveRequest = obj.Id;
+            ar.Status=ApprovalRequestStatus.Inactive;
+            context.ApprovalRequests.Add(ar);
                 context.SaveChanges();
             
 
