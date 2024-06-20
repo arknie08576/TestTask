@@ -23,7 +23,7 @@ namespace test2
     {
         private readonly OfficeContex context;
         int id { get; set; }
-        public EditProjectWindow(OfficeContex officeContex,int Id)
+        public EditProjectWindow(int Id, OfficeContex officeContex)
         {
             InitializeComponent();
             context = officeContex;

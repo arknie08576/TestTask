@@ -47,9 +47,10 @@ namespace test2
             services.AddTransient<OpenLeaveRequestWindow>();
             services.AddTransient<OpenProjectWindow>();
             services.AddTransient<IOpenProjectWindowFactory, OpenProjectWindowFactory>();
-
-
-
+            services.AddTransient<IEditProjectWindowFactory, EditProjectWindowFactory>();
+            services.AddTransient<IOpenApprovalRequestWindowFactory, OpenApprovalRequestWindowFactory>();
+            services.AddTransient<IOpenEmployeeWindowFactory, OpenEmployeeWindowFactory>();
+            services.AddTransient<IOpenLeaveRequestWindowFactory, OpenLeaveRequestWindowFactory>();
 
 
             services.AddDbContext<OfficeContex>(options =>

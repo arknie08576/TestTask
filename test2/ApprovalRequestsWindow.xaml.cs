@@ -26,10 +26,12 @@ namespace test2
     {
         string user;
         private readonly OfficeContex context;
-        public ApprovalRequestsWindow(OfficeContex officeContex)
+        private readonly IWindowService windowService;
+        public ApprovalRequestsWindow(OfficeContex officeContex, IWindowService _windowService)
         {
             this.user = AuthenticationHelper.loggedUser;
             this.context = officeContex;
+            windowService = _windowService;
             InitializeComponent();
             this.user = user;
             LoadApprovalRequests();
@@ -170,15 +172,16 @@ namespace test2
 
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
 
-               // OpenApprovalRequestWindow oLRWindow = new OpenApprovalRequestWindow(user, selectedData.Id);
-               // oLRWindow.Show();
-
+                // OpenApprovalRequestWindow oLRWindow = new OpenApprovalRequestWindow(user, selectedData.Id);
+                // oLRWindow.Show();
+                windowService.ShowWindow<OpenApprovalRequestWindow>(selectedData.Id);
             }
         }
         private void NewLeaveRequestButton_Click(object sender, RoutedEventArgs e)
         {
             //NewLeaveRequestWindow nLRWindow = new NewLeaveRequestWindow(user);
             //nLRWindow.Show();
+            windowService.ShowWindow<NewLeaveRequestWindow>();
 
 
 

@@ -25,7 +25,7 @@ namespace test2
         string user;   
         int id;
         private readonly OfficeContex context;
-        public OpenLeaveRequestWindow(OfficeContex officeContex, int Id)
+        public OpenLeaveRequestWindow(int Id, OfficeContex officeContex)
         {
             InitializeComponent();
             user = AuthenticationHelper.loggedUser;

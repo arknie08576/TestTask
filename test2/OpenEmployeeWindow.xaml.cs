@@ -24,7 +24,7 @@ namespace test2
         public int id;
         public string user;
         private readonly OfficeContex context;
-        public OpenEmployeeWindow(OfficeContex officeContex,int Id)
+        public OpenEmployeeWindow(int Id, OfficeContex officeContex)
         {
             this.id = Id;
             this.user = AuthenticationHelper.loggedUser;

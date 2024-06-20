@@ -24,7 +24,7 @@ namespace test2
         string user;
         int id;
         private readonly OfficeContex context;
-        public OpenApprovalRequestWindow(OfficeContex officeContex, int Id)
+        public OpenApprovalRequestWindow( int Id, OfficeContex officeContex)
         {
             InitializeComponent();
             user = AuthenticationHelper.loggedUser;

@@ -31,6 +31,26 @@ namespace test2
                 var factory = _serviceProvider.GetRequiredService<IOpenProjectWindowFactory>();
                 window = (T)(object)factory.Create(id);
             }
+            else if (typeof(T) == typeof(EditProjectWindow) && args.Length == 1 && args[0] is int id2)
+            {
+                var factory = _serviceProvider.GetRequiredService<IEditProjectWindowFactory>();
+                window = (T)(object)factory.Create(id2);
+            }
+            else if (typeof(T) == typeof(OpenApprovalRequestWindow) && args.Length == 1 && args[0] is int id3)
+            {
+                var factory = _serviceProvider.GetRequiredService<IEditProjectWindowFactory>();
+                window = (T)(object)factory.Create(id3);
+            }
+            else if (typeof(T) == typeof(OpenEmployeeWindow) && args.Length == 1 && args[0] is int id4)
+            {
+                var factory = _serviceProvider.GetRequiredService<IOpenEmployeeWindowFactory>();
+                window = (T)(object)factory.Create(id4);
+            }
+            else if (typeof(T) == typeof(OpenLeaveRequestWindow) && args.Length == 1 && args[0] is int id5)
+            {
+                var factory = _serviceProvider.GetRequiredService<IOpenLeaveRequestWindowFactory>();
+                window = (T)(object)factory.Create(id5);
+            }
             else
             {
                 window = _serviceProvider.GetRequiredService<T>();
