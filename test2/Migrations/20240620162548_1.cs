@@ -43,7 +43,7 @@ namespace test2.Migrations
                     PeoplePartner = table.Column<int>(type: "int", nullable: true),
                     Out_of_OfficeBalance = table.Column<int>(type: "int", nullable: false),
                     Photo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    AssignedProject = table.Column<int>(type: "int", nullable: false)
+                    AssignedProject = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -150,8 +150,7 @@ namespace test2.Migrations
                 table: "Employes",
                 column: "AssignedProject",
                 principalTable: "Projects",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />

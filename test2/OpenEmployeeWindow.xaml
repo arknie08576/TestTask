@@ -75,9 +75,19 @@ SelectionChanged="comboBox4_SelectionChanged">
             <TextBox x:Name="Out_of_OfficeBalanceTextBox" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Photo (link)"/>
             <TextBox x:Name="PhotoTextBox" Width="200" Margin="0,0,0,10"/>
+            <TextBlock TextWrapping="Wrap" Text="Assigned project"/>
+            <ComboBox Name="comboBox5" 
+Width="200" 
+Height="30" 
+VerticalAlignment="Center" 
+HorizontalAlignment="Center">
+
+
+
+            </ComboBox>
             <Button x:Name="UpdateButton" Content="Update" Width="200" Click="UpdateButton_Click"/>
             <Button x:Name="DeleteButton" Content="Delete employee" Width="200" Click="DeleteButton_Click"/>
-            <Button x:Name="AssignButton" Content="Assign employee to a project" Width="200" Click="AssignButton_Click"/>
+            
         </StackPanel>
     </Grid>
 </Window>

@@ -60,7 +60,7 @@ namespace test2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AssignedProject")
+                    b.Property<int?>("AssignedProject")
                         .HasColumnType("int");
 
                     b.Property<string>("FullName")
@@ -198,9 +198,7 @@ namespace test2.Migrations
                 {
                     b.HasOne("test2.Models.Project", "project")
                         .WithMany()
-                        .HasForeignKey("AssignedProject")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AssignedProject");
 
                     b.HasOne("test2.Models.Employee", "employee")
                         .WithMany()

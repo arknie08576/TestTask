@@ -31,7 +31,7 @@ namespace test2.Models
         [MaxLength(100)]
         public string? Photo { get; set; }
         [ForeignKey("project")]
-        public int AssignedProject {  get; set; }
+        public int? AssignedProject {  get; set; }
         public Employee employee { get; set; }
         public Project project { get; set; }
 

@@ -54,13 +54,13 @@ namespace test2
                 var ob = context.Employes.Where(x => x.Username == user).FirstOrDefault();
                 if (ob.Position == Position.HRManager)
                 {
-                    AssignButton.Visibility = Visibility.Collapsed;
+                    
 
 
                 }
                 if (ob.Position == Position.ProjectManager)
                 {
-                    UpdateButton.Visibility = Visibility.Collapsed;
+                    //UpdateButton.Visibility = Visibility.Collapsed;
                     DeleteButton.Visibility = Visibility.Collapsed;
 
                 }
@@ -138,9 +138,21 @@ namespace test2
                 }
                 Out_of_OfficeBalanceTextBox.Text = obj.Out_of_OfficeBalance.ToString();
                 PhotoTextBox.Text = obj.Photo;
+            var product= context.Projects.Select(x => x.Id).ToList();
+            comboBox5.ItemsSource = product;
+            var a = obj.AssignedProject;
+
+            for (int i = 0; i < product.Count; i++)
+            {
+                if (product[i] == context.Projects.Where(e => e.Id == a).Select(x => x.Id).FirstOrDefault())
+                {
+                    comboBox5.SelectedIndex = i;
+                }
 
 
-            
+            }
+
+
         }
 
         private void ComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -166,11 +178,7 @@ namespace test2
 
         }
 
-        private void AssignButton_Click(object sender, RoutedEventArgs e)
-        {
-
-
-        }
+ 
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -241,7 +249,7 @@ namespace test2
                 }
                 var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
                 
-                obj.PeoplePartner = context.Employes.Where(e => e.FullName == comboBox4.Text).Select(x => x.Id).ToList()[0];
+                obj.AssignedProject = context.Projects.Where(e => e.Id.ToString() == comboBox5.Text).Select(x => x.Id).FirstOrDefault();
                 obj.Out_of_OfficeBalance = int.Parse(Out_of_OfficeBalanceTextBox.Text);
                 obj.Photo = PhotoTextBox.Text;
                 context.Entry(obj).State = EntityState.Modified;
