@@ -4,6 +4,7 @@ using System.Data;
 using System.Windows;
 using System.Windows.Forms.Design;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace test2
 {
@@ -13,9 +14,12 @@ namespace test2
     public partial class App : Application
     {
         private ServiceProvider _serviceProvider;
+      //  private readonly IMainWindow mainWindow;
 
         public App()
         {
+            
+          //  mainWindow = _mainWindow;
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
@@ -24,17 +28,26 @@ namespace test2
         private void ConfigureServices(IServiceCollection services)
         {
             // Register services and view models
+            services.AddSingleton<IWindowService, WindowService>();
             services.AddTransient<MainWindow>();
             services.AddTransient<RegisterWindow>();
+            services.AddTransient<EmployeeWindow>();
+            services.AddTransient<HRManagerWindow>();
+            services.AddTransient<ProjectManagerWindow>();
+            services.AddTransient<AdministratorWindow>();
+            services.AddTransient<ProjectsWindow>();
+            services.AddTransient<LeaveRequestsWindow>();
             services.AddDbContext<OfficeContex>(options =>
-            options.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False"));
+            options.UseSqlServer("Data Source=DESKTOP-7GGELFU\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False;Trust Server Certificate=True"));
             //services.AddTransient<IMyService, MyService>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var mainWindow = _serviceProvider.GetService<MainWindow>();
+            //serviceProvider.GetRequiredService<IMainWindow>();
+               var mainWindow = _serviceProvider.GetService<MainWindow>();
+            AuthenticationHelper.LoadDbContext(_serviceProvider.GetRequiredService<OfficeContex>());
             mainWindow.Show();
         }
 

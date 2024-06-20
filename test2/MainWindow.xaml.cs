@@ -16,15 +16,19 @@ namespace test2
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
     public partial class MainWindow : Window
     {
-        private readonly OfficeContex context;
-        private readonly RegisterWindow registerWindow;
-        public MainWindow(OfficeContex officeContex, RegisterWindow rWindow)
+        public OfficeContex context;
+        private readonly IWindowService windowService;
+
+        public MainWindow(OfficeContex officeContex, IWindowService _windowService)
         {
             InitializeComponent();
+            windowService = _windowService;
             context = officeContex;
-            registerWindow = rWindow;
+
         }
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
@@ -48,24 +52,28 @@ namespace test2
                 switch (role)
                 {
                     case Position.Employee:
-                        EmployeeWindow employeeAppWindow = new EmployeeWindow(username);
-                        employeeAppWindow.Show();
-                        employeeAppWindow.Top = 0;
+                        // EmployeeWindow employeeAppWindow = new EmployeeWindow(username);
+                       // employeeAppWindow.Show();
+                        windowService.ShowWindow<EmployeeWindow>();
+                        // employeeAppWindow.Top = 0;
                         break;
                     case Position.HRManager:
-                        HRManagerWindow hrAppWindow = new HRManagerWindow(username);
-                        hrAppWindow.Show();
-                        hrAppWindow.Top = 0;
+                        // HRManagerWindow hrAppWindow = new HRManagerWindow(username);
+                       // hrAppWindow.Show();
+                        //hrAppWindow.Top = 0;
+                        windowService.ShowWindow<HRManagerWindow>();
                         break;
                     case Position.ProjectManager:
-                        ProjectManagerWindow pmAppWindow = new ProjectManagerWindow(username);
-                        pmAppWindow.Show();
-                        pmAppWindow.Top = 0;
+                        // ProjectManagerWindow pmAppWindow = new ProjectManagerWindow(username);
+                       // pmAppWindow.Show();
+                       // pmAppWindow.Top = 0;
+                        windowService.ShowWindow<ProjectManagerWindow>();
                         break;
                     case Position.Administrator:
-                        AdministratorWindow aAppWindow = new AdministratorWindow(username);
-                        aAppWindow.Show();
-                        aAppWindow.Top = 0;
+                        // AdministratorWindow aAppWindow = new AdministratorWindow(username);
+                        //aAppWindow.Show();
+                        //aAppWindow.Top = 0;
+                        windowService.ShowWindow<AdministratorWindow>();
                         break;
 
 
@@ -88,7 +96,8 @@ namespace test2
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             //  RegisterWindow registerWindow = new RegisterWindow(context);
-            registerWindow.Show();
+            // registerWindow.Show();
+            windowService.ShowWindow<RegisterWindow>();
 
         }
     }

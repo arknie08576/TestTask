@@ -38,7 +38,7 @@ namespace test2
             Subdivision subdivision;
             Position position;
             EmployeeStatus status;
-            int peoplePartner = 1 ;
+            int? peoplePartner = null ;
             int out_of_OfficeBalance;
             string photo;
 
@@ -135,7 +135,7 @@ namespace test2
                 return;
             }
 
-            if (UsernameTextBox.Text == "" || PasswordBox.Password == "" || ConfirmPasswordBox.Password == "" || FullnameTextBox.Text == "" || comboBox.Text == "" || comboBox2.Text == "" || comboBox3.Text == "" || comboBox4.Text == "" || Out_of_OfficeBalanceTextBox.Text == "")
+            if (UsernameTextBox.Text == "" || PasswordBox.Password == "" || ConfirmPasswordBox.Password == "" || FullnameTextBox.Text == "" || comboBox.Text == "" || comboBox2.Text == "" || comboBox3.Text == "" || Out_of_OfficeBalanceTextBox.Text == "")
             {
                 MessageBox.Show("Not all requiered fields are completed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;

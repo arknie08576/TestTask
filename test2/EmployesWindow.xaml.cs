@@ -24,20 +24,18 @@ namespace test2
     public partial class EmployesWindow : Window
     {
         string user;
-        public EmployesWindow(string Username)
+        private readonly OfficeContex context;
+        public EmployesWindow(OfficeContex officeContex)
         {
             InitializeComponent();
-            user = Username;
+            user = AuthenticationHelper.loggedUser;
+            context = officeContex;
             LoadEmployes();
         }
         public void LoadEmployes()
         {
 
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var ob = context.Employes.Where(x => x.Username == user).FirstOrDefault();
                 if (ob.Position == Position.HRManager)
                 {
@@ -78,7 +76,7 @@ namespace test2
 
                 ProjectDataGrid.ItemsSource = viewemployes;
 
-            }
+            
             // Example list of projects
 
 
@@ -87,11 +85,7 @@ namespace test2
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var employes = context.Employes.ToList();
                 var viewemployes = new List<ViewEmployee>();
                 foreach (var employe in employes)
@@ -270,7 +264,7 @@ namespace test2
 
 
 
-            }
+            
         }
 
         private void NewEmployeeButton_Click(object sender, RoutedEventArgs e)

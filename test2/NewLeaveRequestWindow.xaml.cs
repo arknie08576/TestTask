@@ -23,30 +23,24 @@ namespace test2
     public partial class NewLeaveRequestWindow : Window
     {
         string user;
-        public NewLeaveRequestWindow(string Username)
+        private readonly OfficeContex context;
+        public NewLeaveRequestWindow(OfficeContex officeContex)
         {
             InitializeComponent();
-            user = Username;
+            context = officeContex;
+            user = AuthenticationHelper.loggedUser;
             LoadNewLeaveRequest();
         }
         private void LoadNewLeaveRequest()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 EmployeeTextBox.Text = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToList()[0];
-            }
+            
 
         }
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                // EmployeeTextBox.Text = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToList()[0];
                 var obj = new LeaveRequest();
                 obj.Employee= context.Employes.Where(e => e.Username == user).Select(x => x.Id).ToList()[0];
@@ -87,7 +81,7 @@ namespace test2
 
                 context.LeaveRequests.Add(obj);
                 context.SaveChanges();
-            }
+            
 
 
         }

@@ -23,16 +23,14 @@ namespace test2
     {
         public int id;
         public string user;
-        public OpenEmployeeWindow(int Id, string Username)
+        private readonly OfficeContex context;
+        public OpenEmployeeWindow(OfficeContex officeContex,int Id)
         {
             this.id = Id;
-            this.user = Username;
+            this.user = AuthenticationHelper.loggedUser;
+            context = officeContex;
             InitializeComponent();
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var obj = context.Employes.Where(x => x.Username == user).FirstOrDefault();
                 if (obj.Position == Position.HRManager)
                 {
@@ -49,16 +47,12 @@ namespace test2
 
 
 
-            }
+            
             LoadEmployee();
         }
         private void LoadEmployee()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var ob = context.Employes.Where(x => x.Username == user).FirstOrDefault();
                 if (ob.Position == Position.HRManager)
                 {
@@ -148,7 +142,7 @@ namespace test2
                 PhotoTextBox.Text = obj.Photo;
 
 
-            }
+            
         }
 
         private void ComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -185,11 +179,7 @@ namespace test2
 
 
 
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 Employee obj = context.Employes.Where(x => x.Id == id).ToList()[0];
 
 
@@ -270,15 +260,11 @@ namespace test2
 
 
 
-            }
+            
         }
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+  
                 Employee obj = context.Employes.Where(x => x.Id == id).ToList()[0];
                 var leaveRequests = context.LeaveRequests.Where(x => x.Employee == obj.Id).ToList();
                 var approvalRequests = new List<ApprovalRequest>();
@@ -332,7 +318,7 @@ namespace test2
                 context.SaveChanges();
                 MessageBox.Show("Employee deleted.");
                 this.Close();
-            }
+            
         }
     }
 }

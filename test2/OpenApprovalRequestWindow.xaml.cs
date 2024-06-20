@@ -23,10 +23,12 @@ namespace test2
     {
         string user;
         int id;
-        public OpenApprovalRequestWindow(string User, int Id)
+        private readonly OfficeContex context;
+        public OpenApprovalRequestWindow(OfficeContex officeContex, int Id)
         {
             InitializeComponent();
-            user = User;
+            user = AuthenticationHelper.loggedUser;
+            context = officeContex;
             id = Id;
             LoadApprovalRequest();
 
@@ -35,11 +37,7 @@ namespace test2
         private void LoadApprovalRequest()
         {
 
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                // var products = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToList();
                 IdTextBox.Text = id.ToString();
                 var t=context.ApprovalRequests.Where(e => e.Id == id).Select(x=>x.Approver).FirstOrDefault();
@@ -63,7 +61,7 @@ namespace test2
 
 
 
-            }
+            
 
 
 
@@ -73,11 +71,7 @@ namespace test2
         }
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
 
                 var obj = context.ApprovalRequests.Find(id);
                 switch (comboBox.Text)
@@ -97,7 +91,7 @@ namespace test2
                 context.SaveChanges();
                 MessageBox.Show("Approval request updated");
                 this.Close();
-            }
+            
 
 
         }

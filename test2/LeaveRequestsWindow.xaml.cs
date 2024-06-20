@@ -24,22 +24,19 @@ namespace test2
     public partial class LeaveRequestsWindow : Window
     {
         string user;
-        public LeaveRequestsWindow(string User)
+        private readonly OfficeContex context;
+        public LeaveRequestsWindow(OfficeContex officeContex)
         {
             InitializeComponent();
-
-            user = User;
+            context= officeContex;
+            user = AuthenticationHelper.loggedUser;
             LoadLeaveRequests();
 
         }
 
         private void LoadLeaveRequests()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var leaveRequests = context.LeaveRequests.ToList();
                 var viewleaveRequests = new List<ViewLeaveRequest>();
                 foreach (var leaveRequest in leaveRequests)
@@ -64,7 +61,7 @@ namespace test2
 
                 ProjectDataGrid.ItemsSource = viewleaveRequests;
 
-            }
+            
 
 
 
@@ -77,11 +74,7 @@ namespace test2
         }
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var leaveRequests = context.LeaveRequests.ToList();
                 var viewleaveRequests = new List<ViewLeaveRequest>();
                 foreach (var leaveRequest in leaveRequests)
@@ -202,7 +195,7 @@ namespace test2
 
                 ProjectDataGrid.ItemsSource = viewleaveRequests;
 
-            }
+            
 
 
 
@@ -223,7 +216,7 @@ namespace test2
         }
         private void NewLeaveRequestButton_Click(object sender, RoutedEventArgs e)
         {
-            NewLeaveRequestWindow nLRWindow = new NewLeaveRequestWindow(user);
+            NewLeaveRequestWindow nLRWindow = new NewLeaveRequestWindow();
             nLRWindow.Show();
 
 

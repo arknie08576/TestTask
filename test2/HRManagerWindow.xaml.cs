@@ -22,15 +22,15 @@ namespace test2
     public partial class HRManagerWindow : Window
     {
         string user;
-        public HRManagerWindow(string Username)
+        public HRManagerWindow()
         {
             InitializeComponent();
-            user = Username;
+            user = AuthenticationHelper.loggedUser;
         }
         private void Projects_Click(object sender, RoutedEventArgs e)
         {
-            ProjectsWindow projectsAppWindow = new ProjectsWindow(user);
-            projectsAppWindow.Show();
+           // ProjectsWindow projectsAppWindow = new ProjectsWindow();
+           // projectsAppWindow.Show();
 
         }
 
@@ -42,16 +42,16 @@ namespace test2
         }
         private void Employes_Click(object sender, RoutedEventArgs e)
         {
-            EmployesWindow eWindow = new EmployesWindow(user);
-            eWindow.Show();
+           // EmployesWindow eWindow = new EmployesWindow();
+           // eWindow.Show();
 
         }
 
         private void ApprovalRequests_Click(object sender, RoutedEventArgs e)
         {
 
-            ApprovalRequestsWindow eWindow = new ApprovalRequestsWindow(user);
-            eWindow.Show();
+           // ApprovalRequestsWindow eWindow = new ApprovalRequestsWindow(user);
+          //  eWindow.Show();
 
 
         }

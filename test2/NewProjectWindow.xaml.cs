@@ -21,33 +21,27 @@ namespace test2
     /// </summary>
     public partial class NewProjectWindow : Window
     {
-        public NewProjectWindow()
+        private readonly OfficeContex context;
+        public NewProjectWindow(OfficeContex officeContex)
         {
             InitializeComponent();
+            context = officeContex;
             Load();
         }
 
 
         private void Load()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var products = context.Employes.Where(e => e.Position == Position.ProjectManager).Select(x => x.FullName).ToList();
                 comboBox2.ItemsSource = products;
-            }
+            
 
 
         }
         private void AddProjectButton_Click(object sender, RoutedEventArgs e)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var obj = new Project();
                 switch (comboBox.Text)
                 {
@@ -86,7 +80,7 @@ namespace test2
                 context.SaveChanges();
                 MessageBox.Show("Project added.");
                 this.Close();
-            }
+            
         }
     }
 }

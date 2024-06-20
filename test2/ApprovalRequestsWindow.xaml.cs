@@ -25,20 +25,18 @@ namespace test2
     public partial class ApprovalRequestsWindow : Window
     {
         string user;
-        public ApprovalRequestsWindow(string User)
+        private readonly OfficeContex context;
+        public ApprovalRequestsWindow(OfficeContex officeContex)
         {
-            this.user = User;
+            this.user = AuthenticationHelper.loggedUser;
+            this.context = officeContex;
             InitializeComponent();
             this.user = user;
             LoadApprovalRequests();
         }
         private void LoadApprovalRequests()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+            
                 var approvalRequests = context.ApprovalRequests.ToList();
                 var viewapprovalRequests = new List<ViewApprovalRequest>();
                 foreach (var approvalRequest in approvalRequests)
@@ -63,7 +61,7 @@ namespace test2
 
                 ProjectDataGrid.ItemsSource = viewapprovalRequests;
 
-            }
+            
 
 
 
@@ -76,11 +74,7 @@ namespace test2
         }
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+            
                 var approvalRequests = context.ApprovalRequests.ToList();
                 var viewapprovalRequests = new List<ViewApprovalRequest>();
                 foreach (var approvalRequest in approvalRequests)
@@ -160,7 +154,7 @@ namespace test2
 
                 ProjectDataGrid.ItemsSource = viewapprovalRequests;
 
-            }
+            
 
         }
 

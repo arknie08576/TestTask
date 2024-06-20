@@ -18,39 +18,43 @@ namespace test2
     /// <summary>
     /// Interaction logic for EmployeeWindow.xaml
     /// </summary>
+    /// 
+
+
     public partial class EmployeeWindow : Window
     {
         string user;
-        public EmployeeWindow(string username)
+        private readonly IWindowService windowService;
+        public EmployeeWindow(IWindowService _windowService)
         {
-            user = username;
+            windowService = _windowService;
+            user = AuthenticationHelper.loggedUser;
             InitializeComponent();
         }
 
         private void Projects_Click(object sender, RoutedEventArgs e)
         {
-            ProjectsWindow projectsAppWindow = new ProjectsWindow(user);
-            projectsAppWindow.Show();
+
+            // projectsAppWindow.Show();
+            windowService.ShowWindow<ProjectsWindow>();
 
         }
 
         private void LeaveRequests_Click(object sender, RoutedEventArgs e)
         {
-            LeaveRequestsWindow projectsAppWindow = new LeaveRequestsWindow(user);
-            projectsAppWindow.Show();
 
+            // lrAppWindow.Show();
+            windowService.ShowWindow<LeaveRequestsWindow>();
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-            // Perform your action here
-          //  MainWindow mainAppWindow = new MainWindow();
-           //  mainAppWindow.Show();
+            // mainAppWindow.Show();
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-          //  MainWindow mainAppWindow = new MainWindow();
-           // mainAppWindow.Show();
+            // mainAppWindow.Show();
+            windowService.ShowWindow<MainWindow>();
             this.Close();
         }
     }

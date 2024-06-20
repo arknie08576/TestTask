@@ -21,20 +21,17 @@ namespace test2
     /// </summary>
     public partial class EditProjectWindow : Window
     {
+        private readonly OfficeContex context;
         int id { get; set; }
-        public EditProjectWindow(int Id)
+        public EditProjectWindow(OfficeContex officeContex,int Id)
         {
             InitializeComponent();
+            context = officeContex;
             this.id = Id;
             LoadEditProject();
         }
         private void LoadEditProject()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
                 var project = context.Projects.Where(e => e.Id == id).FirstOrDefault();
                 IdTextBox.Text = id.ToString();
 
@@ -109,7 +106,7 @@ namespace test2
 
 
 
-            }
+            
 
 
 
@@ -117,11 +114,6 @@ namespace test2
         }
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
                 var obj = context.Projects.Where(x => x.Id == id).FirstOrDefault();
                 switch (comboBox.Text)
                 {
@@ -161,7 +153,7 @@ namespace test2
                 MessageBox.Show("Project updated.");
                 this.Close();
 
-            }
+            
 
 
         }

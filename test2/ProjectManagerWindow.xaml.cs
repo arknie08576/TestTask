@@ -28,7 +28,7 @@ namespace test2
         }
         private void Projects_Click(object sender, RoutedEventArgs e)
         {
-            ProjectsWindow projectsAppWindow = new ProjectsWindow(user);
+            ProjectsWindow projectsAppWindow = new ProjectsWindow();
             projectsAppWindow.Show();
 
         }
@@ -48,8 +48,8 @@ namespace test2
 
         private void ApprovalRequests_Click(object sender, RoutedEventArgs e)
         {
-            ApprovalRequestsWindow eWindow = new ApprovalRequestsWindow(user);
-            eWindow.Show();
+           // ApprovalRequestsWindow eWindow = new ApprovalRequestsWindow(user);
+            //eWindow.Show();
 
         }
         private void Logout_Click(object sender, RoutedEventArgs e)

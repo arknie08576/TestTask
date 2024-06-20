@@ -27,19 +27,17 @@ namespace test2
     public partial class ProjectsWindow : Window
     {
         public string user;
-        public ProjectsWindow(string username)
+        private readonly OfficeContex context;
+        public ProjectsWindow(OfficeContex officeContex)
         {
-            user = username;
+            user = AuthenticationHelper.loggedUser;
+            context = officeContex;
             InitializeComponent();
             LoadProjects();
         }
         private void LoadProjects()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var u = context.Employes.Where(x=>x.Username==user).FirstOrDefault();
 
                 if (u.Position != Position.ProjectManager)
@@ -76,7 +74,7 @@ namespace test2
 
                 ProjectDataGrid2.ItemsSource = viewprojects;
 
-            }
+            
             // Example list of projects
 
         }
@@ -103,11 +101,7 @@ namespace test2
         }
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var projects = context.Projects.ToList();
                 var viewprojects = new List<ViewProject>();
                 foreach (var project in projects)
@@ -229,7 +223,7 @@ namespace test2
 
 
                 ProjectDataGrid2.ItemsSource = viewprojects;
-            }
+            
 
         }
         private void DataGrid2_MouseDoubleClick(object sender, MouseButtonEventArgs e)
