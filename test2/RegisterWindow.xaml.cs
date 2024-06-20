@@ -16,9 +16,7 @@ using test2.Models;
 
 namespace test2
 {
-    /// <summary>
-    /// Interaction logic for RegisterWindow.xaml
-    /// </summary>
+    
     public partial class RegisterWindow : Window
     {
 
@@ -111,7 +109,7 @@ namespace test2
                 
 
                     var partner = context.Employes.Where(e => e.Position == Position.HRManager).Where(x => x.FullName == comboBox4.Text).Select(x => x.Id).ToList();
-                    //comboBox4.ItemsSource = products;
+                    
                     peoplePartner = partner[0];
                 
 

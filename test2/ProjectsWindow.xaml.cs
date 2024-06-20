@@ -77,8 +77,7 @@ namespace test2
             ProjectDataGrid2.ItemsSource = viewprojects;
 
 
-            // Example list of projects
-
+            
         }
 
         private void comboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -98,8 +97,7 @@ namespace test2
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)
         {
 
-            //  NewProjectWindow oPWindow = new NewProjectWindow();
-            //  oPWindow.Show();
+           
             windowService.ShowWindow<NewProjectWindow>();
         }
         private void FilterButton_Click(object sender, RoutedEventArgs e)
@@ -240,15 +238,13 @@ namespace test2
 
                 if (context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager)
                 {
-                    // EditProjectWindow oPWindow = new EditProjectWindow(selectedData.Id);
-                    // oPWindow.Show();
+                    
                     windowService.ShowWindow<EditProjectWindow>(selectedData.Id);
 
                 }
                 else
                 {
-                    //  OpenProjectWindow oPWindow = new OpenProjectWindow(selectedData.Id);
-                    //  oPWindow.Show();
+                    
                     windowService.ShowWindow<OpenProjectWindow>(selectedData.Id);
                 }
 

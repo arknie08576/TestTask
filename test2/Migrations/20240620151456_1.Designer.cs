@@ -12,7 +12,7 @@ using test2;
 namespace test2.Migrations
 {
     [DbContext(typeof(OfficeContex))]
-    [Migration("20240615112546_1")]
+    [Migration("20240620151456_1")]
     partial class _1
     {
         /// <inheritdoc />
@@ -63,6 +63,9 @@ namespace test2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AssignedProject")
+                        .HasColumnType("int");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -103,6 +106,8 @@ namespace test2.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssignedProject");
 
                     b.HasIndex("PeoplePartner");
 
@@ -194,11 +199,19 @@ namespace test2.Migrations
 
             modelBuilder.Entity("test2.Models.Employee", b =>
                 {
+                    b.HasOne("test2.Models.Project", "project")
+                        .WithMany()
+                        .HasForeignKey("AssignedProject")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("test2.Models.Employee", "employee")
                         .WithMany()
                         .HasForeignKey("PeoplePartner");
 
                     b.Navigation("employee");
+
+                    b.Navigation("project");
                 });
 
             modelBuilder.Entity("test2.Models.LeaveRequest", b =>

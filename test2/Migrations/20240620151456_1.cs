@@ -12,6 +12,22 @@ namespace test2.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "ApprovalRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Approver = table.Column<int>(type: "int", nullable: true),
+                    LeaveRequest = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApprovalRequests", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employes",
                 columns: table => new
                 {
@@ -26,7 +42,8 @@ namespace test2.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     PeoplePartner = table.Column<int>(type: "int", nullable: true),
                     Out_of_OfficeBalance = table.Column<int>(type: "int", nullable: false),
-                    Photo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    Photo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    AssignedProject = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,32 +101,6 @@ namespace test2.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ApprovalRequests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Approver = table.Column<int>(type: "int", nullable: true),
-                    LeaveRequest = table.Column<int>(type: "int", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ApprovalRequests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ApprovalRequests_Employes_Approver",
-                        column: x => x.Approver,
-                        principalTable: "Employes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ApprovalRequests_LeaveRequests_LeaveRequest",
-                        column: x => x.LeaveRequest,
-                        principalTable: "LeaveRequests",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_ApprovalRequests_Approver",
                 table: "ApprovalRequests",
@@ -119,6 +110,11 @@ namespace test2.Migrations
                 name: "IX_ApprovalRequests_LeaveRequest",
                 table: "ApprovalRequests",
                 column: "LeaveRequest");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employes_AssignedProject",
+                table: "Employes",
+                column: "AssignedProject");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employes_PeoplePartner",
@@ -134,22 +130,48 @@ namespace test2.Migrations
                 name: "IX_Projects_ProjectManager",
                 table: "Projects",
                 column: "ProjectManager");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ApprovalRequests_Employes_Approver",
+                table: "ApprovalRequests",
+                column: "Approver",
+                principalTable: "Employes",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ApprovalRequests_LeaveRequests_LeaveRequest",
+                table: "ApprovalRequests",
+                column: "LeaveRequest",
+                principalTable: "LeaveRequests",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Employes_Projects_AssignedProject",
+                table: "Employes",
+                column: "AssignedProject",
+                principalTable: "Projects",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ApprovalRequests");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Projects_Employes_ProjectManager",
+                table: "Projects");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "ApprovalRequests");
 
             migrationBuilder.DropTable(
                 name: "LeaveRequests");
 
             migrationBuilder.DropTable(
                 name: "Employes");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
         }
     }
 }

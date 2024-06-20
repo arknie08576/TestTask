@@ -16,9 +16,7 @@ using test2.Models;
 
 namespace test2
 {
-    /// <summary>
-    /// Interaction logic for NewProjectWindow.xaml
-    /// </summary>
+
     public partial class NewProjectWindow : Window
     {
         private readonly OfficeContex context;

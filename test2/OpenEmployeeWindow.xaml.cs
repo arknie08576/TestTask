@@ -16,9 +16,7 @@ using test2.Models;
 
 namespace test2
 {
-    /// <summary>
-    /// Interaction logic for OpenEmployeeWindow.xaml
-    /// </summary>
+ 
     public partial class OpenEmployeeWindow : Window
     {
         public int id;
@@ -242,7 +240,7 @@ namespace test2
 
                 }
                 var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
-                // comboBox4.ItemsSource = products;
+                
                 obj.PeoplePartner = context.Employes.Where(e => e.FullName == comboBox4.Text).Select(x => x.Id).ToList()[0];
                 obj.Out_of_OfficeBalance = int.Parse(Out_of_OfficeBalanceTextBox.Text);
                 obj.Photo = PhotoTextBox.Text;
@@ -250,7 +248,7 @@ namespace test2
                 context.SaveChanges();
                 MessageBox.Show("Employee updated.");
                 this.Close();
-                //
+                
 
 
 

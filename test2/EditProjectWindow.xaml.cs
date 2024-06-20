@@ -36,7 +36,7 @@ namespace test2
             IdTextBox.Text = id.ToString();
 
 
-            //  ProjectTypeTextBox.Text = project.ProjectType.ToString();
+           
             ProjectType k = context.Projects.Where(e => e.Id == id).Select(x => x.ProjectType).FirstOrDefault();
             switch (k)
             {
@@ -55,10 +55,9 @@ namespace test2
             }
 
 
-            if (project.StartDate != null)
-            {
+          
                 StartDatePicker.SelectedDate = project.StartDate.ToDateTime(TimeOnly.Parse("10:00 PM"));
-            }
+            
             if (project.EndDate.HasValue)
             {
                 EndDatePicker.SelectedDate = project.EndDate.Value.ToDateTime(TimeOnly.Parse("10:00 PM"));

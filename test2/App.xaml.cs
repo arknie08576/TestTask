@@ -8,18 +8,16 @@ using System;
 
 namespace test2
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    
     public partial class App : Application
     {
         private ServiceProvider _serviceProvider;
-      //  private readonly IMainWindow mainWindow;
+      
 
         public App()
         {
             
-          //  mainWindow = _mainWindow;
+          
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
@@ -27,7 +25,7 @@ namespace test2
 
         private void ConfigureServices(IServiceCollection services)
         {
-            // Register services and view models
+            
             services.AddSingleton<IWindowService, WindowService>();
             services.AddTransient<MainWindow>();
             services.AddTransient<RegisterWindow>();
@@ -61,7 +59,7 @@ namespace test2
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            //serviceProvider.GetRequiredService<IMainWindow>();
+            
                var mainWindow = _serviceProvider.GetService<MainWindow>();
             AuthenticationHelper.LoadDbContext(_serviceProvider.GetRequiredService<OfficeContex>());
             mainWindow.Show();

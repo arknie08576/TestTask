@@ -14,9 +14,7 @@ using System.Windows.Shapes;
 
 namespace test2
 {
-    /// <summary>
-    /// Interaction logic for AdministratorWindow.xaml
-    /// </summary>
+ 
     public partial class AdministratorWindow : Window
     {
         private readonly IWindowService windowService;

@@ -23,10 +23,10 @@ namespace test2
 
         public OpenEmployeeWindow Create(int id)
         {
-            // Retrieve required services from the service provider
+            
             var dbContext = _serviceProvider.GetRequiredService<OfficeContex>();
 
-            // Create the window with required parameters
+            
             return new OpenEmployeeWindow(id, dbContext);
         }
     }

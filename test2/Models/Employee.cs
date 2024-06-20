@@ -30,7 +30,10 @@ namespace test2.Models
         public int Out_of_OfficeBalance { get; set; }
         [MaxLength(100)]
         public string? Photo { get; set; }
+        [ForeignKey("project")]
+        public int AssignedProject {  get; set; }
         public Employee employee { get; set; }
+        public Project project { get; set; }
 
 
 

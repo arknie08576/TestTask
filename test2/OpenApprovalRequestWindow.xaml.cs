@@ -16,9 +16,7 @@ using test2.Models;
 
 namespace test2
 {
-    /// <summary>
-    /// Interaction logic for OpenApprovalRequestWindow.xaml
-    /// </summary>
+
     public partial class OpenApprovalRequestWindow : Window
     {
         string user;
@@ -38,7 +36,7 @@ namespace test2
         {
 
 
-               // var products = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToList();
+               
                 IdTextBox.Text = id.ToString();
                 var t=context.ApprovalRequests.Where(e => e.Id == id).Select(x=>x.Approver).FirstOrDefault();
                 ApproverTextBox.Text = context.Employes.Where(e => e.Id == t).Select(x => x.FullName).FirstOrDefault();

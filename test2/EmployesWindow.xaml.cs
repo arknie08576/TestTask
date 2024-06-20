@@ -79,7 +79,7 @@ namespace test2
                 ProjectDataGrid.ItemsSource = viewemployes;
 
             
-            // Example list of projects
+            
 
 
 
@@ -288,8 +288,7 @@ namespace test2
 
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
                 windowService.ShowWindow<OpenEmployeeWindow>(selectedData.Id);
-                // OpenEmployeeWindow eWindow = new OpenEmployeeWindow(selectedData.Id, user);
-                // eWindow.Show();
+              
 
             }
 

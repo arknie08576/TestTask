@@ -23,10 +23,10 @@ namespace test2
 
         public OpenLeaveRequestWindow Create(int id)
         {
-            // Retrieve required services from the service provider
+            
             var dbContext = _serviceProvider.GetRequiredService<OfficeContex>();
 
-            // Create the window with required parameters
+            
             return new OpenLeaveRequestWindow(id, dbContext);
         }
     }

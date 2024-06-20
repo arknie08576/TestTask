@@ -15,12 +15,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace test2
 {
-    /// <summary>
-    /// Interaction logic for EmployeeWindow.xaml
-    /// </summary>
-    /// 
-
-
+   
     public partial class EmployeeWindow : Window
     {
         string user;
@@ -35,7 +30,7 @@ namespace test2
         private void Projects_Click(object sender, RoutedEventArgs e)
         {
 
-            // projectsAppWindow.Show();
+            
             windowService.ShowWindow<ProjectsWindow>();
 
         }
@@ -43,17 +38,17 @@ namespace test2
         private void LeaveRequests_Click(object sender, RoutedEventArgs e)
         {
 
-            // lrAppWindow.Show();
+            
             windowService.ShowWindow<LeaveRequestsWindow>();
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-            // mainAppWindow.Show();
+           
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            // mainAppWindow.Show();
+            
             windowService.ShowWindow<MainWindow>();
             this.Close();
         }

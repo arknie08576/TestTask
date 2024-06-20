@@ -17,9 +17,7 @@ using test2.Models;
 
 namespace test2
 {
-    /// <summary>
-    /// Interaction logic for NewLeaveRequestWindow.xaml
-    /// </summary>
+  
     public partial class NewLeaveRequestWindow : Window
     {
         string user;
@@ -42,7 +40,7 @@ namespace test2
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
 
-               // EmployeeTextBox.Text = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToList()[0];
+              
                 var obj = new LeaveRequest();
                 obj.Employee= context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefault();
                 switch (comboBox.Text)

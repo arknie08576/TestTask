@@ -15,9 +15,7 @@ using System.Windows.Shapes;
 
 namespace test2
 {
-    /// <summary>
-    /// Interaction logic for ProjectManagerWindow.xaml
-    /// </summary>
+    
     public partial class ProjectManagerWindow : Window
     {
         string user;
@@ -30,38 +28,33 @@ namespace test2
         }
         private void Projects_Click(object sender, RoutedEventArgs e)
         {
-            //ProjectsWindow projectsAppWindow = new ProjectsWindow();
-          //  projectsAppWindow.Show();
+            
             windowService.ShowWindow<ProjectsWindow>();
 
         }
 
         private void LeaveRequests_Click(object sender, RoutedEventArgs e)
         {
-            //LeaveRequestsWindow projectsAppWindow = new LeaveRequestsWindow(user);
-            //projectsAppWindow.Show();
+            
             windowService.ShowWindow<LeaveRequestsWindow>();
 
         }
         private void Employes_Click(object sender, RoutedEventArgs e)
         {
-           // EmployesWindow eWindow = new EmployesWindow(user);
-            //eWindow.Show();
+           
             windowService.ShowWindow<EmployesWindow>();
 
         }
 
         private void ApprovalRequests_Click(object sender, RoutedEventArgs e)
         {
-            // ApprovalRequestsWindow eWindow = new ApprovalRequestsWindow(user);
-            //eWindow.Show();
+            
             windowService.ShowWindow<ApprovalRequestsWindow>();
 
         }
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            // MainWindow mainAppWindow = new MainWindow();
-            // mainAppWindow.Show();
+            
             windowService.ShowWindow<MainWindow>();
             this.Close();
 

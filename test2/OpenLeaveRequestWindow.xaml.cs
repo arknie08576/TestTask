@@ -17,9 +17,7 @@ using test2.Models;
 
 namespace test2
 {
-    /// <summary>
-    /// Interaction logic for OpenLeaveRequestWindow.xaml
-    /// </summary>
+    
     public partial class OpenLeaveRequestWindow : Window
     {
         string user;   
