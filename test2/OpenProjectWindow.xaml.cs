@@ -20,22 +20,23 @@ namespace test2
     /// <summary>
     /// Interaction logic for OpenProjectWindow.xaml
     /// </summary>
+    /// 
+
     public partial class OpenProjectWindow : Window
     {
-        int id {  get; set; }
-        public OpenProjectWindow(int Id)
+        int id;
+        private readonly OfficeContex context;
+        public OpenProjectWindow(int Id, OfficeContex officeContex )
         {
             InitializeComponent();
             this.id = Id;
+            
+            context = officeContex;
             LoadOpenProject();
         }
         private void LoadOpenProject()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-            //return new OfficeContex(optionsBuilder.Options);
-            using (var context = new OfficeContex(optionsBuilder.Options))
-            {
+
                 var project = context.Projects.Where(e => e.Id == id).ToList()[0];
                 IdTextBox.Text = id.ToString();
                 ProjectTypeTextBox.Text=project.ProjectType.ToString();
@@ -55,7 +56,7 @@ namespace test2
 
 
 
-            }
+            
 
 
 

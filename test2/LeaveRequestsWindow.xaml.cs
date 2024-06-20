@@ -209,15 +209,15 @@ namespace test2
 
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
 
-                OpenLeaveRequestWindow oLRWindow = new OpenLeaveRequestWindow(user, selectedData.Id);
-                oLRWindow.Show();
+              //  OpenLeaveRequestWindow oLRWindow = new OpenLeaveRequestWindow(user, selectedData.Id);
+              //  oLRWindow.Show();
 
             }
         }
         private void NewLeaveRequestButton_Click(object sender, RoutedEventArgs e)
         {
-            NewLeaveRequestWindow nLRWindow = new NewLeaveRequestWindow();
-            nLRWindow.Show();
+           // NewLeaveRequestWindow nLRWindow = new NewLeaveRequestWindow();
+           // nLRWindow.Show();
 
 
 

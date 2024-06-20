@@ -28,53 +28,55 @@ namespace test2
     {
         public string user;
         private readonly OfficeContex context;
-        public ProjectsWindow(OfficeContex officeContex)
+        private readonly IWindowService windowService;
+        public ProjectsWindow(OfficeContex officeContex, IWindowService _windowService)
         {
             user = AuthenticationHelper.loggedUser;
             context = officeContex;
+            windowService = _windowService;
             InitializeComponent();
             LoadProjects();
         }
         private void LoadProjects()
         {
 
-                var u = context.Employes.Where(x=>x.Username==user).FirstOrDefault();
+            var u = context.Employes.Where(x => x.Username == user).FirstOrDefault();
 
-                if (u.Position != Position.ProjectManager)
+            if (u.Position != Position.ProjectManager)
+            {
+                myButton.Visibility = Visibility.Collapsed;
+
+            }
+
+
+
+            var projects = context.Projects.ToList();
+            var viewprojects = new List<ViewProject>();
+            foreach (var project in projects)
+            {
+
+                ViewProject p = new ViewProject
                 {
-                    myButton.Visibility = Visibility.Collapsed;
-
-                }
-
-
-
-                var projects = context.Projects.ToList();
-                var viewprojects = new List<ViewProject>();
-                foreach (var project in projects)
-                {
-
-                    ViewProject p = new ViewProject
-                    {
-                        Id = project.Id,
-                        ProjectType = project.ProjectType,
-                        StartDate = project.StartDate,
-                        EndDate = project.EndDate,
-                        ProjectManager = context.Employes.Where(e => e.Position == Position.ProjectManager).Where(x => x.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefault(),
-                        Comment = project.Comment,
-                        ProjectStatus = project.ProjectStatus
+                    Id = project.Id,
+                    ProjectType = project.ProjectType,
+                    StartDate = project.StartDate,
+                    EndDate = project.EndDate,
+                    ProjectManager = context.Employes.Where(e => e.Position == Position.ProjectManager).Where(x => x.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefault(),
+                    Comment = project.Comment,
+                    ProjectStatus = project.ProjectStatus
 
 
 
 
-                    };
-                    viewprojects.Add(p);
+                };
+                viewprojects.Add(p);
 
 
-                }
+            }
 
-                ProjectDataGrid2.ItemsSource = viewprojects;
+            ProjectDataGrid2.ItemsSource = viewprojects;
 
-            
+
             // Example list of projects
 
         }
@@ -96,134 +98,135 @@ namespace test2
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)
         {
 
-            NewProjectWindow oPWindow = new NewProjectWindow();
-            oPWindow.Show();
+            //  NewProjectWindow oPWindow = new NewProjectWindow();
+            //  oPWindow.Show();
+            windowService.ShowWindow<NewProjectWindow>();
         }
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
 
-                var projects = context.Projects.ToList();
-                var viewprojects = new List<ViewProject>();
-                foreach (var project in projects)
+            var projects = context.Projects.ToList();
+            var viewprojects = new List<ViewProject>();
+            foreach (var project in projects)
+            {
+
+                ViewProject p = new ViewProject
                 {
-
-                    ViewProject p = new ViewProject
-                    {
-                        Id = project.Id,
-                        ProjectType = project.ProjectType,
-                        StartDate = project.StartDate,
-                        EndDate = project.EndDate,
-                        ProjectManager = context.Employes.Where(e => e.Position == Position.ProjectManager).Where(x => x.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefault(),
-                        Comment = project.Comment,
-                        ProjectStatus = project.ProjectStatus
+                    Id = project.Id,
+                    ProjectType = project.ProjectType,
+                    StartDate = project.StartDate,
+                    EndDate = project.EndDate,
+                    ProjectManager = context.Employes.Where(e => e.Position == Position.ProjectManager).Where(x => x.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefault(),
+                    Comment = project.Comment,
+                    ProjectStatus = project.ProjectStatus
 
 
 
 
-                    };
-                    viewprojects.Add(p);
+                };
+                viewprojects.Add(p);
 
 
+            }
+
+
+
+            ProjectType x = ProjectType.A;
+
+            switch (ProjectTypeTextBox.Text)
+            {
+                case "A":
+                    x = ProjectType.A;
+                    break;
+                case "B":
+                    x = ProjectType.B;
+                    break;
+                case "C":
+                    x = ProjectType.C;
+                    break;
+                case "D":
+                    x = ProjectType.D;
+                    break;
+                case "":
+                    break;
+                default:
+                    viewprojects = new List<ViewProject> { };
+                    break;
+
+
+
+            }
+
+            if (ProjectTypeTextBox.Text != "")
+            {
+
+                viewprojects = viewprojects.Where(y => y.ProjectType == x).ToList();
+            }
+
+            if (StartDateTextBox.Text != "")
+            {
+                string dateString = StartDateTextBox.Text;
+                string format = "dd/MM/yyyy";
+                if (DateOnly.TryParseExact(dateString, format, null, DateTimeStyles.None, out DateOnly date))
+                {
+                    viewprojects = viewprojects.Where(y => y.StartDate == date).ToList();
                 }
 
-
-
-                ProjectType x = ProjectType.A;
-
-                switch (ProjectTypeTextBox.Text)
+            }
+            if (EndDateTextBox.Text != "")
+            {
+                string dateString = EndDateTextBox.Text;
+                string format = "dd/MM/yyyy";
+                if (DateOnly.TryParseExact(dateString, format, null, DateTimeStyles.None, out DateOnly date))
                 {
-                    case "A":
-                        x = ProjectType.A;
-                        break;
-                    case "B":
-                        x = ProjectType.B;
-                        break;
-                    case "C":
-                        x = ProjectType.C;
-                        break;
-                    case "D":
-                        x = ProjectType.D;
-                        break;
-                    case "":
-                        break;
-                    default:
-                        viewprojects = new List<ViewProject> { };
-                        break;
-
-
-
+                    viewprojects = viewprojects.Where(y => y.EndDate == date).ToList();
                 }
 
-                if (ProjectTypeTextBox.Text != "")
-                {
+            }
 
-                    viewprojects = viewprojects.Where(y => y.ProjectType == x).ToList();
-                }
+            if (ProjectManagerTextBox.Text != "")
+            {
 
-                if (StartDateTextBox.Text != "")
-                {
-                    string dateString = StartDateTextBox.Text;
-                    string format = "dd/MM/yyyy";
-                    if (DateOnly.TryParseExact(dateString, format, null, DateTimeStyles.None, out DateOnly date))
-                    {
-                        viewprojects = viewprojects.Where(y => y.StartDate == date).ToList();
-                    }
+                viewprojects = viewprojects.Where(x => x.ProjectManager == ProjectManagerTextBox.Text).ToList();
+            }
 
-                }
-                if (EndDateTextBox.Text != "")
-                {
-                    string dateString = EndDateTextBox.Text;
-                    string format = "dd/MM/yyyy";
-                    if (DateOnly.TryParseExact(dateString, format, null, DateTimeStyles.None, out DateOnly date))
-                    {
-                        viewprojects = viewprojects.Where(y => y.EndDate == date).ToList();
-                    }
+            if (CommentTextBox.Text != "")
+            {
 
-                }
+                viewprojects = viewprojects.Where(x => x.Comment == CommentTextBox.Text).ToList();
+            }
 
-                if (ProjectManagerTextBox.Text != "")
-                {
-
-                    viewprojects = viewprojects.Where(x => x.ProjectManager == ProjectManagerTextBox.Text).ToList();
-                }
-
-                if (CommentTextBox.Text != "")
-                {
-
-                    viewprojects = viewprojects.Where(x => x.Comment == CommentTextBox.Text).ToList();
-                }
-
-                ProjectStatus s = ProjectStatus.Active;
-                switch (ProjectStatusTextBox.Text)
-                {
-                    case "Active":
-                        s = ProjectStatus.Active;
-                        break;
-                    case "Inactive":
-                        s = ProjectStatus.Inactive;
-                        break;
-                    case "":
-                        break;
-                    default:
-                        viewprojects = new List<ViewProject> { };
-                        break;
+            ProjectStatus s = ProjectStatus.Active;
+            switch (ProjectStatusTextBox.Text)
+            {
+                case "Active":
+                    s = ProjectStatus.Active;
+                    break;
+                case "Inactive":
+                    s = ProjectStatus.Inactive;
+                    break;
+                case "":
+                    break;
+                default:
+                    viewprojects = new List<ViewProject> { };
+                    break;
 
 
 
-                }
+            }
 
-                if (ProjectStatusTextBox.Text != "")
-                {
+            if (ProjectStatusTextBox.Text != "")
+            {
 
-                    viewprojects = viewprojects.Where(y => y.ProjectStatus == s).ToList();
-                }
+                viewprojects = viewprojects.Where(y => y.ProjectStatus == s).ToList();
+            }
 
 
 
 
 
-                ProjectDataGrid2.ItemsSource = viewprojects;
-            
+            ProjectDataGrid2.ItemsSource = viewprojects;
+
 
         }
         private void DataGrid2_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -234,25 +237,22 @@ namespace test2
 
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
 
-                //EditProjectWindow
-                var optionsBuilder = new DbContextOptionsBuilder<OfficeContex>();
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False");
-                //return new OfficeContex(optionsBuilder.Options);
-                using (var context = new OfficeContex(optionsBuilder.Options))
-                {
-                    if (context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager)
-                    {
-                        EditProjectWindow oPWindow = new EditProjectWindow(selectedData.Id);
-                        oPWindow.Show();
 
-                    }
-                    else
-                    {
-                        OpenProjectWindow oPWindow = new OpenProjectWindow(selectedData.Id);
-                        oPWindow.Show();
-                    }
+                if (context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager)
+                {
+                    // EditProjectWindow oPWindow = new EditProjectWindow(selectedData.Id);
+                    // oPWindow.Show();
+                    windowService.ShowWindow<EditProjectWindow>(selectedData.Id);
 
                 }
+                else
+                {
+                    //  OpenProjectWindow oPWindow = new OpenProjectWindow(selectedData.Id);
+                    //  oPWindow.Show();
+                    windowService.ShowWindow<OpenProjectWindow>(selectedData.Id);
+                }
+
+
 
 
 

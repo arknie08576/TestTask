@@ -25,10 +25,12 @@ namespace test2
     {
         string user;
         private readonly OfficeContex context;
-        public EmployesWindow(OfficeContex officeContex)
+        private readonly IWindowService windowService;
+        public EmployesWindow(OfficeContex officeContex, IWindowService _windowService)
         {
             InitializeComponent();
             user = AuthenticationHelper.loggedUser;
+            windowService = _windowService;
             context = officeContex;
             LoadEmployes();
         }
@@ -285,9 +287,9 @@ namespace test2
             {
 
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
-
-                OpenEmployeeWindow eWindow = new OpenEmployeeWindow(selectedData.Id, user);
-                eWindow.Show();
+                windowService.ShowWindow<OpenEmployeeWindow>(selectedData.Id);
+                // OpenEmployeeWindow eWindow = new OpenEmployeeWindow(selectedData.Id, user);
+                // eWindow.Show();
 
             }
 

@@ -37,6 +37,21 @@ namespace test2
             services.AddTransient<AdministratorWindow>();
             services.AddTransient<ProjectsWindow>();
             services.AddTransient<LeaveRequestsWindow>();
+            services.AddTransient<EditProjectWindow>();
+            services.AddTransient<ApprovalRequestsWindow>();
+            services.AddTransient<EmployesWindow>();
+            services.AddTransient<NewLeaveRequestWindow>();
+            services.AddTransient<NewProjectWindow>();
+            services.AddTransient<OpenApprovalRequestWindow>();
+            services.AddTransient<OpenEmployeeWindow>();
+            services.AddTransient<OpenLeaveRequestWindow>();
+            services.AddTransient<OpenProjectWindow>();
+            services.AddTransient<IOpenProjectWindowFactory, OpenProjectWindowFactory>();
+
+
+
+
+
             services.AddDbContext<OfficeContex>(options =>
             options.UseSqlServer("Data Source=DESKTOP-7GGELFU\\SQLEXPRESS;Initial Catalog=Out_of_Office;Integrated Security=True;Encrypt=False;Trust Server Certificate=True"));
             //services.AddTransient<IMyService, MyService>();

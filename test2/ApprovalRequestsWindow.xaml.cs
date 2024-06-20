@@ -170,15 +170,15 @@ namespace test2
 
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
 
-                OpenApprovalRequestWindow oLRWindow = new OpenApprovalRequestWindow(user, selectedData.Id);
-                oLRWindow.Show();
+               // OpenApprovalRequestWindow oLRWindow = new OpenApprovalRequestWindow(user, selectedData.Id);
+               // oLRWindow.Show();
 
             }
         }
         private void NewLeaveRequestButton_Click(object sender, RoutedEventArgs e)
         {
-            NewLeaveRequestWindow nLRWindow = new NewLeaveRequestWindow(user);
-            nLRWindow.Show();
+            //NewLeaveRequestWindow nLRWindow = new NewLeaveRequestWindow(user);
+            //nLRWindow.Show();
 
 
 

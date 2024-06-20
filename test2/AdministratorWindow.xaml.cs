@@ -19,30 +19,32 @@ namespace test2
     /// </summary>
     public partial class AdministratorWindow : Window
     {
-        public AdministratorWindow(string username)
+        private readonly IWindowService windowService;
+        public AdministratorWindow(IWindowService _windowService)
         {
             InitializeComponent();
+            windowService = _windowService;
         }
         private void Projects_Click(object sender, RoutedEventArgs e)
         {
 
-
+            windowService.ShowWindow<ProjectsWindow>();
         }
 
         private void LeaveRequests_Click(object sender, RoutedEventArgs e)
         {
-
+            windowService.ShowWindow<LeaveRequestsWindow>();
 
         }
         private void Employes_Click(object sender, RoutedEventArgs e)
         {
-
+            windowService.ShowWindow<EmployesWindow>();
 
         }
 
         private void ApprovalRequests_Click(object sender, RoutedEventArgs e)
         {
-
+            windowService.ShowWindow<ApprovalRequestsWindow>();
 
         }
     }
