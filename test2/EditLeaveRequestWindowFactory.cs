@@ -8,26 +8,26 @@ using System.Threading.Tasks;
 namespace test2
 {
 
-    public interface IOpenLeaveRequestWindowFactory
+    public interface IEditLeaveRequestWindowFactory
     {
-        OpenLeaveRequestWindow Create(int id);
+        EditLeaveRequestWindow Create(int id);
     }
-    public class OpenLeaveRequestWindowFactory : IOpenLeaveRequestWindowFactory
+    public class EditLeaveRequestWindowFactory : IEditLeaveRequestWindowFactory
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public OpenLeaveRequestWindowFactory(IServiceProvider serviceProvider)
+        public EditLeaveRequestWindowFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public OpenLeaveRequestWindow Create(int id)
+        public EditLeaveRequestWindow Create(int id)
         {
             
             var dbContext = _serviceProvider.GetRequiredService<OfficeContex>();
 
             
-            return new OpenLeaveRequestWindow(id, dbContext);
+            return new EditLeaveRequestWindow(id, dbContext);
         }
     }
 }

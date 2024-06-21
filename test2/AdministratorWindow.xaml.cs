@@ -45,5 +45,11 @@ namespace test2
             windowService.ShowWindow<ApprovalRequestsWindow>();
 
         }
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+
+            windowService.ShowWindow<MainWindow>();
+            this.Close();
+        }
     }
 }

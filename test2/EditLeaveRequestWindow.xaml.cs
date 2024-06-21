@@ -18,12 +18,12 @@ using test2.Models;
 namespace test2
 {
     
-    public partial class OpenLeaveRequestWindow : Window
+    public partial class EditLeaveRequestWindow : Window
     {
         string user;   
         int id;
         private readonly OfficeContex context;
-        public OpenLeaveRequestWindow(int Id, OfficeContex officeContex)
+        public EditLeaveRequestWindow(int Id, OfficeContex officeContex)
         {
             InitializeComponent();
             user = AuthenticationHelper.loggedUser;

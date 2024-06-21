@@ -12,6 +12,7 @@
             <Button Content="Leave Requests" Width="200" Click="LeaveRequests_Click"/>
             <Button Content="Employes" Width="200" Click="Employes_Click"/>
             <Button Content="Approval Requests" Width="200" Click="ApprovalRequests_Click"/>
+            <Button Content="Log out" Width="200" Click="Logout_Click"/>
         </StackPanel>
     </Grid>
 </Window>

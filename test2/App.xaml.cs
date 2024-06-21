@@ -42,13 +42,13 @@ namespace test2
             services.AddTransient<NewProjectWindow>();
             services.AddTransient<OpenApprovalRequestWindow>();
             services.AddTransient<OpenEmployeeWindow>();
-            services.AddTransient<OpenLeaveRequestWindow>();
+            services.AddTransient<EditLeaveRequestWindow>();
             services.AddTransient<OpenProjectWindow>();
             services.AddTransient<IOpenProjectWindowFactory, OpenProjectWindowFactory>();
             services.AddTransient<IEditProjectWindowFactory, EditProjectWindowFactory>();
             services.AddTransient<IOpenApprovalRequestWindowFactory, OpenApprovalRequestWindowFactory>();
             services.AddTransient<IOpenEmployeeWindowFactory, OpenEmployeeWindowFactory>();
-            services.AddTransient<IOpenLeaveRequestWindowFactory, OpenLeaveRequestWindowFactory>();
+            services.AddTransient<IEditLeaveRequestWindowFactory, EditLeaveRequestWindowFactory>();
 
 
             services.AddDbContext<OfficeContex>(options =>

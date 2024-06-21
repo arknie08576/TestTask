@@ -1,11 +1,11 @@
-﻿<Window x:Class="test2.OpenLeaveRequestWindow"
+﻿<Window x:Class="test2.EditLeaveRequestWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test2"
         mc:Ignorable="d"
-        Title="OpenLeaveRequestWindow" Height="450" Width="800">
+        Title="EditLeaveRequestWindow" Height="450" Width="800">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock TextWrapping="Wrap" Text="Id"/>
@@ -30,7 +30,7 @@ SelectionChanged="comboBox_SelectionChanged">
             <TextBlock TextWrapping="Wrap" Text="End Date"/>
             <DatePicker Name="EndDate"/>
             <TextBlock TextWrapping="Wrap" Text="Comment"/>
-            <TextBox x:Name="CommentTextBox" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="CommentTextBox"  IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Status"/>
             <ComboBox Name="comboBox2" 
 Width="200" 

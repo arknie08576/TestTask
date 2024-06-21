@@ -212,7 +212,7 @@ namespace test2
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
 
                 
-                windowService.ShowWindow<OpenLeaveRequestWindow>(selectedData.Id);
+                windowService.ShowWindow<EditLeaveRequestWindow>(selectedData.Id);
 
             }
         }

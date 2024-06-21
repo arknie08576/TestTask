@@ -42,7 +42,7 @@ namespace test2
 
             var u = context.Employes.Where(x => x.Username == user).FirstOrDefault();
 
-            if (u.Position != Position.ProjectManager)
+            if (u.Position != Position.ProjectManager&& u.Position != Position.Administrator)
             {
                 myButton.Visibility = Visibility.Collapsed;
 
