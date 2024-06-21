@@ -165,20 +165,20 @@ namespace test2
 
                     viewleaveRequests = viewleaveRequests.Where(x => x.Comment == CommentTextBox.Text).ToList();
                 }
-                LeaveRequestStatus f = LeaveRequestStatus.A;
-                switch (StatusTextBox.Text)
+                LeaveRequestStatus f = LeaveRequestStatus.New;
+            switch (StatusTextBox.Text)
                 {
-                    case "A":
-                        f = LeaveRequestStatus.A;
-                        break;
-                    case "B":
-                        f = LeaveRequestStatus.B;
-                        break;
-                    case "C":
-                        f = LeaveRequestStatus.C;
-                        break;
                     case "New":
                         f = LeaveRequestStatus.New;
+                    break;
+                    case "Approved":
+                        f = LeaveRequestStatus.Approved;
+                        break;
+                    case "Rejected":
+                        f = LeaveRequestStatus.Rejected;
+                        break;
+                    case "Canceled":
+                        f = LeaveRequestStatus.Canceled;
                         break;
                     case "":
                         break;

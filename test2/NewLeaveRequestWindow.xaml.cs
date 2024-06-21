@@ -64,17 +64,17 @@ namespace test2
                 obj.Comment = CommentTextBox.Text;
                 switch (comboBox2.Text)
                 {
-                    case "A":
-                        obj.Status = LeaveRequestStatus.A;
-                        break;
-                    case "B":
-                        obj.Status = LeaveRequestStatus.B;
-                        break;
-                    case "C":
-                        obj.Status = LeaveRequestStatus.C;
-                        break;
                     case "New":
                         obj.Status = LeaveRequestStatus.New;
+                        break;
+                    case "Approved":
+                        obj.Status = LeaveRequestStatus.Approved;
+                        break;
+                    case "Rejected":
+                        obj.Status = LeaveRequestStatus.Rejected;
+                        break;
+                    case "Canceled":
+                        obj.Status = LeaveRequestStatus.Canceled;
                         break;
                 }
 
@@ -82,11 +82,12 @@ namespace test2
             context.SaveChanges();
             var ar = new ApprovalRequest();
             ar.LeaveRequest = obj.Id;
-            ar.Status=ApprovalRequestStatus.Inactive;
+            ar.Status=ApprovalRequestStatus.New;
             context.ApprovalRequests.Add(ar);
                 context.SaveChanges();
-            
 
+            MessageBox.Show("Leave request added.");
+            this.Close();
 
         }
         private void comboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

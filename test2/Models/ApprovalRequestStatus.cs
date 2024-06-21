@@ -2,7 +2,9 @@
 {
     public enum ApprovalRequestStatus
     {
-        Inactive = 0,
-        Active = 1
+        New = 0,
+        Approved = 1,
+        Rejected = 2,
+        Canceled = 3
     }
 }

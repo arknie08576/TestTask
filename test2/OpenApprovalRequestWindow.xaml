@@ -21,10 +21,10 @@ Height="30"
 VerticalAlignment="Center" 
 HorizontalAlignment="Center"
 SelectionChanged="comboBox_SelectionChanged">
-                <ComboBoxItem Content="Inactive" />
-                <ComboBoxItem Content="Active" />
-
-
+                <ComboBoxItem Content="New" />
+                <ComboBoxItem Content="Approved" />
+                <ComboBoxItem Content="Rejected" />
+                <ComboBoxItem Content="Canceled" />
             </ComboBox>
             
             <TextBlock TextWrapping="Wrap" Text="Comment"/>

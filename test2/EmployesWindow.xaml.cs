@@ -38,48 +38,49 @@ namespace test2
         {
 
 
-                var ob = context.Employes.Where(x => x.Username == user).FirstOrDefault();
-                if (ob.Position == Position.HRManager)
+            var ob = context.Employes.Where(x => x.Username == user).FirstOrDefault();
+            if (ob.Position == Position.HRManager)
+            {
+
+
+
+            }
+            if (ob.Position == Position.ProjectManager)
+            {
+                NewButton.Visibility = Visibility.Collapsed;
+
+
+            }
+            var employes = context.Employes.ToList();
+            var viewemployes = new List<ViewEmployee>();
+            foreach (var employe in employes)
+            {
+
+                ViewEmployee p = new ViewEmployee
                 {
-                    
+                    Id = employe.Id,
+                    Username = employe.Username,
+                    PasswordHash = employe.PasswordHash,
+                    Salt = employe.Salt,
+                    FullName = employe.FullName,
+                    Subdivision = employe.Subdivision,
+                    Position = employe.Position,
+                    Status = employe.Status,
+                    PeoplePartner = context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefault(),
+                    Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
+                    Photo = employe.Photo,
+                    AssignedProject = employe.AssignedProject
+
+                };
+                viewemployes.Add(p);
 
 
-                }
-                if (ob.Position == Position.ProjectManager)
-                {
-                    NewButton.Visibility = Visibility.Collapsed;
-                   
+            }
 
-                }
-                var employes = context.Employes.ToList();
-                var viewemployes = new List<ViewEmployee>();
-                foreach (var employe in employes)
-                {
-
-                    ViewEmployee p = new ViewEmployee
-                    {
-                        Id = employe.Id,
-                        Username = employe.Username,
-                        PasswordHash = employe.PasswordHash,
-                        Salt = employe.Salt,
-                        FullName = employe.FullName,
-                        Subdivision = employe.Subdivision,
-                        Position = employe.Position,
-                        Status = employe.Status,
-                        PeoplePartner = context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefault(),
-                        Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
-                        Photo = employe.Photo
-
-                    };
-                    viewemployes.Add(p);
+            ProjectDataGrid.ItemsSource = viewemployes;
 
 
-                }
 
-                ProjectDataGrid.ItemsSource = viewemployes;
-
-            
-            
 
 
 
@@ -88,185 +89,191 @@ namespace test2
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
 
-                var employes = context.Employes.ToList();
-                var viewemployes = new List<ViewEmployee>();
-                foreach (var employe in employes)
+            var employes = context.Employes.ToList();
+            var viewemployes = new List<ViewEmployee>();
+            foreach (var employe in employes)
+            {
+
+                ViewEmployee p = new ViewEmployee
                 {
+                    Id = employe.Id,
+                    Username = employe.Username,
+                    PasswordHash = employe.PasswordHash,
+                    Salt = employe.Salt,
+                    FullName = employe.FullName,
+                    Subdivision = employe.Subdivision,
+                    Position = employe.Position,
+                    Status = employe.Status,
+                    PeoplePartner = context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefault(),
+                    Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
+                    Photo = employe.Photo,
+                    AssignedProject = employe.AssignedProject
 
-                    ViewEmployee p = new ViewEmployee
-                    {
-                        Id = employe.Id,
-                        Username = employe.Username,
-                        PasswordHash = employe.PasswordHash,
-                        Salt = employe.Salt,
-                        FullName = employe.FullName,
-                        Subdivision = employe.Subdivision,
-                        Position = employe.Position,
-                        Status = employe.Status,
-                        PeoplePartner = context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefault(),
-                        Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
-                        Photo = employe.Photo
-
-                    };
-                    viewemployes.Add(p);
+                };
+                viewemployes.Add(p);
 
 
-                }
+            }
 
-                if (IdTextBox.Text != "")
-                {
+            if (IdTextBox.Text != "")
+            {
 
-                    viewemployes = viewemployes.Where(y => y.Id.ToString() == IdTextBox.Text).ToList();
-                }
-                if (UsernameTextBox.Text != "")
-                {
+                viewemployes = viewemployes.Where(y => y.Id.ToString() == IdTextBox.Text).ToList();
+            }
+            if (UsernameTextBox.Text != "")
+            {
 
-                    viewemployes = viewemployes.Where(y => y.Username == UsernameTextBox.Text).ToList();
-                }
+                viewemployes = viewemployes.Where(y => y.Username == UsernameTextBox.Text).ToList();
+            }
 
-                if (PasswordHashTextBox.Text != "")
-                {
+            if (PasswordHashTextBox.Text != "")
+            {
 
-                    viewemployes = viewemployes.Where(y => y.PasswordHash == PasswordHashTextBox.Text).ToList();
-                }
+                viewemployes = viewemployes.Where(y => y.PasswordHash == PasswordHashTextBox.Text).ToList();
+            }
 
-                if (SaltTextBox.Text != "")
-                {
+            if (SaltTextBox.Text != "")
+            {
 
-                    viewemployes = viewemployes.Where(y => y.Salt == SaltTextBox.Text).ToList();
-                }
-                if (FullNameTextBox.Text != "")
-                {
+                viewemployes = viewemployes.Where(y => y.Salt == SaltTextBox.Text).ToList();
+            }
+            if (FullNameTextBox.Text != "")
+            {
 
-                    viewemployes = viewemployes.Where(y => y.FullName == FullNameTextBox.Text).ToList();
-                }
+                viewemployes = viewemployes.Where(y => y.FullName == FullNameTextBox.Text).ToList();
+            }
 
 
 
 
 
 
-                Subdivision x = Subdivision.A;
+            Subdivision x = Subdivision.A;
 
-                switch (SubdivisionTextBox.Text)
-                {
-                    case "A":
-                        x = Subdivision.A;
-                        break;
-                    case "B":
-                        x = Subdivision.B;
-                        break;
-                    case "C":
-                        x = Subdivision.C;
-                        break;
-                    case "D":
-                        x = Subdivision.D;
-                        break;
-                    case "E":
-                        x = Subdivision.E;
-                        break;
-                    case "F":
-                        x = Subdivision.F;
-                        break;
-                    case "":
-                        break;
-                    default:
-                        viewemployes = new List<ViewEmployee> { };
-                        break;
-
-
-
-                }
-
-                if (SubdivisionTextBox.Text != "")
-                {
-
-                    viewemployes = viewemployes.Where(y => y.Subdivision == x).ToList();
-                }
-
-
-                Position y = Position.Employee;
-
-                switch (PositionTextBox.Text)
-                {
-                    case "Employee":
-                        y = Position.Employee;
-                        break;
-                    case "HRManager":
-                        y = Position.HRManager;
-                        break;
-                    case "ProjectManager":
-                        y = Position.ProjectManager;
-                        break;
-                    case "Administrator":
-                        y = Position.Administrator;
-                        break;
-                    case "":
-                        break;
-                    default:
-                        viewemployes = new List<ViewEmployee> { };
-                        break;
+            switch (SubdivisionTextBox.Text)
+            {
+                case "A":
+                    x = Subdivision.A;
+                    break;
+                case "B":
+                    x = Subdivision.B;
+                    break;
+                case "C":
+                    x = Subdivision.C;
+                    break;
+                case "D":
+                    x = Subdivision.D;
+                    break;
+                case "E":
+                    x = Subdivision.E;
+                    break;
+                case "F":
+                    x = Subdivision.F;
+                    break;
+                case "":
+                    break;
+                default:
+                    viewemployes = new List<ViewEmployee> { };
+                    break;
 
 
 
-                }
+            }
 
-                if (SubdivisionTextBox.Text != "")
-                {
+            if (SubdivisionTextBox.Text != "")
+            {
 
-                    viewemployes = viewemployes.Where(x => x.Position == y).ToList();
-                }
-
-                EmployeeStatus s = EmployeeStatus.Active;
-
-                switch (StatusTextBox.Text)
-                {
-                    case "Active":
-                        s = EmployeeStatus.Active;
-                        break;
-                    case "Inactive":
-                        s = EmployeeStatus.Inactive;
-                        break;
-                    case "":
-                        break;
-                    default:
-                        viewemployes = new List<ViewEmployee> { };
-                        break;
+                viewemployes = viewemployes.Where(y => y.Subdivision == x).ToList();
+            }
 
 
+            Position y = Position.Employee;
 
-                }
-
-                if (StatusTextBox.Text != "")
-                {
-
-                    viewemployes = viewemployes.Where(x => x.Status == s).ToList();
-                }
-
-                if (PeoplePartnerTextBox.Text != "")
-                {
-
-                    viewemployes = viewemployes.Where(y => y.PeoplePartner == PeoplePartnerTextBox.Text).ToList();
-                }
-
-
-                if (OutOfOfficeBalanceTextBox.Text != "")
-                {
-
-                    viewemployes = viewemployes.Where(y => y.Out_of_OfficeBalance.ToString() == OutOfOfficeBalanceTextBox.Text).ToList();
-                }
-
-                if (PhotoTextBox.Text != "")
-                {
-
-                    viewemployes = viewemployes.Where(y => y.Photo == PhotoTextBox.Text).ToList();
-                }
-
-                ProjectDataGrid.ItemsSource = viewemployes;
+            switch (PositionTextBox.Text)
+            {
+                case "Employee":
+                    y = Position.Employee;
+                    break;
+                case "HRManager":
+                    y = Position.HRManager;
+                    break;
+                case "ProjectManager":
+                    y = Position.ProjectManager;
+                    break;
+                case "Administrator":
+                    y = Position.Administrator;
+                    break;
+                case "":
+                    break;
+                default:
+                    viewemployes = new List<ViewEmployee> { };
+                    break;
 
 
 
-            
+            }
+
+            if (SubdivisionTextBox.Text != "")
+            {
+
+                viewemployes = viewemployes.Where(x => x.Position == y).ToList();
+            }
+
+            EmployeeStatus s = EmployeeStatus.Active;
+
+            switch (StatusTextBox.Text)
+            {
+                case "Active":
+                    s = EmployeeStatus.Active;
+                    break;
+                case "Inactive":
+                    s = EmployeeStatus.Inactive;
+                    break;
+                case "":
+                    break;
+                default:
+                    viewemployes = new List<ViewEmployee> { };
+                    break;
+
+
+
+            }
+
+            if (StatusTextBox.Text != "")
+            {
+
+                viewemployes = viewemployes.Where(x => x.Status == s).ToList();
+            }
+
+            if (PeoplePartnerTextBox.Text != "")
+            {
+
+                viewemployes = viewemployes.Where(y => y.PeoplePartner == PeoplePartnerTextBox.Text).ToList();
+            }
+
+
+            if (OutOfOfficeBalanceTextBox.Text != "")
+            {
+
+                viewemployes = viewemployes.Where(y => y.Out_of_OfficeBalance.ToString() == OutOfOfficeBalanceTextBox.Text).ToList();
+            }
+
+            if (PhotoTextBox.Text != "")
+            {
+
+                viewemployes = viewemployes.Where(y => y.Photo == PhotoTextBox.Text).ToList();
+            }
+            if (AssignedProjectTextBox.Text != "")
+            {
+
+                viewemployes = viewemployes.Where(y => y.AssignedProject.ToString() == AssignedProjectTextBox.Text).ToList();
+            }
+
+            ProjectDataGrid.ItemsSource = viewemployes;
+
+
+
+
         }
 
         private void NewEmployeeButton_Click(object sender, RoutedEventArgs e)
@@ -288,7 +295,7 @@ namespace test2
 
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
                 windowService.ShowWindow<OpenEmployeeWindow>(selectedData.Id);
-              
+
 
             }
 

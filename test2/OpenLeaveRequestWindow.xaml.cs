@@ -62,16 +62,16 @@ namespace test2
                 LeaveRequestStatus a = context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault();
                 switch (a)
                 {
-                    case LeaveRequestStatus.A:
+                    case LeaveRequestStatus.New:
                         comboBox2.SelectedIndex = 1;
                         break;
-                    case LeaveRequestStatus.B:
+                    case LeaveRequestStatus.Approved:
                         comboBox2.SelectedIndex = 2;
                         break;
-                    case LeaveRequestStatus.C:
+                    case LeaveRequestStatus.Rejected:
                         comboBox2.SelectedIndex = 3;
                         break;
-                    case LeaveRequestStatus.New:
+                    case LeaveRequestStatus.Canceled:
                         comboBox2.SelectedIndex = 0;
                         break;
                 }
@@ -114,17 +114,17 @@ namespace test2
                 obj.Comment= CommentTextBox.Text;
                 switch (comboBox2.Text)
                 {
-                    case "A":
-                        obj.Status = LeaveRequestStatus.A;
-                        break;
-                    case "B":
-                        obj.Status = LeaveRequestStatus.B;
-                        break;
-                    case "C":
-                        obj.Status = LeaveRequestStatus.C;
-                        break;
                     case "New":
                         obj.Status = LeaveRequestStatus.New;
+                        break;
+                    case "Approved":
+                        obj.Status = LeaveRequestStatus.Approved;
+                        break;
+                    case "Rejected":
+                        obj.Status = LeaveRequestStatus.Rejected;
+                        break;
+                    case "Canceled":
+                        obj.Status = LeaveRequestStatus.Canceled;
                         break;
                 }
 

@@ -38,32 +38,32 @@ namespace test2
         }
         private void LoadApprovalRequests()
         {
-            
-                var approvalRequests = context.ApprovalRequests.ToList();
-                var viewapprovalRequests = new List<ViewApprovalRequest>();
-                foreach (var approvalRequest in approvalRequests)
+
+            var approvalRequests = context.ApprovalRequests.ToList();
+            var viewapprovalRequests = new List<ViewApprovalRequest>();
+            foreach (var approvalRequest in approvalRequests)
+            {
+
+                ViewApprovalRequest p = new ViewApprovalRequest
                 {
-
-                    ViewApprovalRequest p = new ViewApprovalRequest
-                    {
-                        Id = approvalRequest.Id,
-                        Approver = context.Employes.Where(x => x.Id == approvalRequest.Approver).Select(x => x.FullName).FirstOrDefault(),
-                        LeaveRequest = approvalRequest.LeaveRequest,
-                        Status = approvalRequest.Status,
-                        Comment = approvalRequest.Comment
+                    Id = approvalRequest.Id,
+                    Approver = context.Employes.Where(x => x.Id == approvalRequest.Approver).Select(x => x.FullName).FirstOrDefault(),
+                    LeaveRequest = approvalRequest.LeaveRequest,
+                    Status = approvalRequest.Status,
+                    Comment = approvalRequest.Comment
 
 
 
 
-                    };
-                    viewapprovalRequests.Add(p);
+                };
+                viewapprovalRequests.Add(p);
 
 
-                }
+            }
 
-                ProjectDataGrid.ItemsSource = viewapprovalRequests;
+            ProjectDataGrid.ItemsSource = viewapprovalRequests;
 
-            
+
 
 
 
@@ -76,87 +76,93 @@ namespace test2
         }
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-            
-                var approvalRequests = context.ApprovalRequests.ToList();
-                var viewapprovalRequests = new List<ViewApprovalRequest>();
-                foreach (var approvalRequest in approvalRequests)
+
+            var approvalRequests = context.ApprovalRequests.ToList();
+            var viewapprovalRequests = new List<ViewApprovalRequest>();
+            foreach (var approvalRequest in approvalRequests)
+            {
+
+                ViewApprovalRequest p = new ViewApprovalRequest
                 {
-
-                    ViewApprovalRequest p = new ViewApprovalRequest
-                    {
-                        Id = approvalRequest.Id,
-                        Approver = context.Employes.Where(x => x.Id == approvalRequest.Approver).Select(x => x.FullName).FirstOrDefault(),
-                        LeaveRequest = approvalRequest.LeaveRequest,
-                        Status = approvalRequest.Status,
-                        Comment = approvalRequest.Comment
+                    Id = approvalRequest.Id,
+                    Approver = context.Employes.Where(x => x.Id == approvalRequest.Approver).Select(x => x.FullName).FirstOrDefault(),
+                    LeaveRequest = approvalRequest.LeaveRequest,
+                    Status = approvalRequest.Status,
+                    Comment = approvalRequest.Comment
 
 
 
 
-                    };
-                    viewapprovalRequests.Add(p);
+                };
+                viewapprovalRequests.Add(p);
 
 
-                }
+            }
 
 
 
-                if (IdTextBox.Text != "")
-                {
+            if (IdTextBox.Text != "")
+            {
 
-                    viewapprovalRequests = viewapprovalRequests.Where(x => x.Id == Convert.ToInt32(IdTextBox.Text)).ToList();
-                }
+                viewapprovalRequests = viewapprovalRequests.Where(x => x.Id == Convert.ToInt32(IdTextBox.Text)).ToList();
+            }
 
-                if (ApproverTextBox.Text != "")
-                {
+            if (ApproverTextBox.Text != "")
+            {
 
-                    viewapprovalRequests = viewapprovalRequests.Where(x => x.Approver == ApproverTextBox.Text).ToList();
-                }
-                if (LeaveRequestTextBox.Text != "")
-                {
+                viewapprovalRequests = viewapprovalRequests.Where(x => x.Approver == ApproverTextBox.Text).ToList();
+            }
+            if (LeaveRequestTextBox.Text != "")
+            {
 
-                    viewapprovalRequests = viewapprovalRequests.Where(x => x.LeaveRequest.ToString() == LeaveRequestTextBox.Text).ToList();
-                }
+                viewapprovalRequests = viewapprovalRequests.Where(x => x.LeaveRequest.ToString() == LeaveRequestTextBox.Text).ToList();
+            }
 
 
 
 
 
-                ApprovalRequestStatus x = ApprovalRequestStatus.Active;
+            ApprovalRequestStatus x = ApprovalRequestStatus.New;
 
-                switch (StatusTextBox.Text)
-                {
-                    case "Inactive":
-                        x = ApprovalRequestStatus.Inactive;
-                        break;
-                    case "Active":
-                        x = ApprovalRequestStatus.Active;
-                        break;
-                    case "":
-                        break;
-                    default:
-                        viewapprovalRequests = new List<ViewApprovalRequest> { };
-                        break;
+            switch (StatusTextBox.Text)
+            {
+                case "New":
+                    x = ApprovalRequestStatus.New;
+                    break;
+                case "Approved":
+                    x = ApprovalRequestStatus.Approved;
+                    break;
+                case "Rejected":
+                    x = ApprovalRequestStatus.Rejected;
+                    break;
+                case "Canceled":
+                    x = ApprovalRequestStatus.Canceled;
+                    break;
+                case "":
+                    break;
+                default:
+                    viewapprovalRequests = new List<ViewApprovalRequest> { };
+                    break;
 
 
 
-                }
+            }
 
-                if (StatusTextBox.Text != "")
-                {
+            if (StatusTextBox.Text != "")
+            {
 
-                    viewapprovalRequests = viewapprovalRequests.Where(y => y.Status == x).ToList();
-                }
+                viewapprovalRequests = viewapprovalRequests.Where(y => y.Status == x).ToList();
+            }
 
-                if (CommentTextBox.Text != "")
-                {
+            if (CommentTextBox.Text != "")
+            {
 
-                    viewapprovalRequests = viewapprovalRequests.Where(x => x.Comment == CommentTextBox.Text).ToList();
-                }
+                viewapprovalRequests = viewapprovalRequests.Where(x => x.Comment == CommentTextBox.Text).ToList();
+            }
 
-                ProjectDataGrid.ItemsSource = viewapprovalRequests;
+            ProjectDataGrid.ItemsSource = viewapprovalRequests;
 
-            
+
 
         }
 
@@ -172,13 +178,13 @@ namespace test2
 
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
 
-                
+
                 windowService.ShowWindow<OpenApprovalRequestWindow>(selectedData.Id);
             }
         }
         private void NewLeaveRequestButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
             windowService.ShowWindow<NewLeaveRequestWindow>();
 
 

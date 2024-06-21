@@ -3,8 +3,8 @@
     public enum LeaveRequestStatus
     {
         New = 0,
-        A = 1,
-        B = 2,
-        C = 3
+        Approved = 1,
+        Rejected = 2,
+        Canceled = 3
     }
 }

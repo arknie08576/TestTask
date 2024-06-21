@@ -30,6 +30,8 @@
             <TextBox x:Name="OutOfOfficeBalanceTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
             <TextBlock TextWrapping="Wrap" Text="Photo"/>
             <TextBox x:Name="PhotoTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Assigned project"/>
+            <TextBox x:Name="AssignedProjectTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
             <Button Content="Filter" Width="200" Click="FilterButton_Click" HorizontalAlignment="Left"/>
             <Button  x:Name="NewButton" Content="New Employee" Width="200" Click="NewEmployeeButton_Click" HorizontalAlignment="Left"/>
 
@@ -49,6 +51,7 @@
                     <DataGridTextColumn Header="People Partner" Binding="{Binding PeoplePartner}" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Out of OfficeBalance" Binding="{Binding Out_of_OfficeBalance}" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Photo" Binding="{Binding Photo}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Assigned Project" Binding="{Binding AssignedProject}" IsReadOnly="False"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

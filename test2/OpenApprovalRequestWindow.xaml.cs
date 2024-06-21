@@ -22,7 +22,7 @@ namespace test2
         string user;
         int id;
         private readonly OfficeContex context;
-        public OpenApprovalRequestWindow( int Id, OfficeContex officeContex)
+        public OpenApprovalRequestWindow(int Id, OfficeContex officeContex)
         {
             InitializeComponent();
             user = AuthenticationHelper.loggedUser;
@@ -36,30 +36,36 @@ namespace test2
         {
 
 
-               
-                IdTextBox.Text = id.ToString();
-                var t=context.ApprovalRequests.Where(e => e.Id == id).Select(x=>x.Approver).FirstOrDefault();
-                ApproverTextBox.Text = context.Employes.Where(e => e.Id == t).Select(x => x.FullName).FirstOrDefault();
-                LeaverequestTextBox.Text=context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.LeaveRequest).FirstOrDefault().ToString();
+
+            IdTextBox.Text = id.ToString();
+            var t = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Approver).FirstOrDefault();
+            ApproverTextBox.Text = context.Employes.Where(e => e.Id == t).Select(x => x.FullName).FirstOrDefault();
+            LeaverequestTextBox.Text = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.LeaveRequest).FirstOrDefault().ToString();
 
 
-                ApprovalRequestStatus k = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault();
-                switch (k)
-                {
-                    case ApprovalRequestStatus.Inactive:
-                        comboBox.SelectedIndex = 0;
-                        break;
-                    case ApprovalRequestStatus.Active:
-                        comboBox.SelectedIndex = 1;
-                        break;
-                }
-                CommentTextBox.Text = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Comment).FirstOrDefault();
+            ApprovalRequestStatus k = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault();
+            switch (k)
+            {
+                case ApprovalRequestStatus.New:
+                    comboBox.SelectedIndex = 0;
+                    break;
+                case ApprovalRequestStatus.Approved:
+                    comboBox.SelectedIndex = 1;
+                    break;
+                case ApprovalRequestStatus.Rejected:
+                    comboBox.SelectedIndex = 2;
+                    break;
+                case ApprovalRequestStatus.Canceled:
+                    comboBox.SelectedIndex = 3;
+                    break;
+            }
+            CommentTextBox.Text = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Comment).FirstOrDefault();
 
-                
 
 
 
-            
+
+
 
 
 
@@ -71,25 +77,31 @@ namespace test2
         {
 
 
-                var obj = context.ApprovalRequests.Find(id);
-                switch (comboBox.Text)
-                {
-                    case "Inactive":
-                        obj.Status=ApprovalRequestStatus.Inactive;
-                        break;
-                    case "Active":
-                        obj.Status = ApprovalRequestStatus.Active;
-                        break;
-                  
-                }
+            var obj = context.ApprovalRequests.Find(id);
+            switch (comboBox.Text)
+            {
+                case "New":
+                    obj.Status = ApprovalRequestStatus.New;
+                    break;
+                case "Approved":
+                    obj.Status = ApprovalRequestStatus.Approved;
+                    break;
+                case "Rejected":
+                    obj.Status = ApprovalRequestStatus.Rejected;
+                    break;
+                case "Canceled":
+                    obj.Status = ApprovalRequestStatus.Canceled;
+                    break;
+
+            }
 
 
-                obj.Comment=CommentTextBox.Text;
-                context.Entry(obj).State = EntityState.Modified;
-                context.SaveChanges();
-                MessageBox.Show("Approval request updated");
-                this.Close();
-            
+            obj.Comment = CommentTextBox.Text;
+            context.Entry(obj).State = EntityState.Modified;
+            context.SaveChanges();
+            MessageBox.Show("Approval request updated");
+            this.Close();
+
 
 
         }

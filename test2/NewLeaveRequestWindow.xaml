@@ -38,9 +38,9 @@ VerticalAlignment="Center"
 HorizontalAlignment="Center"
 SelectionChanged="comboBox2_SelectionChanged">
                 <ComboBoxItem Content="New" />
-                <ComboBoxItem Content="A" />
-                <ComboBoxItem Content="B" />
-                <ComboBoxItem Content="C" />
+                <ComboBoxItem Content="Approved" />
+                <ComboBoxItem Content="Rejected" />
+                <ComboBoxItem Content="Canceled" />
 
 
             </ComboBox>

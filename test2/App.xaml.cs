@@ -52,7 +52,7 @@ namespace test2
 
 
             services.AddDbContext<OfficeContex>(options =>
-            options.UseSqlServer("Data Source=DESKTOP-7GGELFU\\SQLEXPRESS;Initial Catalog=Out_of_Office2;Integrated Security=True;Encrypt=False;Trust Server Certificate=True"));
+            options.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office2;Integrated Security=True;Encrypt=False;Trust Server Certificate=True"));
             //services.AddTransient<IMyService, MyService>();
         }
 

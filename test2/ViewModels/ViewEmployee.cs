@@ -32,5 +32,6 @@ namespace test2.ViewModels
         public int Out_of_OfficeBalance { get; set; }
         
         public string? Photo { get; set; }
+        public int? AssignedProject { get; internal set; }
     }
 }

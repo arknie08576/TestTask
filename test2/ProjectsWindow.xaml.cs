@@ -236,7 +236,7 @@ namespace test2
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
 
 
-                if (context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager)
+                if (context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager|| context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.Administrator)
                 {
                     
                     windowService.ShowWindow<EditProjectWindow>(selectedData.Id);
