@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using System.Data;
 using System.Windows;
 using System.Windows.Forms.Design;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.IO;
 
 namespace test2
 {
@@ -25,7 +27,11 @@ namespace test2
 
         private void ConfigureServices(IServiceCollection services)
         {
-            
+            var configuration = new ConfigurationBuilder()
+                 .SetBasePath(Directory.GetCurrentDirectory())
+                 .AddJsonFile("appsettings.json")
+                 .Build();
+
             services.AddSingleton<IWindowService, WindowService>();
             services.AddTransient<MainWindow>();
             services.AddTransient<RegisterWindow>();
@@ -52,10 +58,17 @@ namespace test2
 
 
             services.AddDbContext<OfficeContex>(options =>
-            options.UseSqlServer("Data Source=DESKTOP-TEFRQV5\\SQLEXPRESS;Initial Catalog=Out_of_Office2;Integrated Security=True;Encrypt=False;Trust Server Certificate=True"));
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             //services.AddTransient<IMyService, MyService>();
         }
+        private IConfiguration LoadConfiguration()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
+            return builder.Build();
+        }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

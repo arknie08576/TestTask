@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -38,11 +39,11 @@ namespace test2
             {
 
                 var textBox = (TextBox)comboBox.Template.FindName("PART_EditableTextBox", comboBox);
-                if (textBox != null &&( context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault() != LeaveRequestStatus.New|| (context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.HRManager|| context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager)))
+                if (textBox != null && (context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault() != LeaveRequestStatus.New || (context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.HRManager || context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager)))
                 {
                     textBox.IsReadOnly = true;
                 }
-                else if(textBox != null)
+                else if (textBox != null)
                 {
                     textBox.IsReadOnly = false;
                 }
@@ -54,7 +55,7 @@ namespace test2
             {
                 datePicker.IsEnabled = true;
                 var textBox = (TextBox)datePicker.Template.FindName("PART_TextBox", datePicker);
-                if (textBox != null &&( context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault() != LeaveRequestStatus.New || (context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.HRManager || context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager)))
+                if (textBox != null && (context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault() != LeaveRequestStatus.New || (context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.HRManager || context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager)))
                 {
                     textBox.IsReadOnly = true;
                 }
@@ -176,6 +177,27 @@ namespace test2
 
 
 
+
+
+
+        }
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            var obj = context.LeaveRequests.Find(id);
+            if (obj.Status == LeaveRequestStatus.Approved)
+            {
+                var emp = context.Employes.Find(obj.Employee);
+                emp.Out_of_OfficeBalance += (obj.EndDate.ToDateTime(TimeOnly.MinValue) - obj.StartDate.ToDateTime(TimeOnly.MinValue)).Days + 1;
+            }
+            obj.Status = LeaveRequestStatus.Canceled;
+            var ar = context.ApprovalRequests.Where(x => x.LeaveRequest == obj.Id).FirstOrDefault();
+            ar.Status = ApprovalRequestStatus.Canceled;
+            context.Entry(obj).State = EntityState.Modified;
+            context.SaveChanges();
+            MessageBox.Show("Leave request canceled");
+            this.Close();
 
 
 

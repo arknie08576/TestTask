@@ -46,6 +46,7 @@ SelectionChanged="comboBox2_SelectionChanged">
 
             </ComboBox>
             <Button x:Name="myButton" Content="Update" Width="200" Click="UpdateButton_Click"/>
+            <Button x:Name="myButton2" Content="Cancel Request" Width="200" Click="CancelButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>
