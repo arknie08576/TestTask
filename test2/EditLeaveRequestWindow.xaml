@@ -13,7 +13,7 @@
             <TextBlock TextWrapping="Wrap" Text="Employee"/>
             <TextBox x:Name="EmployeeTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Absence Reason"/>
-            <ComboBox Name="comboBox" 
+            <ComboBox Name="comboBox" IsEditable="True" Loaded="ComboBox_Loaded"
 Width="200" 
 Height="30" 
 VerticalAlignment="Center" 
@@ -26,13 +26,13 @@ SelectionChanged="comboBox_SelectionChanged">
 
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="Start Date"/>
-            <DatePicker Name="StartDate"/>
+            <DatePicker Name="StartDate"  Loaded="StartDatePicker_Loaded"/>
             <TextBlock TextWrapping="Wrap" Text="End Date"/>
-            <DatePicker Name="EndDate"/>
+            <DatePicker Name="EndDate" Loaded="EndDatePicker_Loaded"/>
             <TextBlock TextWrapping="Wrap" Text="Comment"/>
             <TextBox x:Name="CommentTextBox"  IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Status"/>
-            <ComboBox Name="comboBox2" 
+            <ComboBox Name="comboBox2" IsEditable="True" Loaded="ComboBox_Loaded"
 Width="200" 
 Height="30" 
 VerticalAlignment="Center" 
@@ -45,7 +45,7 @@ SelectionChanged="comboBox2_SelectionChanged">
                 
 
             </ComboBox>
-            <Button Content="Update" Width="200" Click="UpdateButton_Click"/>
+            <Button x:Name="myButton" Content="Update" Width="200" Click="UpdateButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>
