@@ -117,8 +117,8 @@ namespace test2
 
 
             }
-           
-            out_of_OfficeBalance = int.Parse(Out_of_OfficeBalanceTextBox.Text);
+            int defaultBalance = 26;
+            out_of_OfficeBalance = defaultBalance;
             photo= PhotoTextBox.Text;
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))

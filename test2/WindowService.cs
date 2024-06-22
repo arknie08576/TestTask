@@ -38,7 +38,7 @@ namespace test2
             }
             else if (typeof(T) == typeof(OpenApprovalRequestWindow) && args.Length == 1 && args[0] is int id3)
             {
-                var factory = _serviceProvider.GetRequiredService<IEditProjectWindowFactory>();
+                var factory = _serviceProvider.GetRequiredService<IOpenApprovalRequestWindowFactory>();
                 window = (T)(object)factory.Create(id3);
             }
             else if (typeof(T) == typeof(OpenEmployeeWindow) && args.Length == 1 && args[0] is int id4)

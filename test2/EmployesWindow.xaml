@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test2"
         mc:Ignorable="d"
-        Title="EmployesWindow" Height="750" Width="800">
+        Title="EmployesWindow" Height="1000" Width="800">
     <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="675">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="900">
             <TextBlock TextWrapping="Wrap" Text="Id"/>
             <TextBox x:Name="IdTextBox" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
             <TextBlock TextWrapping="Wrap" Text="Username"/>

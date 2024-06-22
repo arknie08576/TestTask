@@ -51,14 +51,19 @@ namespace test2
                     break;
                 case ApprovalRequestStatus.Approved:
                     comboBox.SelectedIndex = 1;
+                    ApproveButton.Visibility = Visibility.Collapsed;
                     break;
                 case ApprovalRequestStatus.Rejected:
                     comboBox.SelectedIndex = 2;
+                    RejectButton.Visibility = Visibility.Collapsed;
                     break;
                 case ApprovalRequestStatus.Canceled:
                     comboBox.SelectedIndex = 3;
+                    ApproveButton.Visibility = Visibility.Collapsed;
+                    RejectButton.Visibility = Visibility.Collapsed;
                     break;
             }
+            comboBox.IsEnabled = false;
             CommentTextBox.Text = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Comment).FirstOrDefault();
 
 
@@ -73,36 +78,48 @@ namespace test2
 
 
         }
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+
+        private void ApproveButton_Click(object sender, RoutedEventArgs e)
         {
-
-
             var obj = context.ApprovalRequests.Find(id);
-            switch (comboBox.Text)
-            {
-                case "New":
-                    obj.Status = ApprovalRequestStatus.New;
-                    break;
-                case "Approved":
-                    obj.Status = ApprovalRequestStatus.Approved;
-                    break;
-                case "Rejected":
-                    obj.Status = ApprovalRequestStatus.Rejected;
-                    break;
-                case "Canceled":
-                    obj.Status = ApprovalRequestStatus.Canceled;
-                    break;
-
-            }
-
-
+            obj.Approver = context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefault();
+            obj.Status = ApprovalRequestStatus.Approved;
             obj.Comment = CommentTextBox.Text;
+            var lr = context.LeaveRequests.Where(e => e.Id == obj.LeaveRequest).FirstOrDefault();
+            var emp = context.Employes.Where((e) => e.Id == lr.Employee).FirstOrDefault();
+            lr.Status = LeaveRequestStatus.Approved;
+            emp.Out_of_OfficeBalance -= (obj.leaveRequest.EndDate.ToDateTime(TimeOnly.MinValue) - obj.leaveRequest.StartDate.ToDateTime(TimeOnly.MinValue)).Days + 1;
+            context.Entry(lr).State = EntityState.Modified;
+            context.Entry(emp).State = EntityState.Modified;
             context.Entry(obj).State = EntityState.Modified;
             context.SaveChanges();
-            MessageBox.Show("Approval request updated");
+            MessageBox.Show("Approval request approved");
             this.Close();
 
+        }
+        private void RejectButton_Click(object sender, RoutedEventArgs e)
+        {
+            var obj = context.ApprovalRequests.Find(id);
+            var lr = context.LeaveRequests.Where(e => e.Id == obj.LeaveRequest).FirstOrDefault();
+            obj.Approver = context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefault();
 
+            var emp = context.Employes.Where((e) => e.Id == lr.Employee).FirstOrDefault();
+            if (obj.Status == ApprovalRequestStatus.Approved)
+            {
+                emp.Out_of_OfficeBalance += (obj.leaveRequest.EndDate.ToDateTime(TimeOnly.MinValue) - obj.leaveRequest.StartDate.ToDateTime(TimeOnly.MinValue)).Days + 1;
+
+            }
+            obj.Status = ApprovalRequestStatus.Rejected;
+            obj.Comment = CommentTextBox.Text;
+
+
+            lr.Status = LeaveRequestStatus.Rejected;
+            //obj.leaveRequest.Status = LeaveRequestStatus.Rejected;
+            context.Entry(lr).State = EntityState.Modified;
+            context.Entry(obj).State = EntityState.Modified;
+            context.SaveChanges();
+            MessageBox.Show("Approval request rejected");
+            this.Close();
 
         }
         private void comboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
