@@ -61,14 +61,7 @@ namespace test2
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             //services.AddTransient<IMyService, MyService>();
         }
-        private IConfiguration LoadConfiguration()
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-            return builder.Build();
-        }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

@@ -40,6 +40,20 @@ namespace test2
         }
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
+            if(!StartDate.SelectedDate.HasValue||!EndDate.SelectedDate.HasValue|| comboBox.Text == "")
+            {
+                MessageBox.Show("Fill in all required fields.");
+                return;
+            }
+
+
+
+
+
+
+
+
+
             if (StartDate.SelectedDate.HasValue && EndDate.SelectedDate.HasValue)
             {
                 if (StartDate.SelectedDate.Value > EndDate.SelectedDate.Value)
