@@ -12,7 +12,7 @@
             <TextBox x:Name="IdTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Employee"/>
             <TextBox x:Name="EmployeeTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Absence Reason"/>
+            <TextBlock TextWrapping="Wrap" Text="Absence Reason (Required)"/>
             <ComboBox Name="comboBox" IsEditable="True" Loaded="ComboBox_Loaded"
 Width="200" 
 Height="30" 
@@ -25,9 +25,9 @@ SelectionChanged="comboBox_SelectionChanged">
                 <ComboBoxItem Content="D" />
 
             </ComboBox>
-            <TextBlock TextWrapping="Wrap" Text="Start Date"/>
+            <TextBlock TextWrapping="Wrap" Text="Start Date (Required)"/>
             <DatePicker Name="StartDate"  Loaded="StartDatePicker_Loaded"/>
-            <TextBlock TextWrapping="Wrap" Text="End Date"/>
+            <TextBlock TextWrapping="Wrap" Text="End Date (Required)"/>
             <DatePicker Name="EndDate" Loaded="EndDatePicker_Loaded"/>
             <TextBlock TextWrapping="Wrap" Text="Comment"/>
             <TextBox x:Name="CommentTextBox"  IsReadOnly="True" Width="200" Margin="0,0,0,10"/>

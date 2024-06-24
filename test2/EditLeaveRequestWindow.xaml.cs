@@ -215,6 +215,17 @@ namespace test2
                 this.Close();
                 return;
             }
+            if (comboBox.Text==""|| !StartDate.SelectedDate.HasValue||!EndDate.SelectedDate.HasValue|| comboBox2.Text == "")
+            {
+                MessageBox.Show("Fill in all required fields");
+                
+                return;
+
+
+            }
+
+
+
             if (StartDate.SelectedDate.HasValue && EndDate.SelectedDate.HasValue)
             {
                 if (StartDate.SelectedDate.Value > EndDate.SelectedDate.Value)

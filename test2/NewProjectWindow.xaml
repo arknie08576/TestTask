@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
 
-            <TextBlock TextWrapping="Wrap"  Text="Project Type"/>
+            <TextBlock TextWrapping="Wrap"  Text="Project Type (Required)"/>
             <ComboBox Name="comboBox" 
       Width="200" 
       Height="30" 
@@ -20,7 +20,7 @@
                 <ComboBoxItem Content="C" />
                 <ComboBoxItem Content="D" />
             </ComboBox>
-            <TextBlock TextWrapping="Wrap" Text="Start Date"/>
+            <TextBlock TextWrapping="Wrap" Text="Start Date (Required)"/>
             <DatePicker Name="StartDatePicker"  >
             </DatePicker>
             <TextBlock TextWrapping="Wrap" Text="End Date" />
@@ -35,7 +35,7 @@
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="Comment"/>
             <TextBox x:Name="CommentTextBox" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Project Status"/>
+            <TextBlock TextWrapping="Wrap" Text="Project Status (Required)"/>
             <ComboBox Name="comboBox3" 
 Width="200" 
 Height="30" 

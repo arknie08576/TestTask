@@ -145,7 +145,10 @@ namespace test2
             }
 
             obj.StartDate = DateOnly.FromDateTime(StartDatePicker.SelectedDate.Value);
-            obj.EndDate = DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value);
+            if (EndDatePicker.SelectedDate.HasValue)
+            {
+                obj.EndDate = DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value);
+            }
             obj.ProjectManager = context.Employes.Where(x => x.FullName == comboBox2.Text).Select(x => x.Id).FirstOrDefault();
             obj.Comment = CommentTextBox.Text;
             switch (comboBox3.Text)

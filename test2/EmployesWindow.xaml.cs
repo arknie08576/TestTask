@@ -289,6 +289,7 @@ namespace test2
                 this.Close();
                 return;
             }
+            windowService.ShowWindow<RegisterWindow>();
 
         }
         private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
