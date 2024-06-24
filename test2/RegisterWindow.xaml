@@ -71,8 +71,9 @@ SelectionChanged="comboBox4_SelectionChanged">
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="Out_of_OfficeBalance (Required)"/>
             <TextBox x:Name="Out_of_OfficeBalanceTextBox" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Photo (link)"/>
-            <TextBox x:Name="PhotoTextBox" Width="200" Margin="0,0,0,10"/>
+            <TextBlock TextWrapping="Wrap" Text="Photo"/>
+            <Image Name="PhotoImage" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Width="200" Height="200"/>
+            <Button Content="Add photo" Width="200" Click="AddPhotoButton_Click"/>
             <Button Content="Register" Width="200" Click="RegisterButton_Click"/>
         </StackPanel>
 

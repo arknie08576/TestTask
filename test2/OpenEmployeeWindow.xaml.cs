@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using test2.Models;
-
+using System.Windows.Media.Imaging;
+using Microsoft.Win32;
+using System.IO;
 namespace test2
 {
 
@@ -21,6 +24,7 @@ namespace test2
     {
         public int id;
         public string user;
+        private byte[] photoData;
         private readonly OfficeContex context;
         public OpenEmployeeWindow(int Id, OfficeContex officeContex)
         {
@@ -47,6 +51,39 @@ namespace test2
 
 
             LoadEmployee();
+        }
+        private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Read the photo from the file
+                photoData = File.ReadAllBytes(openFileDialog.FileName);
+
+                // Display the photo in the Image control
+                PhotoImage.Source = LoadImage(photoData);
+
+                // Save the photo to the database
+                // SavePhotoToDatabase(photoData);
+            }
+
+        }
+        private BitmapImage LoadImage(byte[] imageData)
+        {
+            BitmapImage image = new BitmapImage();
+            using (MemoryStream ms = new MemoryStream(imageData))
+            {
+                ms.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = ms;
+                image.EndInit();
+            }
+            image.Freeze();
+            return image;
         }
         private void LoadEmployee()
         {
@@ -137,7 +174,11 @@ namespace test2
 
             }
             Out_of_OfficeBalanceTextBox.Text = obj.Out_of_OfficeBalance.ToString();
-            PhotoTextBox.Text = obj.Photo;
+            //PhotoTextBox.Text = obj.Photo;
+            if (obj.Photo != null)
+            {
+                PhotoImage.Source = LoadImage(obj.Photo);
+            }
             var product = context.Projects.Select(x => x.Id).ToList();
             comboBox5.ItemsSource = product;
             var a = obj.AssignedProject;
@@ -264,7 +305,12 @@ namespace test2
                 obj.AssignedProject = context.Projects.Where(e => e.Id.ToString() == comboBox5.Text).Select(x => x.Id).FirstOrDefault();
             }
             obj.Out_of_OfficeBalance = int.Parse(Out_of_OfficeBalanceTextBox.Text);
-            obj.Photo = PhotoTextBox.Text;
+            // obj.Photo = PhotoTextBox.Text;
+            if (photoData != null)
+            {
+                obj.Photo = photoData;
+
+            }
             context.Entry(obj).State = EntityState.Modified;
             context.SaveChanges();
             MessageBox.Show("Employee updated.");

@@ -34,7 +34,7 @@ public static class AuthenticationHelper
     /// <param name="photo"></param>
     /// <exception cref="InvalidOperationException"></exception>
 
-    public static void RegisterUser(string username,string password,string fullName, Subdivision subdivision, Position position,EmployeeStatus status, int? peoplePartner, int out_of_OfficeBalance, string photo)
+    public static void RegisterUser(string username,string password,string fullName, Subdivision subdivision, Position position,EmployeeStatus status, int? peoplePartner, int out_of_OfficeBalance, byte[] photo)
     {
      
             if (context.Employes.Any(u => u.Username == username))

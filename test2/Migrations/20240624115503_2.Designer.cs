@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using test2;
 
@@ -11,9 +12,11 @@ using test2;
 namespace test2.Migrations
 {
     [DbContext(typeof(OfficeContex))]
-    partial class OfficeContexModelSnapshot : ModelSnapshot
+    [Migration("20240624115503_2")]
+    partial class _2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,7 +83,8 @@ namespace test2.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Photo")
-                        .HasColumnType("varbinary(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varbinary(100)");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");

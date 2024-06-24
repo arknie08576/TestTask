@@ -13,19 +13,57 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using test2.Models;
+using System.Windows.Media.Imaging;
+using Microsoft.Win32;
+using System.IO;
 
 namespace test2
 {
-    
+
     public partial class RegisterWindow : Window
     {
 
         private readonly OfficeContex context;
+        private byte[] photoData;
         public RegisterWindow(OfficeContex officeContex)
         {
             context = officeContex;
             InitializeComponent();
             LoadComboBox();
+        }
+
+        private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Read the photo from the file
+                photoData = File.ReadAllBytes(openFileDialog.FileName);
+
+                // Display the photo in the Image control
+                PhotoImage.Source = LoadImage(photoData);
+
+                // Save the photo to the database
+               // SavePhotoToDatabase(photoData);
+            }
+
+        }
+        private BitmapImage LoadImage(byte[] imageData)
+        {
+            BitmapImage image = new BitmapImage();
+            using (MemoryStream ms = new MemoryStream(imageData))
+            {
+                ms.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = ms;
+                image.EndInit();
+            }
+            image.Freeze();
+            return image;
         }
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
@@ -36,9 +74,9 @@ namespace test2
             Subdivision subdivision;
             Position position;
             EmployeeStatus status;
-            int? peoplePartner = null ;
+            int? peoplePartner = null;
             int out_of_OfficeBalance;
-            string photo;
+            byte[] photo = photoData;
 
             switch (comboBox.Text)
             {
@@ -103,15 +141,15 @@ namespace test2
 
             }
 
-            if(comboBox4.Text != "")
+            if (comboBox4.Text != "")
             {
-                string x= comboBox4.Text;
-                
+                string x = comboBox4.Text;
 
-                    var partner = context.Employes.Where(e => e.Position == Position.HRManager).Where(x => x.FullName == comboBox4.Text).Select(x => x.Id).ToList();
-                    
-                    peoplePartner = partner[0];
-                
+
+                var partner = context.Employes.Where(e => e.Position == Position.HRManager).Where(x => x.FullName == comboBox4.Text).Select(x => x.Id).ToList();
+
+                peoplePartner = partner[0];
+
 
 
 
@@ -119,7 +157,7 @@ namespace test2
             }
             int defaultBalance = 26;
             out_of_OfficeBalance = defaultBalance;
-            photo= PhotoTextBox.Text;
+           // byte[] photo = PhotoTextBox.Text;
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -141,7 +179,7 @@ namespace test2
 
             try
             {
-               
+
                 AuthenticationHelper.RegisterUser(username, password, fullName, subdivision, position, status, peoplePartner, out_of_OfficeBalance, photo);
                 MessageBox.Show("Registration successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
@@ -175,11 +213,11 @@ namespace test2
         }
         private void LoadComboBox()
         {
-            
-            
-                var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
-                comboBox4.ItemsSource = products;
-            
+
+
+            var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
+            comboBox4.ItemsSource = products;
+
         }
     }
 }

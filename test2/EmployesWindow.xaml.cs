@@ -68,7 +68,7 @@ namespace test2
                     Status = employe.Status,
                     PeoplePartner = context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefault(),
                     Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
-                    Photo = employe.Photo,
+                    //Photo = employe.Photo,
                     AssignedProject = employe.AssignedProject
 
                 };
@@ -111,7 +111,7 @@ namespace test2
                     Status = employe.Status,
                     PeoplePartner = context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefault(),
                     Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
-                    Photo = employe.Photo,
+                  //  Photo = employe.Photo,
                     AssignedProject = employe.AssignedProject
 
                 };
@@ -263,11 +263,7 @@ namespace test2
                 viewemployes = viewemployes.Where(y => y.Out_of_OfficeBalance.ToString() == OutOfOfficeBalanceTextBox.Text).ToList();
             }
 
-            if (PhotoTextBox.Text != "")
-            {
-
-                viewemployes = viewemployes.Where(y => y.Photo == PhotoTextBox.Text).ToList();
-            }
+ 
             if (AssignedProjectTextBox.Text != "")
             {
 

@@ -28,8 +28,8 @@ namespace test2.Models
         public int? PeoplePartner {  get; set; }
         [Required]
         public int Out_of_OfficeBalance { get; set; }
-        [MaxLength(100)]
-        public string? Photo { get; set; }
+        
+        public byte[]? Photo { get; set; }
         [ForeignKey("project")]
         public int? AssignedProject {  get; set; }
         public Employee employee { get; set; }

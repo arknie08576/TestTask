@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test2"
         mc:Ignorable="d"
-        Title="OpenEmployeeWindow" Height="750" Width="800">
+        Title="OpenEmployeeWindow" Height="1000" Width="800">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock TextWrapping="Wrap" Text="Id"/>
@@ -73,8 +73,8 @@ SelectionChanged="comboBox4_SelectionChanged">
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="Out_of_OfficeBalance"/>
             <TextBox x:Name="Out_of_OfficeBalanceTextBox" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Photo (link)"/>
-            <TextBox x:Name="PhotoTextBox" Width="200" Margin="0,0,0,10"/>
+            <TextBlock TextWrapping="Wrap" Text="Photo"/>
+            <Image Name="PhotoImage" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Width="200" Height="200"/>
             <TextBlock TextWrapping="Wrap" Text="Assigned project"/>
             <ComboBox Name="comboBox5" 
 Width="200" 
@@ -85,6 +85,7 @@ HorizontalAlignment="Center">
 
 
             </ComboBox>
+            <Button Content="Add photo" Width="200" Click="AddPhotoButton_Click"/>
             <Button x:Name="UpdateButton" Content="Update" Width="200" Click="UpdateButton_Click"/>
             <Button x:Name="DeleteButton" Content="Delete employee" Width="200" Click="DeleteButton_Click"/>
             
