@@ -223,7 +223,52 @@ namespace test2
 
 
             }
+            var leaveRequests = context.LeaveRequests.Where(x => x.Employee == context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefault()).Where(x => (x.Status == LeaveRequestStatus.New || x.Status == LeaveRequestStatus.Approved)).OrderBy(x => x.StartDate).ToList();
+            leaveRequests=leaveRequests.Where(x=>x.Id!=id).ToList();
+            bool isCandidateOverlaping = false;
 
+            foreach (var leaveRequest in leaveRequests)
+            {
+
+                if (DateOnly.FromDateTime(StartDate.SelectedDate.Value) > leaveRequest.EndDate || DateOnly.FromDateTime(EndDate.SelectedDate.Value) < leaveRequest.StartDate)
+                {
+
+                }
+                else
+                {
+                    isCandidateOverlaping = true;
+                }
+            }
+
+            bool isSpace = false;
+            if (leaveRequests.Count > 0)
+            {
+                if (leaveRequests[0].StartDate > DateOnly.FromDateTime(EndDate.SelectedDate.Value) || leaveRequests[leaveRequests.Count - 1].EndDate < DateOnly.FromDateTime(StartDate.SelectedDate.Value))
+                {
+                    isSpace = true;
+
+                }
+            }
+            else
+            {
+                isSpace = true;
+            }
+            for (int i = 0; i < leaveRequests.Count - 2; i++)
+            {
+                if (leaveRequests[i].EndDate < DateOnly.FromDateTime(StartDate.SelectedDate.Value) && leaveRequests[i + 1].StartDate > DateOnly.FromDateTime(EndDate.SelectedDate.Value))
+                {
+                    isSpace = true;
+                }
+
+
+            }
+            if (!isSpace || isCandidateOverlaping)
+            {
+                MessageBox.Show("A specific date range covers a different New or Approved Leave Request.");
+                return;
+
+
+            }
 
 
             if (StartDate.SelectedDate.HasValue && EndDate.SelectedDate.HasValue)

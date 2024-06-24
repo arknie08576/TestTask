@@ -40,7 +40,12 @@ namespace test2
         {
 
                 var leaveRequests = context.LeaveRequests.ToList();
-                var viewleaveRequests = new List<ViewLeaveRequest>();
+            if (context.Employes.Where(x => x.Username == user).FirstOrDefault().Position == Position.Employee)
+            {
+                leaveRequests = leaveRequests.Where(x => x.Employee== context.Employes.Where(x => x.Username == user).Select(x=>x.Id).FirstOrDefault()).ToList();
+
+            }
+            var viewleaveRequests = new List<ViewLeaveRequest>();
                 foreach (var leaveRequest in leaveRequests)
                 {
 
@@ -60,6 +65,8 @@ namespace test2
 
 
                 }
+
+
 
                 ProjectDataGrid.ItemsSource = viewleaveRequests;
 
@@ -83,7 +90,12 @@ namespace test2
                 return;
             }
             var leaveRequests = context.LeaveRequests.ToList();
-                var viewleaveRequests = new List<ViewLeaveRequest>();
+            if (context.Employes.Where(x => x.Username == user).FirstOrDefault().Position == Position.Employee)
+            {
+                leaveRequests = leaveRequests.Where(x => x.Employee == context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefault()).ToList();
+
+            }
+            var viewleaveRequests = new List<ViewLeaveRequest>();
                 foreach (var leaveRequest in leaveRequests)
                 {
 

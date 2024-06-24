@@ -81,12 +81,18 @@ namespace test2
             }
             
             bool isSpace = false;
+            if (leaveRequests.Count > 0)
+            {
+                if (leaveRequests[0].StartDate > DateOnly.FromDateTime(EndDate.SelectedDate.Value) || leaveRequests[leaveRequests.Count - 1].EndDate < DateOnly.FromDateTime(StartDate.SelectedDate.Value))
+                {
+                    isSpace = true;
 
-            if (leaveRequests[0].StartDate > DateOnly.FromDateTime(EndDate.SelectedDate.Value) || leaveRequests[leaveRequests.Count - 1].EndDate < DateOnly.FromDateTime(StartDate.SelectedDate.Value)){
-                isSpace = true;
-            
+                }
             }
-
+            else
+            {
+                isSpace = true;
+            }
             for(int i = 0; i < leaveRequests.Count - 2; i++)
             {
                 if (leaveRequests[i].EndDate< DateOnly.FromDateTime(StartDate.SelectedDate.Value)&& leaveRequests[i+1].StartDate > DateOnly.FromDateTime(EndDate.SelectedDate.Value))
