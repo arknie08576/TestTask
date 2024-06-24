@@ -88,7 +88,12 @@ namespace test2
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
             var employes = context.Employes.ToList();
             var viewemployes = new List<ViewEmployee>();
             foreach (var employe in employes)
@@ -278,7 +283,12 @@ namespace test2
 
         private void NewEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
 
         }
         private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
@@ -289,7 +299,12 @@ namespace test2
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
             if (ProjectDataGrid.SelectedItem is ViewEmployee selectedData)
             {
 

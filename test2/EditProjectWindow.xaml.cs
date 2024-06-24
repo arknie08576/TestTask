@@ -114,6 +114,18 @@ namespace test2
         }
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
             var obj = context.Projects.Where(x => x.Id == id).FirstOrDefault();
             switch (comboBox.Text)
             {

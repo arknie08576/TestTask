@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -52,9 +53,11 @@ namespace test2
                 case ApprovalRequestStatus.Approved:
                     comboBox.SelectedIndex = 1;
                     ApproveButton.Visibility = Visibility.Collapsed;
+                    RejectButton.Visibility = Visibility.Collapsed;
                     break;
                 case ApprovalRequestStatus.Rejected:
                     comboBox.SelectedIndex = 2;
+                    ApproveButton.Visibility = Visibility.Collapsed;
                     RejectButton.Visibility = Visibility.Collapsed;
                     break;
                 case ApprovalRequestStatus.Canceled:
@@ -81,6 +84,12 @@ namespace test2
 
         private void ApproveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
             var obj = context.ApprovalRequests.Find(id);
             obj.Approver = context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefault();
             obj.Status = ApprovalRequestStatus.Approved;
@@ -99,6 +108,12 @@ namespace test2
         }
         private void RejectButton_Click(object sender, RoutedEventArgs e)
         {
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
             var obj = context.ApprovalRequests.Find(id);
             var lr = context.LeaveRequests.Where(e => e.Id == obj.LeaveRequest).FirstOrDefault();
             obj.Approver = context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefault();

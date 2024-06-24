@@ -183,7 +183,12 @@ namespace test2
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
 
             var obj = context.LeaveRequests.Find(id);
             if (obj.Status == LeaveRequestStatus.Approved)
@@ -204,6 +209,12 @@ namespace test2
         }
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
             if (StartDate.SelectedDate.HasValue && EndDate.SelectedDate.HasValue)
             {
                 if (StartDate.SelectedDate.Value > EndDate.SelectedDate.Value)

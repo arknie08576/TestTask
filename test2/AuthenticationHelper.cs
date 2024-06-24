@@ -11,7 +11,7 @@ using test2.Models;
 
 public static class AuthenticationHelper
 {
-    public static string loggedUser;
+    public static string? loggedUser;
     private static OfficeContex context;
 
     public static void LoadDbContext(OfficeContex dbcontext)

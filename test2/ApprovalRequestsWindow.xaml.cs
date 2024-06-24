@@ -76,6 +76,12 @@ namespace test2
         }
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
 
             var approvalRequests = context.ApprovalRequests.ToList();
             var viewapprovalRequests = new List<ViewApprovalRequest>();
@@ -173,6 +179,12 @@ namespace test2
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
             if (ProjectDataGrid.SelectedItem is ViewApprovalRequest selectedData)
             {
 

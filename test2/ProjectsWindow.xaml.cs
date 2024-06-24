@@ -96,13 +96,23 @@ namespace test2
         }
         private void NewProjectButton_Click(object sender, RoutedEventArgs e)
         {
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
 
-           
             windowService.ShowWindow<NewProjectWindow>();
         }
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
             var projects = context.Projects.ToList();
             var viewprojects = new List<ViewProject>();
             foreach (var project in projects)
@@ -229,6 +239,12 @@ namespace test2
         }
         private void DataGrid2_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
 
             if (ProjectDataGrid2.SelectedItem is ViewProject selectedData)
             {

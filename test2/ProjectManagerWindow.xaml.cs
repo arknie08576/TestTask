@@ -54,7 +54,7 @@ namespace test2
         }
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            
+            AuthenticationHelper.loggedUser = null;
             windowService.ShowWindow<MainWindow>();
             this.Close();
 

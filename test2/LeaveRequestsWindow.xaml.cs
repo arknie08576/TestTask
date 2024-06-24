@@ -76,8 +76,13 @@ namespace test2
         }
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-
-                var leaveRequests = context.LeaveRequests.ToList();
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
+            var leaveRequests = context.LeaveRequests.ToList();
                 var viewleaveRequests = new List<ViewLeaveRequest>();
                 foreach (var leaveRequest in leaveRequests)
                 {
@@ -206,6 +211,12 @@ namespace test2
         }
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
             if (ProjectDataGrid.SelectedItem is ViewLeaveRequest selectedData)
             {
 
@@ -218,7 +229,12 @@ namespace test2
         }
         private void NewLeaveRequestButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
             windowService.ShowWindow<NewLeaveRequestWindow>();
 
 

@@ -39,8 +39,13 @@ namespace test2
         }
         private void AddProjectButton_Click(object sender, RoutedEventArgs e)
         {
-
-                var obj = new Project();
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
+            var obj = new Project();
                 switch (comboBox.Text)
                 {
                     case "A":

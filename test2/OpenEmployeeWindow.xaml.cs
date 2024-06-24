@@ -182,7 +182,12 @@ namespace test2
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
 
 
 
@@ -278,6 +283,12 @@ namespace test2
         }
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            if (AuthenticationHelper.loggedUser == null)
+            {
+                MessageBox.Show("User logged out");
+                this.Close();
+                return;
+            }
 
             Employee obj = context.Employes.Where(x => x.Id == id).ToList()[0];
             var leaveRequests = context.LeaveRequests.Where(x => x.Employee == obj.Id).ToList();
