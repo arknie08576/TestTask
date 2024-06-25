@@ -17,7 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using test2.Models;
-using test2.ViewModels;
+using test2.TableModels;
 
 namespace test2
 {

@@ -16,6 +16,8 @@ using test2.Models;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using System.IO;
+using OutofOffice.ViewModels;
+using test2.ViewModels;
 
 namespace test2
 {
@@ -25,10 +27,12 @@ namespace test2
 
         private readonly OfficeContex context;
         private byte[] photoData;
-        public RegisterWindow(OfficeContex officeContex)
+        public RegisterWindow(RegisterViewModel viewModel, OfficeContex officeContex)
         {
+
             context = officeContex;
             InitializeComponent();
+            DataContext = viewModel;
             LoadComboBox();
         }
 
@@ -171,7 +175,7 @@ namespace test2
                 return;
             }
 
-            if (UsernameTextBox.Text == "" || PasswordBox.Password == "" || ConfirmPasswordBox.Password == "" || FullnameTextBox.Text == "" || comboBox.Text == "" || comboBox2.Text == "" || comboBox3.Text == "" || Out_of_OfficeBalanceTextBox.Text == "")
+            if (UsernameTextBox.Text == "" || PasswordBox.Password == "" || ConfirmPasswordBox.Password == "" || FullnameTextBox.Text == "" || comboBox.Text == "" || comboBox2.Text == "" || comboBox3.Text == "")
             {
                 MessageBox.Show("Not all requiered fields are completed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;

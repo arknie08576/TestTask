@@ -31,7 +31,7 @@ namespace test2
             context = officeContex;
             id = Id;
             LoadLeaveRequest();
-
+            
         }
         private void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {

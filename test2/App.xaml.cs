@@ -7,6 +7,8 @@ using System.Windows.Forms.Design;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
+using OutofOffice.ViewModels;
+using test2.ViewModels;
 
 namespace test2
 {
@@ -55,7 +57,8 @@ namespace test2
             services.AddTransient<IOpenApprovalRequestWindowFactory, OpenApprovalRequestWindowFactory>();
             services.AddTransient<IOpenEmployeeWindowFactory, OpenEmployeeWindowFactory>();
             services.AddTransient<IEditLeaveRequestWindowFactory, EditLeaveRequestWindowFactory>();
-
+            services.AddTransient<RegisterViewModel>();
+            
 
             services.AddDbContext<OfficeContex>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));

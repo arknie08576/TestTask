@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using test2.Models;
 
-namespace test2.ViewModels
+namespace test2.TableModels
 {
     public class EmployeeView
     {

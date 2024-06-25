@@ -3,63 +3,62 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:test2"
+        xmlns:local="clr-namespace:test2" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:RegisterViewModel}"
         mc:Ignorable="d"
         Title="RegisterWindow" Height="850" Width="800">
 
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock TextWrapping="Wrap" Text="Username (Required)"/>
-            <TextBox x:Name="UsernameTextBox" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="UsernameTextBox" Text="{Binding Username}" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Password (Required)"/>
-            <PasswordBox x:Name="PasswordBox" Width="200" Margin="0,0,0,10"/>
+            <PasswordBox x:Name="PasswordBox" local:SecurePasswordBoxBehavior.SecurePassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Confirm password (Required)"/>
-            <PasswordBox x:Name="ConfirmPasswordBox" Width="200" Margin="0,0,0,10"/>
+            <PasswordBox x:Name="ConfirmPasswordBox" local:SecurePasswordBoxBehavior.SecurePassword="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Full name (Required)"/>
-            <TextBox x:Name="FullnameTextBox" Width="200"  Margin="0,0,0,10"/>
+            <TextBox x:Name="FullnameTextBox" Text="{Binding FullName}" Width="200"  Margin="0,0,0,10"/>
 
 
             <TextBlock TextWrapping="Wrap" Text="Subdivision (Required)"/>
-            <ComboBox Name="comboBox" 
+            <ComboBox Name="comboBox" ItemsSource="{Binding ItemsSubdivision}" 
+                   
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"  
                   Width="200" 
                   Height="30" 
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Center"
                   SelectionChanged="ComboBox_SelectionChanged">
-                <ComboBoxItem Content="A" />
-                <ComboBoxItem Content="B" />
-                <ComboBoxItem Content="C" />
-                <ComboBoxItem Content="D" />
-                <ComboBoxItem Content="E" />
-                <ComboBoxItem Content="F" />
+                
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="Position (Required)"/>
-            <ComboBox Name="comboBox2" 
+            <ComboBox Name="comboBox2" ItemsSource="{Binding ItemsPosition}" 
+                   
+                  SelectedItem="{Binding SelectedItem2, Mode=TwoWay}" 
        Width="200" 
        Height="30" 
        VerticalAlignment="Center" 
        HorizontalAlignment="Center"
        SelectionChanged="comboBox2_SelectionChanged">
-                <ComboBoxItem Content="Employee" />
-                <ComboBoxItem Content="HRManager" />
-                <ComboBoxItem Content="ProjectManager" />
-                <ComboBoxItem Content="Administrator" />
+                
 
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="Status (Required)"/>
-            <ComboBox Name="comboBox3" 
+            <ComboBox Name="comboBox3" ItemsSource="{Binding ItemsStatus}" 
+                   
+                  SelectedItem="{Binding SelectedItem3, Mode=TwoWay}" 
         Width="200" 
         Height="30" 
         VerticalAlignment="Center" 
         HorizontalAlignment="Center"
         SelectionChanged="comboBox3_SelectionChanged">
-                <ComboBoxItem Content="Active" />
-                <ComboBoxItem Content="Inactive" />
+                
                 
 
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="People Partner (Required)"/>
-            <ComboBox Name="comboBox4" 
+            <ComboBox Name="comboBox4" ItemsSource="{Binding ItemsPP}" 
+                  DisplayMemberPath="Name" 
+                  SelectedItem="{Binding SelectedItem4, Mode=TwoWay}" 
 Width="200" 
 Height="30" 
 VerticalAlignment="Center" 
@@ -69,12 +68,11 @@ SelectionChanged="comboBox4_SelectionChanged">
 
 
             </ComboBox>
-            <TextBlock TextWrapping="Wrap" Text="Out_of_OfficeBalance (Required)"/>
-            <TextBox x:Name="Out_of_OfficeBalanceTextBox" Width="200" Margin="0,0,0,10"/>
+            
             <TextBlock TextWrapping="Wrap" Text="Photo"/>
-            <Image Name="PhotoImage" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Width="200" Height="200"/>
-            <Button Content="Add photo" Width="200" Click="AddPhotoButton_Click"/>
-            <Button Content="Register" Width="200" Click="RegisterButton_Click"/>
+            <Image Name="PhotoImage" Source="{Binding ImageSource}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Width="200" Height="200"/>
+            <Button Content="Add photo" Command="{Binding AddPhtoCommand}" Width="200" />
+            <Button Content="Register" Command="{Binding RegisterCommand}" Width="200" />
         </StackPanel>
 
 
