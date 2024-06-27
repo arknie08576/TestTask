@@ -4,16 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test2"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock TextWrapping="Wrap" Text="Username"/>
-            <TextBox Name="UsernameTextBox" Width="200" Margin="0,0,0,10"/>
+            <TextBox Name="UsernameTextBox" Text="{Binding Username}" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Password"/>
-            <PasswordBox Name="PasswordBox" Width="200" Margin="0,0,0,10"/>
+            <PasswordBox Name="PasswordBox" local:PasswordHelper.Attach="True"  local:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,0,10"/>
             <Button Content="Login" Command="{Binding LoginCommand}" Width="200"  Margin="0,0,0,10"/>
             <Button Content="Register" Command="{Binding RegisterCommand}" Width="200" />
         </StackPanel>

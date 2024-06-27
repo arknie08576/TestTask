@@ -62,6 +62,7 @@ namespace test2
             services.AddTransient<IOpenEmployeeWindowFactory, OpenEmployeeWindowFactory>();
             services.AddTransient<IEditLeaveRequestWindowFactory, EditLeaveRequestWindowFactory>();
             services.AddTransient<RegisterViewModel>();
+            services.AddTransient<MainViewModel>();
             services.AddSingleton<IDialogService, DialogService>();
            // services.AddSingleton<IEventAggregator, EventAggregator>();
 
@@ -75,9 +76,9 @@ namespace test2
         {
             base.OnStartup(e);
             
-               var mainWindow = _serviceProvider.GetService<MainWindow>();
+               var service = _serviceProvider.GetService<IWindowService>();
             AuthenticationHelper.LoadDbContext(_serviceProvider.GetRequiredService<OfficeContex>());
-            mainWindow.Show();
+            service.ShowWindow<MainViewModel>();
         }
 
 

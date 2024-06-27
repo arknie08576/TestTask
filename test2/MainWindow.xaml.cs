@@ -18,16 +18,15 @@ namespace test2
 
     public partial class MainWindow : Window
     {
-        public OfficeContex context;
-        private readonly IWindowService windowService;
+        
 
-        public MainWindow(OfficeContex officeContex, IWindowService _windowService)
+        public MainWindow()
         {
             InitializeComponent();
-            windowService = _windowService;
-            context = officeContex;
+
 
         }
+        /*
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string username = UsernameTextBox.Text;
@@ -88,5 +87,6 @@ namespace test2
             windowService.ShowWindow<RegisterViewModel>();
 
         }
+        */
     }
 }
