@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using test2.Models;
+using test2.ViewModels;
 
 namespace test2
 {
@@ -84,7 +85,7 @@ namespace test2
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             
-            windowService.ShowWindow<RegisterWindow>();
+            windowService.ShowWindow<RegisterViewModel>();
 
         }
     }

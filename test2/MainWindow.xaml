@@ -14,8 +14,8 @@
             <TextBox Name="UsernameTextBox" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Password"/>
             <PasswordBox Name="PasswordBox" Width="200" Margin="0,0,0,10"/>
-            <Button Content="Login" Width="200" Click="LoginButton_Click" Margin="0,0,0,10"/>
-            <Button Content="Register" Width="200" Click="RegisterButton_Click"/>
+            <Button Content="Login" Command="{Binding LoginCommand}" Width="200"  Margin="0,0,0,10"/>
+            <Button Content="Register" Command="{Binding RegisterCommand}" Width="200" />
         </StackPanel>
     </Grid>
 </Window>

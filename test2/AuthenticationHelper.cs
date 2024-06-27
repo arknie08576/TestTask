@@ -34,7 +34,7 @@ public static class AuthenticationHelper
     /// <param name="photo"></param>
     /// <exception cref="InvalidOperationException"></exception>
 
-    public static void RegisterUser(string username,string password,string fullName, Subdivision subdivision, Position position,EmployeeStatus status, int? peoplePartner, int out_of_OfficeBalance, byte[] photo)
+    public static void RegisterUser(string username,string password,string fullName, Subdivision? subdivision, Position? position,EmployeeStatus? status, int? peoplePartner, int out_of_OfficeBalance, byte[] photo)
     {
      
             if (context.Employes.Any(u => u.Username == username))
@@ -45,7 +45,7 @@ public static class AuthenticationHelper
             var salt = GenerateSalt();
             var hash = HashPassword(password, salt);
 
-            var user = new Employee { Username = username, PasswordHash = hash, Salt = salt, FullName=fullName, Subdivision=subdivision, Position=position, Status=status, PeoplePartner=peoplePartner, Out_of_OfficeBalance = out_of_OfficeBalance, Photo=photo};
+            var user = new Employee { Username = username, PasswordHash = hash, Salt = salt, FullName=fullName, Subdivision= (Subdivision)subdivision, Position= (Position)position, Status= (EmployeeStatus)status, PeoplePartner=peoplePartner, Out_of_OfficeBalance = out_of_OfficeBalance, Photo=photo};
             context.Employes.Add(user);
             context.SaveChanges();
         

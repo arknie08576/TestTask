@@ -9,6 +9,10 @@ using System;
 using System.IO;
 using OutofOffice.ViewModels;
 using test2.ViewModels;
+using test2.View;
+using Prism.Events;
+using OutofOffice;
+
 
 namespace test2
 {
@@ -58,11 +62,13 @@ namespace test2
             services.AddTransient<IOpenEmployeeWindowFactory, OpenEmployeeWindowFactory>();
             services.AddTransient<IEditLeaveRequestWindowFactory, EditLeaveRequestWindowFactory>();
             services.AddTransient<RegisterViewModel>();
-            
+            services.AddSingleton<IDialogService, DialogService>();
+           // services.AddSingleton<IEventAggregator, EventAggregator>();
 
             services.AddDbContext<OfficeContex>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             //services.AddTransient<IMyService, MyService>();
+            
         }
 
         protected override void OnStartup(StartupEventArgs e)

@@ -13,27 +13,38 @@ using test2.Models;
 using System.Windows.Documents;
 using System.Security;
 using System.Windows.Input;
+using System.IO;
+using Microsoft.Win32;
+using System.Windows.Controls;
+using System.Windows;
+using test2.View;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+using OutofOffice;
 
 namespace test2.ViewModels
 {
     public class RegisterViewModel : INotifyPropertyChanged
     {
         private readonly OfficeContex context;
-        private byte[] photoData;
-        public RegisterViewModel(OfficeContex officeContex)
+        private readonly IDialogService _dialogService;
+        private readonly IWindowService _windowService;
+        
+        public RegisterViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
         {
             context = officeContex;
+            _dialogService = dialogService;
+           
             ItemsSubdivision = new ObservableCollection<string> { "A", "B", "C", "D", "E", "F" };
             ItemsPosition = new ObservableCollection<string> { "Employee", "HRManager", "ProjectManager", "Administrator" };
             ItemsStatus = new ObservableCollection<string> { "Active", "Inactive" };
             var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
             ItemsPP = new ObservableCollection<string>(products);
-
+            _windowService = windowService;
 
             // Initialize commands
-            AddPhotoCommand = new RelayCommand(OnAddPhoto);
-            RegisterCommand = new RelayCommand(OnRegister);
-
+            AddPhotoCommand = new RelayCommand<object>(OnAddPhoto);
+            RegisterCommand = new RelayCommand<object>(OnRegister);
+            //CloseCommand = new RelayCommand<object>(Close);
         }
         private string _username;
         public string Username
@@ -59,27 +70,39 @@ namespace test2.ViewModels
 
 
 
-        private SecureString _password;
+        private string _password;
 
-        public SecureString Password
+        public string Password
         {
-            get { return _password; }
-            set { SetProperty(ref _password, value); }
+            get => _password;
+            set
+            {
+                _password = value;
+                OnPropertyChanged(nameof(Password));
+            }
         }
 
-        private SecureString _confirmpassword;
+        private string _confirmPassword;
 
-        public SecureString ConfirmPassword
+        public string ConfirmPassword
         {
-            get { return _confirmpassword; }
-            set { SetProperty(ref _confirmpassword, value); }
+            get => _confirmPassword;
+            set
+            {
+                _confirmPassword = value;
+                OnPropertyChanged(nameof(ConfirmPassword));
+            }
         }
-
+        private void Close()
+        {
+            
+        }
         // Properties for ComboBoxes
         public ObservableCollection<string> ItemsSubdivision { get; set; }
         public ObservableCollection<string> ItemsPosition { get; set; }
         public ObservableCollection<string> ItemsStatus { get; set; }
         public ObservableCollection<string> ItemsPP { get; set; }
+        public ICommand CloseCommand { get; }
 
         private string _selectedItem;
         public string SelectedItem
@@ -126,8 +149,8 @@ namespace test2.ViewModels
         }
 
         // Property for Image
-        private ImageSource _imageSource;
-        public ImageSource ImageSource
+        private byte[] _imageSource;
+        public byte[] ImageSource
         {
             get => _imageSource;
             set
@@ -146,14 +169,141 @@ namespace test2.ViewModels
         private void OnAddPhoto(object parameter)
         {
             // Add photo logic
-            ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/sample.jpg"));
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Read the photo from the file
+                var photoData = File.ReadAllBytes(openFileDialog.FileName);
+
+                // Display the photo in the Image control
+                ImageSource = photoData;
+
+                // Save the photo to the database
+                // SavePhotoToDatabase(photoData);
+            }
         }
 
         private void OnRegister(object parameter)
         {
+            string username = _username;
+            string password = _password;
+            string confirmPassword = _confirmPassword;
+            string fullName = _fullName;
+            Subdivision? subdivision;
+            Position? position;
+            EmployeeStatus? status;
+            int? peoplePartner = null;
+            int out_of_OfficeBalance;
+            byte[] photo = _imageSource;
+            switch (_selectedItem)
+            {
+                case "A":
+                    subdivision = Subdivision.A;
+                    break;
+                case "B":
+                    subdivision = Subdivision.B;
+                    break;
+                case "C":
+                    subdivision = Subdivision.C;
+                    break;
+                case "D":
+                    subdivision = Subdivision.D;
+                    break;
+                case "E":
+                    subdivision = Subdivision.E;
+                    break;
+                case "F":
+                    subdivision = Subdivision.F;
+                    break;
+                default:
+                    subdivision = null;
+                    break;
+
+
+
+            }
+
+            switch (_selectedItem2)
+            {
+                case "Employee":
+                    position = Position.Employee;
+                    break;
+                case "HRManager":
+                    position = Position.HRManager;
+                    break;
+                case "ProjectManager":
+                    position = Position.ProjectManager;
+                    break;
+                case "Administrator":
+                    position = Position.Administrator;
+                    break;
+                default:
+                    position = null;
+                    break;
+
+            }
+
+            switch (_selectedItem3)
+            {
+                case "Active":
+                    status = EmployeeStatus.Active;
+                    break;
+                case "Inactive":
+                    status = EmployeeStatus.Inactive;
+                    break;
+                default:
+                    status = null;
+                    break;
+
+
+            }
+
+            if (!string.IsNullOrEmpty(_selectedItem4) )
+            {
+                string x = _selectedItem4;
+
+
+                var partner = context.Employes.Where(e => e.Position == Position.HRManager).Where(x => x.FullName == _selectedItem4).Select(x => x.Id).FirstOrDefault();
+
+                peoplePartner = partner;
+
+
+
+
+
+            }
+            int defaultBalance = 26;
+            out_of_OfficeBalance = defaultBalance;
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                _dialogService.ShowMessage("Username and password are required.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (password != confirmPassword)
+            {
+                _dialogService.ShowMessage("Passwords do not match.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(fullName) || subdivision==null || position==null || status==null)
+            {
+                _dialogService.ShowMessage("Not all requiered fields are completed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+
+                AuthenticationHelper.RegisterUser(username, password, fullName, subdivision, position, status, peoplePartner, out_of_OfficeBalance, photo);
+                _dialogService.ShowMessage("Registration successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _windowService.CloseWindow<RegisterViewModel>();
+            }
+            catch (InvalidOperationException ex)
+            {
+                _dialogService.ShowMessage(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             // Registration logic
-            string passwordText = SecurePasswordBoxBehavior.SecureStringToString(Password);
-            System.Windows.MessageBox.Show("Registered Successfully!");
+            //  string passwordText = SecurePasswordBoxBehavior.SecureStringToString(Password);
+            //System.Windows.MessageBox.Show("Registered Successfully!");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -174,9 +324,24 @@ namespace test2.ViewModels
             return false;
         }
 
-       // private System.Collections.IEnumerable itemsStatus;
+        // private System.Collections.IEnumerable itemsStatus;
 
-       // public System.Collections.IEnumerable ItemsStatus { get => itemsStatus; set => SetProperty(ref itemsStatus, value); }
-
+        // public System.Collections.IEnumerable ItemsStatus { get => itemsStatus; set => SetProperty(ref itemsStatus, value); }
+        private BitmapImage LoadImage(byte[] imageData)
+        {
+            BitmapImage image = new BitmapImage();
+            using (MemoryStream ms = new MemoryStream(imageData))
+            {
+                ms.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = ms;
+                image.EndInit();
+            }
+            image.Freeze();
+            return image;
+        }
     }
 }

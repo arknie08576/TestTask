@@ -255,13 +255,13 @@ namespace test2
                 if (context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager|| context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.Administrator)
                 {
                     
-                    windowService.ShowWindow<EditProjectWindow>(selectedData.Id);
+                   // windowService.ShowWindow<EditProjectWindow>(selectedData.Id);
 
                 }
                 else
                 {
                     
-                    windowService.ShowWindow<OpenProjectWindow>(selectedData.Id);
+                   // windowService.ShowWindow<OpenProjectWindow>(selectedData.Id);
                 }
 
 

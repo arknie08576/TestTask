@@ -16,8 +16,9 @@ using test2.Models;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using System.IO;
-using OutofOffice.ViewModels;
+
 using test2.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace test2
 {
@@ -26,16 +27,20 @@ namespace test2
     {
 
         private readonly OfficeContex context;
+        private readonly IWindowService _windowService;
         private byte[] photoData;
-        public RegisterWindow(RegisterViewModel viewModel, OfficeContex officeContex)
+        public RegisterWindow( )
         {
 
-            context = officeContex;
+           // context = officeContex;
+            
             InitializeComponent();
-            DataContext = viewModel;
-            LoadComboBox();
+            //var windowService = serviceProvider.GetRequiredService<IWindowService>();
+           // _windowService = windowService;
+            //DataContext = viewModel;
+           // LoadComboBox();
         }
-
+        /*
         private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -200,21 +205,13 @@ namespace test2
                 string Text = $"Selected: {selectedItem.Content}";
             }
         }
+        */
 
-        private void comboBox2_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
 
-        private void comboBox3_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
 
-        private void comboBox4_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        /*
         private void LoadComboBox()
         {
 
@@ -222,6 +219,6 @@ namespace test2
             var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
             comboBox4.ItemsSource = products;
 
-        }
+        }*/
     }
 }

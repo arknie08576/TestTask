@@ -191,7 +191,7 @@ namespace test2
                 MessageBox.Show($"You double-clicked on: {selectedData.Id}");
 
 
-                windowService.ShowWindow<OpenApprovalRequestWindow>(selectedData.Id);
+              //  windowService.ShowWindow<OpenApprovalRequestWindow>(selectedData.Id);
             }
         }
         private void NewLeaveRequestButton_Click(object sender, RoutedEventArgs e)
