@@ -63,6 +63,13 @@ namespace test2
             services.AddTransient<IEditLeaveRequestWindowFactory, EditLeaveRequestWindowFactory>();
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<MainViewModel>();
+            services.AddTransient<EmployeeViewModel>();
+            services.AddTransient<HRManagerViewModel>();
+            services.AddTransient<ProjectManagerViewModel>();
+            services.AddTransient<AdministratorViewModel>();
+            services.AddTransient<LeaveRequestsViewModel>();
+            services.AddTransient<NewLeaveRequestViewModel>();
+            
             services.AddSingleton<IDialogService, DialogService>();
            // services.AddSingleton<IEventAggregator, EventAggregator>();
 

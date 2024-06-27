@@ -82,20 +82,20 @@ namespace test2.ViewModels
                 {
                     case Position.Employee:
 
-                        _windowService.ShowWindow<EmployeeWindow>();
+                        _windowService.ShowWindow<EmployeeViewModel>();
 
                         break;
                     case Position.HRManager:
 
-                        _windowService.ShowWindow<HRManagerWindow>();
+                        _windowService.ShowWindow<HRManagerViewModel>();
                         break;
                     case Position.ProjectManager:
 
-                        _windowService.ShowWindow<ProjectManagerWindow>();
+                        _windowService.ShowWindow<ProjectManagerViewModel>();
                         break;
                     case Position.Administrator:
 
-                        _windowService.ShowWindow<AdministratorWindow>();
+                        _windowService.ShowWindow<AdministratorViewModel>();
                         break;
 
 

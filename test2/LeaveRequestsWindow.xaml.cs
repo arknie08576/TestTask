@@ -32,7 +32,7 @@ namespace test2
             context= officeContex;
             user = AuthenticationHelper.loggedUser;
             windowService = _windowService;
-            LoadLeaveRequests();
+            //LoadLeaveRequests();
 
         }
 
@@ -53,7 +53,7 @@ namespace test2
                     {
                         Id = leaveRequest.Id,
                         Employee = context.Employes.Where(x => x.Id == leaveRequest.Employee).Select(x => x.FullName).FirstOrDefault(),
-                        AbsenceReason = leaveRequest.AbsenceReason,
+                        AbsenceReasonn = leaveRequest.AbsenceReason,
                         StartDate = leaveRequest.StartDate,
                         EndDate = leaveRequest.EndDate,
                         Comment = leaveRequest.Comment,
@@ -103,7 +103,7 @@ namespace test2
                     {
                         Id = leaveRequest.Id,
                         Employee = context.Employes.Where(x => x.Id == leaveRequest.Employee).Select(x => x.FullName).FirstOrDefault(),
-                        AbsenceReason = leaveRequest.AbsenceReason,
+                        AbsenceReasonn = leaveRequest.AbsenceReason,
                         StartDate = leaveRequest.StartDate,
                         EndDate = leaveRequest.EndDate,
                         Comment = leaveRequest.Comment,
@@ -155,7 +155,7 @@ namespace test2
                 if (AbsenceReasonTextBox.Text != "")
                 {
 
-                    viewleaveRequests = viewleaveRequests.Where(y => y.AbsenceReason == x).ToList();
+                    viewleaveRequests = viewleaveRequests.Where(y => y.AbsenceReasonn == x).ToList();
                 }
                 if (StartDateTextBox.Text != "")
                 {

@@ -17,39 +17,12 @@ namespace test2
  
     public partial class AdministratorWindow : Window
     {
-        private readonly IWindowService windowService;
-        public AdministratorWindow(IWindowService _windowService)
+        
+        public AdministratorWindow()
         {
             InitializeComponent();
-            windowService = _windowService;
+            
         }
-        private void Projects_Click(object sender, RoutedEventArgs e)
-        {
-
-            windowService.ShowWindow<ProjectsWindow>();
-        }
-
-        private void LeaveRequests_Click(object sender, RoutedEventArgs e)
-        {
-            windowService.ShowWindow<LeaveRequestsWindow>();
-
-        }
-        private void Employes_Click(object sender, RoutedEventArgs e)
-        {
-            windowService.ShowWindow<EmployesWindow>();
-
-        }
-
-        private void ApprovalRequests_Click(object sender, RoutedEventArgs e)
-        {
-            windowService.ShowWindow<ApprovalRequestsWindow>();
-
-        }
-        private void Logout_Click(object sender, RoutedEventArgs e)
-        {
-            AuthenticationHelper.loggedUser = null;
-            windowService.ShowWindow<MainWindow>();
-            this.Close();
-        }
+        
     }
 }

@@ -3,16 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:test2"
+        xmlns:local="clr-namespace:test2" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:HRManagerViewModel}"
         mc:Ignorable="d"
         Title="HRManagerWindow" Height="450" Width="800">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Content="Projects" Width="200" Click="Projects_Click"/>
-            <Button Content="Leave Requests" Width="200" Click="LeaveRequests_Click"/>
-            <Button Content="Employes" Width="200" Click="Employes_Click"/>
-            <Button Content="Approval Requests" Width="200" Click="ApprovalRequests_Click"/>
-            <Button Content="Log out" Width="200" Click="Logout_Click"/>
+            <Button Content="Projects" Command="{Binding ProjectsCommand}" Width="200"/>
+            <Button Content="Leave Requests" Command="{Binding LeaveRequestsCommand}" Width="200"/>
+            <Button Content="Employes" Command="{Binding EmployesCommand}" Width="200"/>
+            <Button Content="Approval Requests" Command="{Binding ApprovalRequestsCommand}" Width="200"/>
+            <Button Content="Log out" Command="{Binding LogoutCommand}" Width="200"/>
         </StackPanel>
     </Grid>
 </Window>

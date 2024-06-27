@@ -3,21 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:test2"
+        xmlns:local="clr-namespace:test2" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:NewLeaveRequestViewModel}"
         mc:Ignorable="d"
         Title="NewLeaveRequestWindow" Height="450" Width="800">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             
             <TextBlock TextWrapping="Wrap" Text="Employee"/>
-            <TextBox x:Name="EmployeeTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="EmployeeTextBox" Text="{Binding Employee}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Absence Reason (Required)"/>
-            <ComboBox Name="comboBox" 
+            <ComboBox Name="comboBox"  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
 Width="200" 
 Height="30" 
 VerticalAlignment="Center" 
-HorizontalAlignment="Center"
-SelectionChanged="comboBox_SelectionChanged">
+HorizontalAlignment="Center">
                 <ComboBoxItem Content="A" />
                 <ComboBoxItem Content="B" />
                 <ComboBoxItem Content="C" />
@@ -25,13 +25,14 @@ SelectionChanged="comboBox_SelectionChanged">
 
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="Start Date (Required)"/>
-            <DatePicker Name="StartDate"/>
+            <DatePicker Name="StartDate"  SelectedDate="{Binding StartDate}"/>
             <TextBlock TextWrapping="Wrap" Text="End Date (Required)"/>
-            <DatePicker Name="EndDate"/>
+            <DatePicker Name="EndDate" SelectedDate="{Binding EndDate}"/>
             <TextBlock TextWrapping="Wrap" Text="Comment"/>
-            <TextBox x:Name="CommentTextBox" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="CommentTextBox"  Text="{Binding Comment}" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Status"/>
-            <ComboBox Name="comboBox2" 
+            <ComboBox Name="comboBox2" ItemsSource="{Binding Items2}"
+                  SelectedItem="{Binding SelectedItem2}"
 Width="200" 
 Height="30" 
 VerticalAlignment="Center" 
@@ -44,7 +45,7 @@ SelectionChanged="comboBox2_SelectionChanged">
 
 
             </ComboBox>
-            <Button Content="Submit" Width="200" Click="SubmitButton_Click"/>
+            <Button Content="Submit" Width="200"   Command="{Binding SubmitCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

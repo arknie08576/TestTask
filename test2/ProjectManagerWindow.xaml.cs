@@ -18,46 +18,12 @@ namespace test2
     
     public partial class ProjectManagerWindow : Window
     {
-        string user;
-        private readonly IWindowService windowService;
-        public ProjectManagerWindow(IWindowService _windowService)
+        
+        public ProjectManagerWindow()
         {
             InitializeComponent();
-            windowService = _windowService;
-            user = AuthenticationHelper.loggedUser;
-        }
-        private void Projects_Click(object sender, RoutedEventArgs e)
-        {
             
-            windowService.ShowWindow<ProjectsWindow>();
-
         }
-
-        private void LeaveRequests_Click(object sender, RoutedEventArgs e)
-        {
-            
-            windowService.ShowWindow<LeaveRequestsWindow>();
-
-        }
-        private void Employes_Click(object sender, RoutedEventArgs e)
-        {
-           
-            windowService.ShowWindow<EmployesWindow>();
-
-        }
-
-        private void ApprovalRequests_Click(object sender, RoutedEventArgs e)
-        {
-            
-            windowService.ShowWindow<ApprovalRequestsWindow>();
-
-        }
-        private void Logout_Click(object sender, RoutedEventArgs e)
-        {
-            AuthenticationHelper.loggedUser = null;
-            windowService.ShowWindow<MainWindow>();
-            this.Close();
-
-        }
+        
     }
 }
