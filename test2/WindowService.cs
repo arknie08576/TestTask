@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,9 +11,9 @@ namespace test2
 {
     public interface IWindowService
     {
-        void ShowWindow<TViewModel>() where TViewModel : class;
+        void ShowWindow<TViewModel>(object parameter = null) where TViewModel : class;
         void CloseWindow<TViewModel>() where TViewModel : class;
-        void ShowDialog<TViewModel>() where TViewModel : class;
+        void ShowDialog<TViewModel>(object parameter = null) where TViewModel : class;
     }
     public class WindowService : IWindowService
     {
@@ -24,7 +25,7 @@ namespace test2
             _serviceProvider = serviceProvider;
         }
 
-        public void ShowWindow<TViewModel>() where TViewModel : class
+        public void ShowWindow<TViewModel>(object parameter = null) where TViewModel : class
         {
             var viewModelType = typeof(TViewModel);
             if (_openWindows.ContainsKey(viewModelType))
@@ -33,7 +34,7 @@ namespace test2
                 return;
             }
 
-            var window = CreateWindow(viewModelType);
+            var window = CreateWindow(viewModelType, parameter);
             if (window != null)
             {
                 _openWindows[viewModelType] = window;
@@ -42,10 +43,10 @@ namespace test2
             }
         }
 
-        public void ShowDialog<TViewModel>() where TViewModel : class
+        public void ShowDialog<TViewModel>(object parameter = null) where TViewModel : class
         {
             var viewModelType = typeof(TViewModel);
-            var window = CreateWindow(viewModelType);
+            var window = CreateWindow(viewModelType, parameter);
             window?.ShowDialog();
         }
 
@@ -59,7 +60,7 @@ namespace test2
             }
         }
 
-        private Window CreateWindow(Type viewModelType)
+        private Window CreateWindow(Type viewModelType, object parameter)
         {
             var windowType = GetWindowTypeForViewModel(viewModelType);
             if (windowType == null) return null;
@@ -67,6 +68,10 @@ namespace test2
             var window = (Window)_serviceProvider.GetService(windowType);
             var viewModel = _serviceProvider.GetService(viewModelType);
             window.DataContext = viewModel;
+            if (viewModel is IParameterReceiver receiver)
+            {
+                receiver.ReceiveParameter(parameter);
+            }
             return window;
         }
 

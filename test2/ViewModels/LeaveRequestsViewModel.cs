@@ -25,6 +25,7 @@ namespace test2.ViewModels
         string user;
         public ICommand FilterCommand { get; }
         public ICommand NewLeaveRequestCommand { get; }
+        public ICommand RowDoubleClickCommand { get; }
         private ObservableCollection<ViewLeaveRequest> _leaveRequests;
         public LeaveRequestsViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
         {
@@ -37,7 +38,7 @@ namespace test2.ViewModels
             // Initialize commands
             FilterCommand = new RelayCommand<object>(OnFilter);
             NewLeaveRequestCommand = new RelayCommand<object>(OnNewLeaveRequest);
-
+            RowDoubleClickCommand = new RelayCommand<ViewLeaveRequest>(OnRowDoubleClick);
             //CloseCommand = new RelayCommand<object>(Close);
             var leaveRequests = context.LeaveRequests.ToList();
             if (context.Employes.Where(x => x.Username == user).FirstOrDefault().Position == Position.Employee)
@@ -295,8 +296,20 @@ namespace test2.ViewModels
 
 
         }
+        private void OnRowDoubleClick(ViewLeaveRequest item)
+        {
+            // Handle double-click on the row
+            if (item != null)
+            {
+                // Perform your action here
+                MessageBox.Show($"Double-clicked on: {item.Id}");
+            }
+        }
         private void OnNewLeaveRequest(object parameter)
-        { }
+        {
+            _windowService.ShowWindow<NewLeaveRequestViewModel>();
+        }
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

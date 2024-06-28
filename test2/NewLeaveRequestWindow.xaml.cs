@@ -20,16 +20,16 @@ namespace test2
 
     public partial class NewLeaveRequestWindow : Window
     {
-        string user;
-        private readonly OfficeContex context;
+       // string user;
+       // private readonly OfficeContex context;
         public NewLeaveRequestWindow(OfficeContex officeContex)
         {
             InitializeComponent();
 
-            context = officeContex;
-            user = AuthenticationHelper.loggedUser;
-            LoadNewLeaveRequest();
-        }
+            // context = officeContex;
+            // user = AuthenticationHelper.loggedUser;
+            //LoadNewLeaveRequest();
+        }/*
         private void LoadNewLeaveRequest()
         {
 
@@ -155,6 +155,6 @@ namespace test2
             private void comboBox2_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
             {
 
-            }
-        }
+            }*/
+    }
     }

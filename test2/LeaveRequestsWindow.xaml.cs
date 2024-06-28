@@ -23,19 +23,19 @@ namespace test2
     /// </summary>
     public partial class LeaveRequestsWindow : Window
     {
-        string user;
-        private readonly OfficeContex context;
-        private readonly IWindowService windowService;
+      //  string user;
+      //  private readonly OfficeContex context;
+       // private readonly IWindowService windowService;
         public LeaveRequestsWindow(OfficeContex officeContex, IWindowService _windowService)
         {
             InitializeComponent();
-            context= officeContex;
-            user = AuthenticationHelper.loggedUser;
-            windowService = _windowService;
+           // context= officeContex;
+           // user = AuthenticationHelper.loggedUser;
+           // windowService = _windowService;
             //LoadLeaveRequests();
 
         }
-
+        /*
         private void LoadLeaveRequests()
         {
 
@@ -250,6 +250,6 @@ namespace test2
             windowService.ShowWindow<NewLeaveRequestWindow>();
 
 
-        }
+        }*/
     }
 }

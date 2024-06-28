@@ -18,10 +18,7 @@ Width="200"
 Height="30" 
 VerticalAlignment="Center" 
 HorizontalAlignment="Center">
-                <ComboBoxItem Content="A" />
-                <ComboBoxItem Content="B" />
-                <ComboBoxItem Content="C" />
-                <ComboBoxItem Content="D" />
+                
 
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="Start Date (Required)"/>
@@ -37,11 +34,8 @@ Width="200"
 Height="30" 
 VerticalAlignment="Center" 
 HorizontalAlignment="Center"
-SelectionChanged="comboBox2_SelectionChanged">
-                <ComboBoxItem Content="New" />
-                <ComboBoxItem Content="Approved" />
-                <ComboBoxItem Content="Rejected" />
-                <ComboBoxItem Content="Canceled" />
+>
+                
 
 
             </ComboBox>
