@@ -40,6 +40,10 @@ namespace test2.ViewModels
             NewLeaveRequestCommand = new RelayCommand<object>(OnNewLeaveRequest);
             RowDoubleClickCommand = new RelayCommand<ViewLeaveRequest>(OnRowDoubleClick);
             //CloseCommand = new RelayCommand<object>(Close);
+            LoadLeaveRequests();
+        }
+        private void LoadLeaveRequests()
+        {
             var leaveRequests = context.LeaveRequests.ToList();
             if (context.Employes.Where(x => x.Username == user).FirstOrDefault().Position == Position.Employee)
             {
@@ -303,6 +307,7 @@ namespace test2.ViewModels
             {
                 // Perform your action here
                 MessageBox.Show($"Double-clicked on: {item.Id}");
+                _windowService.ShowWindow<EditLeaveRequestViewModel>(item.Id);
             }
         }
         private void OnNewLeaveRequest(object parameter)

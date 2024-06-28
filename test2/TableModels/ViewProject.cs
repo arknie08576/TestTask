@@ -12,7 +12,7 @@ namespace test2.TableModels
     public class ViewProject
     {
         public int Id { get; set; }
-        public ProjectType ProjectType { get; set; }
+        public ProjectType ProjectTypee { get; set; }
        
         public DateOnly StartDate { get; set; }
         public DateOnly? EndDate { get; set; }
@@ -22,6 +22,6 @@ namespace test2.TableModels
         
         public string? Comment { get; set; }
         
-        public ProjectStatus ProjectStatus { get; set; }
+        public ProjectStatus ProjectStatuss { get; set; }
     }
 }

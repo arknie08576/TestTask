@@ -3,50 +3,49 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:test2"
+        xmlns:local="clr-namespace:test2" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:EditLeaveRequestViewModel}"
         mc:Ignorable="d"
         Title="EditLeaveRequestWindow" Height="450" Width="800">
+    <Window.Resources>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock TextWrapping="Wrap" Text="Id"/>
-            <TextBox x:Name="IdTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="IdTextBox" Text="{Binding Id}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Employee"/>
-            <TextBox x:Name="EmployeeTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="EmployeeTextBox" Text="{Binding Employee}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Absence Reason (Required)"/>
-            <ComboBox Name="comboBox" IsEditable="True" Loaded="ComboBox_Loaded"
+            <ComboBox Name="comboBox" IsEnabled="{Binding IsComboBoxEnabled}" IsEditable="{Binding IsComboBoxEditable}"  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}" 
 Width="200" 
 Height="30" 
 VerticalAlignment="Center" 
 HorizontalAlignment="Center"
-SelectionChanged="comboBox_SelectionChanged">
-                <ComboBoxItem Content="A" />
-                <ComboBoxItem Content="B" />
-                <ComboBoxItem Content="C" />
-                <ComboBoxItem Content="D" />
-
-            </ComboBox>
-            <TextBlock TextWrapping="Wrap" Text="Start Date (Required)"/>
-            <DatePicker Name="StartDate"  Loaded="StartDatePicker_Loaded"/>
-            <TextBlock TextWrapping="Wrap" Text="End Date (Required)"/>
-            <DatePicker Name="EndDate" Loaded="EndDatePicker_Loaded"/>
-            <TextBlock TextWrapping="Wrap" Text="Comment"/>
-            <TextBox x:Name="CommentTextBox"  IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Status"/>
-            <ComboBox Name="comboBox2" IsEditable="True" Loaded="ComboBox_Loaded"
-Width="200" 
-Height="30" 
-VerticalAlignment="Center" 
-HorizontalAlignment="Center"
-SelectionChanged="comboBox2_SelectionChanged">
-                <ComboBoxItem Content="New" />
-                <ComboBoxItem Content="Approved" />
-                <ComboBoxItem Content="Rejected" />
-                <ComboBoxItem Content="Canceled" />
+>
                 
 
             </ComboBox>
-            <Button x:Name="myButton" Content="Update" Width="200" Click="UpdateButton_Click"/>
-            <Button x:Name="myButton2" Content="Cancel Request" Width="200" Click="CancelButton_Click"/>
+            <TextBlock TextWrapping="Wrap" Text="Start Date (Required)"/>
+            <DatePicker Name="StartDate"  SelectedDate="{Binding StartDate}" />
+            <TextBlock TextWrapping="Wrap" Text="End Date (Required)"/>
+            <DatePicker Name="EndDate" SelectedDate="{Binding EndDate}" />
+            <TextBlock TextWrapping="Wrap" Text="Comment"/>
+            <TextBox x:Name="CommentTextBox" IsReadOnly="{Binding IsTextBoxReadOnly}" Text="{Binding Comment}" Width="200" Margin="0,0,0,10"/>
+            <TextBlock TextWrapping="Wrap" Text="Status"/>
+            <ComboBox Name="comboBox2" IsEnabled="{Binding IsComboBoxEnabled2}" IsEditable="{Binding IsComboBoxEditable2, Mode=TwoWay}" ItemsSource="{Binding Items2}"
+                  SelectedItem="{Binding SelectedItem2}"
+Width="200" 
+Height="30" 
+VerticalAlignment="Center" 
+HorizontalAlignment="Center"
+>
+
+                
+
+            </ComboBox>
+            <Button x:Name="myButton" Content="Update" Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Width="200"  Command="{Binding UpdateCommand}"/>
+            <Button x:Name="myButton2" Content="Cancel Request" Visibility="{Binding IsButtonVisible2, Converter={StaticResource BooleanToVisibilityConverter}}" Width="200"  Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

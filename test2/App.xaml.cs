@@ -7,11 +7,11 @@ using System.Windows.Forms.Design;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
-using OutofOffice.ViewModels;
+
 using test2.ViewModels;
 using test2.View;
 using Prism.Events;
-using OutofOffice;
+
 
 
 namespace test2
@@ -60,7 +60,7 @@ namespace test2
             services.AddTransient<IEditProjectWindowFactory, EditProjectWindowFactory>();
             services.AddTransient<IOpenApprovalRequestWindowFactory, OpenApprovalRequestWindowFactory>();
             services.AddTransient<IOpenEmployeeWindowFactory, OpenEmployeeWindowFactory>();
-            services.AddTransient<IEditLeaveRequestWindowFactory, EditLeaveRequestWindowFactory>();
+           // services.AddTransient<IEditLeaveRequestWindowFactory, EditLeaveRequestWindowFactory>();
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<EmployeeViewModel>();
@@ -69,7 +69,12 @@ namespace test2
             services.AddTransient<AdministratorViewModel>();
             services.AddTransient<LeaveRequestsViewModel>();
             services.AddTransient<NewLeaveRequestViewModel>();
+            services.AddTransient<EditLeaveRequestViewModel>();
+            services.AddTransient<ProjectsViewModel>();
+            services.AddTransient<NewProjectViewModel>();
             
+
+
             services.AddSingleton<IDialogService, DialogService>();
            // services.AddSingleton<IEventAggregator, EventAggregator>();
 

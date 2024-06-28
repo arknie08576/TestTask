@@ -35,8 +35,10 @@ namespace test2
             context = officeContex;
             windowService = _windowService;
             InitializeComponent();
-            LoadProjects();
+            //LoadProjects();
         }
+        
+        /*
         private void LoadProjects()
         {
 
@@ -58,12 +60,12 @@ namespace test2
                 ViewProject p = new ViewProject
                 {
                     Id = project.Id,
-                    ProjectType = project.ProjectType,
+                    ProjectTypee = project.ProjectType,
                     StartDate = project.StartDate,
                     EndDate = project.EndDate,
                     ProjectManager = context.Employes.Where(e => e.Position == Position.ProjectManager).Where(x => x.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefault(),
                     Comment = project.Comment,
-                    ProjectStatus = project.ProjectStatus
+                    ProjectStatuss = project.ProjectStatus
 
 
 
@@ -121,12 +123,12 @@ namespace test2
                 ViewProject p = new ViewProject
                 {
                     Id = project.Id,
-                    ProjectType = project.ProjectType,
+                    ProjectTypee = project.ProjectType,
                     StartDate = project.StartDate,
                     EndDate = project.EndDate,
                     ProjectManager = context.Employes.Where(e => e.Position == Position.ProjectManager).Where(x => x.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefault(),
                     Comment = project.Comment,
-                    ProjectStatus = project.ProjectStatus
+                    ProjectStatuss = project.ProjectStatus
 
 
 
@@ -168,7 +170,7 @@ namespace test2
             if (ProjectTypeTextBox.Text != "")
             {
 
-                viewprojects = viewprojects.Where(y => y.ProjectType == x).ToList();
+                viewprojects = viewprojects.Where(y => y.ProjectTypee == x).ToList();
             }
 
             if (StartDateTextBox.Text != "")
@@ -226,7 +228,7 @@ namespace test2
             if (ProjectStatusTextBox.Text != "")
             {
 
-                viewprojects = viewprojects.Where(y => y.ProjectStatus == s).ToList();
+                viewprojects = viewprojects.Where(y => y.ProjectStatuss == s).ToList();
             }
 
 
@@ -276,7 +278,7 @@ namespace test2
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-        }
+        }*/
     }
 
 

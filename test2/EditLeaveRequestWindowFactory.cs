@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace test2
 {
-
+    /*
     public interface IEditLeaveRequestWindowFactory
     {
         EditLeaveRequestWindow Create(int id);
@@ -20,7 +20,7 @@ namespace test2
         {
             _serviceProvider = serviceProvider;
         }
-
+        
         public EditLeaveRequestWindow Create(int id)
         {
             
@@ -29,5 +29,5 @@ namespace test2
             
             return new EditLeaveRequestWindow(id, dbContext);
         }
-    }
+    }*/
 }

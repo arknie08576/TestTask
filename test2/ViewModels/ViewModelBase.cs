@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OutofOffice.ViewModels
+namespace test2.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

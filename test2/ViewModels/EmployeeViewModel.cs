@@ -35,7 +35,10 @@ namespace test2.ViewModels
             //CloseCommand = new RelayCommand<object>(Close);
         }
         private void OnProjects(object parameter)
-        { }
+        {
+            _windowService.ShowWindow<ProjectsViewModel>();
+
+        }
         private void OnLeaveRequests(object parameter)
         {
             _windowService.ShowWindow<LeaveRequestsViewModel>();

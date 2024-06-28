@@ -107,11 +107,12 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                MessageBox.Show("User logged out");
+                //MessageBox.Show("User logged out");
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<NewLeaveRequestViewModel>();
                 return;
             }
-            if (!StartDate.HasValue || !EndDate.HasValue || SelectedItem == null || SelectedItem == "")
+            if (!StartDate.HasValue || !EndDate.HasValue || string.IsNullOrEmpty(SelectedItem) )
             {
                 
                 _dialogService.ShowMessage("Fill in all required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

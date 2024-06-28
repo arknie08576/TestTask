@@ -21,18 +21,15 @@ namespace test2
 
     public partial class EditLeaveRequestWindow : Window
     {
-        string user;
-        int id;
-        private readonly OfficeContex context;
-        public EditLeaveRequestWindow(int Id, OfficeContex officeContex)
+        
+        public EditLeaveRequestWindow()
         {
             InitializeComponent();
-            user = AuthenticationHelper.loggedUser;
-            context = officeContex;
-            id = Id;
-            LoadLeaveRequest();
+           
+           
             
         }
+        /*
         private void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             if (sender is ComboBox comboBox)
@@ -325,13 +322,6 @@ namespace test2
 
 
         }
-        private void comboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
-        private void comboBox2_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
+        */
     }
 }
