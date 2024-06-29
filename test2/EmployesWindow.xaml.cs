@@ -32,8 +32,9 @@ namespace test2
             user = AuthenticationHelper.loggedUser;
             windowService = _windowService;
             context = officeContex;
-            LoadEmployes();
+           // LoadEmployes();
         }
+        /*
         public void LoadEmployes()
         {
 
@@ -63,8 +64,8 @@ namespace test2
                     PasswordHash = employe.PasswordHash,
                     Salt = employe.Salt,
                     FullName = employe.FullName,
-                    Subdivision = employe.Subdivision,
-                    Position = employe.Position,
+                    Subdivisionn = employe.Subdivision,
+                    Positionn = employe.Position,
                     Status = employe.Status,
                     PeoplePartner = context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefault(),
                     Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
@@ -106,8 +107,8 @@ namespace test2
                     PasswordHash = employe.PasswordHash,
                     Salt = employe.Salt,
                     FullName = employe.FullName,
-                    Subdivision = employe.Subdivision,
-                    Position = employe.Position,
+                    Subdivisionn = employe.Subdivision,
+                    Positionn = employe.Position,
                     Status = employe.Status,
                     PeoplePartner = context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefault(),
                     Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
@@ -131,16 +132,16 @@ namespace test2
                 viewemployes = viewemployes.Where(y => y.Username == UsernameTextBox.Text).ToList();
             }
 
-            if (PasswordHashTextBox.Text != "")
+          //  if (PasswordHashTextBox.Text != "")
             {
 
-                viewemployes = viewemployes.Where(y => y.PasswordHash == PasswordHashTextBox.Text).ToList();
+         //       viewemployes = viewemployes.Where(y => y.PasswordHash == PasswordHashTextBox.Text).ToList();
             }
 
-            if (SaltTextBox.Text != "")
+           // if (SaltTextBox.Text != "")
             {
 
-                viewemployes = viewemployes.Where(y => y.Salt == SaltTextBox.Text).ToList();
+          //      viewemployes = viewemployes.Where(y => y.Salt == SaltTextBox.Text).ToList();
             }
             if (FullNameTextBox.Text != "")
             {
@@ -188,7 +189,7 @@ namespace test2
             if (SubdivisionTextBox.Text != "")
             {
 
-                viewemployes = viewemployes.Where(y => y.Subdivision == x).ToList();
+                viewemployes = viewemployes.Where(y => y.Subdivisionn == x).ToList();
             }
 
 
@@ -221,7 +222,7 @@ namespace test2
             if (SubdivisionTextBox.Text != "")
             {
 
-                viewemployes = viewemployes.Where(x => x.Position == y).ToList();
+                viewemployes = viewemployes.Where(x => x.Positionn == y).ToList();
             }
 
             EmployeeStatus s = EmployeeStatus.Active;
@@ -313,6 +314,8 @@ namespace test2
 
 
         }
+
+        */
     }
 }
 

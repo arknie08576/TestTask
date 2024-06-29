@@ -9,7 +9,7 @@ using test2.Models;
 
 namespace test2.TableModels
 {
-    internal class ViewEmployee
+    public class ViewEmployee
     {
         public int Id { get; set; }
         public string Username { get; set; }
@@ -20,9 +20,9 @@ namespace test2.TableModels
         
         public string FullName { get; set; }
         
-        public Subdivision Subdivision { get; set; }
+        public Subdivision Subdivisionn { get; set; }
         
-        public Position Position { get; set; }
+        public Position Positionn { get; set; }
         
         public EmployeeStatus Status { get; set; }
 

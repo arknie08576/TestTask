@@ -40,11 +40,19 @@ namespace test2.ViewModels
             //CloseCommand = new RelayCommand<object>(Close);
         }
         private void OnProcjects(object parameter)
-        { }
+        {
+            _windowService.ShowWindow<ProjectsViewModel>();
+        }
         private void OnLeaveRequests(object parameter)
-        { }
+        {
+            _windowService.ShowWindow<LeaveRequestsViewModel>();
+        }
         private void OnEmployes(object parameter)
-        { }
+        {
+
+            _windowService.ShowWindow<EmployesViewModel>();
+
+        }
         private void OnApprovalRequests(object parameter)
         { }
         private void OnLogout(object parameter)

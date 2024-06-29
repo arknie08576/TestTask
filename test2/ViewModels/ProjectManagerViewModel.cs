@@ -46,7 +46,9 @@ namespace test2.ViewModels
             _windowService.ShowWindow<LeaveRequestsViewModel>();
         }
         private void OnEmployes(object parameter)
-        { }
+        {
+            _windowService.ShowWindow<EmployesViewModel>();
+        }
         private void OnApprovalRequests(object parameter)
         { }
         private void OnLogout(object parameter)

@@ -3,80 +3,58 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:test2"
+        xmlns:local="clr-namespace:test2" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:OpenEmployeeViewModel}"
         mc:Ignorable="d"
         Title="OpenEmployeeWindow" Height="1000" Width="800">
+    <Window.Resources>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock TextWrapping="Wrap" Text="Id"/>
-            <TextBox x:Name="IdTextBox" Width="200" IsReadOnly="True" Margin="0,0,0,10"/>
+            <TextBox x:Name="IdTextBox" Text="{Binding Id}" Width="200" IsReadOnly="True" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Username"/>
-            <TextBox x:Name="UsernameTextBox" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Password Hash"/>
-            <TextBox x:Name="PasswordBox" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Salt"/>
-            <TextBox x:Name="SaltBox" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="UsernameTextBox" Text="{Binding Username}" Width="200" Margin="0,0,0,10"/>
+            
             <TextBlock TextWrapping="Wrap" Text="Full name"/>
-            <TextBox x:Name="FullnameTextBox" Width="200"  Margin="0,0,0,10"/>
+            <TextBox x:Name="FullnameTextBox" Text="{Binding FullName}" Width="200"  Margin="0,0,0,10"/>
 
 
             <TextBlock TextWrapping="Wrap" Text="Subdivision"/>
-            <ComboBox Name="comboBox" 
+            <ComboBox Name="comboBox" ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}" 
                   Width="200" 
                   Height="30" 
                   VerticalAlignment="Center" 
-                  HorizontalAlignment="Center"
-                  SelectionChanged="ComboBox_SelectionChanged">
-                <ComboBoxItem Content="A" />
-                <ComboBoxItem Content="B" />
-                <ComboBoxItem Content="C" />
-                <ComboBoxItem Content="D" />
-                <ComboBoxItem Content="E" />
-                <ComboBoxItem Content="F" />
+                  HorizontalAlignment="Center">
+
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="Position"/>
-            <ComboBox Name="comboBox2" 
+            <ComboBox Name="comboBox2"  ItemsSource="{Binding Items2}"
+                  SelectedItem="{Binding SelectedItem2}"
        Width="200" 
        Height="30" 
        VerticalAlignment="Center" 
        HorizontalAlignment="Center"
-       SelectionChanged="comboBox2_SelectionChanged">
-                <ComboBoxItem Content="Employee" />
-                <ComboBoxItem Content="HRManager" />
-                <ComboBoxItem Content="ProjectManager" />
-                <ComboBoxItem Content="Administrator" />
+       >
+
 
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="Status"/>
-            <ComboBox Name="comboBox3" 
+            <ComboBox Name="comboBox3"  ItemsSource="{Binding Items3}"
+                  SelectedItem="{Binding SelectedItem3}"
         Width="200" 
         Height="30" 
         VerticalAlignment="Center" 
-        HorizontalAlignment="Center"
-        SelectionChanged="comboBox3_SelectionChanged">
-                <ComboBoxItem Content="Inactive" />
-                <ComboBoxItem Content="Active" />
+        HorizontalAlignment="Center">
+
                 
 
 
             </ComboBox>
             <TextBlock TextWrapping="Wrap" Text="People Partner"/>
-            <ComboBox Name="comboBox4" 
-Width="200" 
-Height="30" 
-VerticalAlignment="Center" 
-HorizontalAlignment="Center"
-SelectionChanged="comboBox4_SelectionChanged">
-
-
-
-            </ComboBox>
-            <TextBlock TextWrapping="Wrap" Text="Out_of_OfficeBalance"/>
-            <TextBox x:Name="Out_of_OfficeBalanceTextBox" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Photo"/>
-            <Image Name="PhotoImage" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Width="200" Height="200"/>
-            <TextBlock TextWrapping="Wrap" Text="Assigned project"/>
-            <ComboBox Name="comboBox5" 
+            <ComboBox Name="comboBox4"  ItemsSource="{Binding Items4}"
+                  SelectedItem="{Binding SelectedItem4}"
 Width="200" 
 Height="30" 
 VerticalAlignment="Center" 
@@ -85,9 +63,24 @@ HorizontalAlignment="Center">
 
 
             </ComboBox>
-            <Button Content="Add photo" Width="200" Click="AddPhotoButton_Click"/>
-            <Button x:Name="UpdateButton" Content="Update" Width="200" Click="UpdateButton_Click"/>
-            <Button x:Name="DeleteButton" Content="Delete employee" Width="200" Click="DeleteButton_Click"/>
+            <TextBlock TextWrapping="Wrap" Text="Out_of_OfficeBalance"/>
+            <TextBox x:Name="Out_of_OfficeBalanceTextBox" Text="{Binding OutofOfficeBalance}" Width="200" Margin="0,0,0,10"/>
+            <TextBlock TextWrapping="Wrap" Text="Photo"/>
+            <Image Name="PhotoImage" Source="{Binding ImageSource}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Width="200" Height="200"/>
+            <TextBlock TextWrapping="Wrap" Text="Assigned project"/>
+            <ComboBox Name="comboBox5" ItemsSource="{Binding Items5}"
+                  SelectedItem="{Binding SelectedItem5}"
+Width="200" 
+Height="30" 
+VerticalAlignment="Center" 
+HorizontalAlignment="Center">
+
+
+
+            </ComboBox>
+            <Button Content="Add photo" Command="{Binding AddPhotoCommand}" Width="200"/>
+            <Button x:Name="UpdateButton" Command="{Binding UpdateCommand}" Content="Update" Width="200"/>
+            <Button x:Name="DeleteButton" Command="{Binding DeleteCommand}" Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Content="Delete employee" Width="200"/>
             
         </StackPanel>
     </Grid>

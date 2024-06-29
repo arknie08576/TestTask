@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace test2
 {
-
+    /*
     public interface IOpenEmployeeWindowFactory
     {
         OpenEmployeeWindow Create(int id);
@@ -29,5 +29,5 @@ namespace test2
             
             return new OpenEmployeeWindow(id, dbContext);
         }
-    }
+    }*/
 }

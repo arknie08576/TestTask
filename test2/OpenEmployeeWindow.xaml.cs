@@ -26,9 +26,9 @@ namespace test2
         public string user;
         private byte[] photoData;
         private readonly OfficeContex context;
-        public OpenEmployeeWindow(int Id, OfficeContex officeContex)
+        public OpenEmployeeWindow( OfficeContex officeContex)
         {
-            this.id = Id;
+            //this.id = Id;
             this.user = AuthenticationHelper.loggedUser;
             context = officeContex;
             InitializeComponent();
@@ -50,8 +50,9 @@ namespace test2
 
 
 
-            LoadEmployee();
+           // LoadEmployee();
         }
+        /*
         private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -69,6 +70,7 @@ namespace test2
             }
 
         }
+        
         private BitmapImage LoadImage(byte[] imageData)
         {
             BitmapImage image = new BitmapImage();
@@ -104,8 +106,8 @@ namespace test2
             Employee obj = context.Employes.Where(x => x.Id == id).FirstOrDefault();
             IdTextBox.Text = obj.Id.ToString();
             UsernameTextBox.Text = obj.Username;
-            PasswordBox.Text = obj.PasswordHash;
-            SaltBox.Text = obj.Salt;
+           // PasswordBox.Text = obj.PasswordHash;
+            //SaltBox.Text = obj.Salt;
             FullnameTextBox.Text = obj.FullName;
             Subdivision k = obj.Subdivision;
             switch (k)
@@ -237,8 +239,8 @@ namespace test2
 
 
             obj.Username = UsernameTextBox.Text;
-            obj.PasswordHash = PasswordBox.Text;
-            obj.Salt = SaltBox.Text;
+           // obj.PasswordHash = PasswordBox.Text;
+           // obj.Salt = SaltBox.Text;
             obj.FullName = FullnameTextBox.Text;
 
             switch (comboBox.Text)
@@ -391,5 +393,6 @@ namespace test2
             this.Close();
 
         }
+        */
     }
 }
