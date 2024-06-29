@@ -23,13 +23,13 @@ namespace test2
     {
         private readonly OfficeContex context;
         int id { get; set; }
-        public EditProjectWindow(int Id, OfficeContex officeContex)
+        public EditProjectWindow( OfficeContex officeContex)
         {
             InitializeComponent();
             context = officeContex;
-            this.id = Id;
-            LoadEditProject();
-        }
+           // this.id = Id;
+            //LoadEditProject();
+        }/*
         private void LoadEditProject()
         {
             var project = context.Projects.Where(e => e.Id == id).FirstOrDefault();
@@ -184,6 +184,6 @@ namespace test2
         private void ComboBox3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
+        }*/
     }
 }

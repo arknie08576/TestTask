@@ -115,8 +115,8 @@ namespace test2.ViewModels
             if (string.IsNullOrEmpty(SelectedItem) || !StartDate.HasValue || string.IsNullOrEmpty(SelectedItem3))
             {
 
-                MessageBox.Show("Fill in all required fields");
-
+                
+                _dialogService.ShowMessage("Fill in all required fields", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

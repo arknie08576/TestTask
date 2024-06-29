@@ -1,4 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +16,7 @@ using test2.View;
 
 namespace test2.ViewModels
 {
-    public class ProjectsViewModel
+    public class ProjectsViewModel : INotifyPropertyChanged
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
@@ -26,6 +26,8 @@ namespace test2.ViewModels
         public ICommand FilterCommand { get; }
         public ICommand NewProjectCommand { get; }
         public ICommand RowDoubleClickCommand { get; }
+        //var _projects = new ObservableCollection<ViewProject>(viewprojects);
+        private ObservableCollection<ViewProject> _projects;
         public ProjectsViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
         {
             context = officeContex;
@@ -129,8 +131,15 @@ namespace test2.ViewModels
         private ObservableCollection<ViewProject> _filteredProjects;
         public ObservableCollection<ViewProject> FilteredProjects
         {
-            get => _filteredProjects;
-            set => SetProperty(ref _filteredProjects, value);
+            get { return _filteredProjects; }
+            set
+            {
+                if (_filteredProjects != value)
+                {
+                    _filteredProjects = value;
+                    OnPropertyChanged(nameof(FilteredProjects));
+                }
+            }
         }
 
         private void LoadProjects()
@@ -172,7 +181,7 @@ namespace test2.ViewModels
 
 
             }
-            var _projects = new ObservableCollection<ViewProject>(viewprojects);
+            _projects = new ObservableCollection<ViewProject>(viewprojects);
             FilteredProjects = _projects;
 
         }
@@ -310,7 +319,7 @@ namespace test2.ViewModels
 
 
 
-            var _projects = new ObservableCollection<ViewProject>(viewprojects);
+            _projects = new ObservableCollection<ViewProject>(viewprojects);
             
             FilteredProjects = _projects;
 
@@ -324,7 +333,7 @@ namespace test2.ViewModels
             _windowService.ShowWindow<NewProjectViewModel>();
 
         }
-        private void OnRowDoubleClick(object parameter)
+        private void OnRowDoubleClick(ViewProject item)
         {
             
                 // Perform your action here
@@ -333,28 +342,29 @@ namespace test2.ViewModels
 
                 if (AuthenticationHelper.loggedUser == null)
                 {
-                    MessageBox.Show("User logged out");
-             //       this.Close();
-                    return;
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _windowService.CloseWindow<ProjectsViewModel>();
+                return;
+               
                 }
 
-             //   if (ProjectDataGrid2.SelectedItem is ViewProject selectedData)
-                {
+            if (item != null)
+            {
 
-                 //   MessageBox.Show($"You double-clicked on: {selectedData.Id}");
+                _dialogService.ShowMessage($"Double-clicked on: {item.Id}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
 
-                    if (context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager || context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.Administrator)
+                if (context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager || context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.Administrator)
                     {
 
-                        // windowService.ShowWindow<EditProjectWindow>(selectedData.Id);
+                     _windowService.ShowWindow<EditProjectViewModel>(item.Id);
 
-                    }
-                    else
+                }
+                else
                     {
 
-                        // windowService.ShowWindow<OpenProjectWindow>(selectedData.Id);
-                    }
+                    _windowService.ShowWindow<OpenProjectViewModel>(item.Id);
+                }
 
 
 
@@ -365,6 +375,7 @@ namespace test2.ViewModels
 
 
         }
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

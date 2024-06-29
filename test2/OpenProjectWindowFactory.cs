@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace test2
-{
+{/*
     public interface IOpenProjectWindowFactory
     {
         OpenProjectWindow Create(int id);
@@ -29,5 +29,5 @@ namespace test2
             
             return new OpenProjectWindow(id, dbContext);
         }
-    }
+    }*/
 }

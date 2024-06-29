@@ -3,17 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:test2"
+        xmlns:local="clr-namespace:test2" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:OpenProjectViewModel}"
         mc:Ignorable="d"
         Title="OpenProjectWindow" Height="450" Width="800">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock TextWrapping="Wrap" Text="Id"/>
-            <TextBox x:Name="IdTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="IdTextBox" Text="{Binding Id}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap"  Text="Project Type"/>
-            <TextBox x:Name="ProjectTypeTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="ProjectTypeTextBox" Text="{Binding ProjectTypee}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Start Date"/>
-            <DatePicker Name="StartDatePicker"  IsEnabled="False" >
+            <DatePicker Name="StartDatePicker" SelectedDate="{Binding StartDate}"  IsEnabled="False" >
                 <DatePicker.Resources>
                     <Style TargetType="DatePickerTextBox">
                         <Setter Property="IsHitTestVisible" Value="False" />
@@ -22,7 +22,7 @@
                 </DatePicker.Resources>
             </DatePicker>
             <TextBlock TextWrapping="Wrap" Text="End Date" />
-            <DatePicker Name="EndDatePicker"  IsEnabled="False" >
+            <DatePicker Name="EndDatePicker"  SelectedDate="{Binding EndDate}" IsEnabled="False" >
                 <DatePicker.Resources>
                     <Style TargetType="DatePickerTextBox">
                         <Setter Property="IsHitTestVisible" Value="False" />
@@ -31,11 +31,11 @@
                 </DatePicker.Resources>
             </DatePicker>
             <TextBlock TextWrapping="Wrap" Text="Project Manager"/>
-            <TextBox x:Name="ProjectManagerTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="ProjectManagerTextBox" Text="{Binding ProjectManager}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Comment"/>
-            <TextBox x:Name="CommentTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Project Status"/>
-            <TextBox x:Name="ProjectStatusTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="ProjectStatusTextBox" Text="{Binding ProjectStatuss}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
            
         </StackPanel>
     </Grid>

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace test2
-{
+{/*
     public interface IEditProjectWindowFactory
     {
         EditProjectWindow Create(int id);
@@ -29,5 +29,5 @@ namespace test2
             // Create the window with required parameters
             return new EditProjectWindow(id, dbContext);
         }
-    }
+    }*/
 }

@@ -56,8 +56,8 @@ namespace test2
             services.AddTransient<OpenEmployeeWindow>();
             services.AddTransient<EditLeaveRequestWindow>();
             services.AddTransient<OpenProjectWindow>();
-            services.AddTransient<IOpenProjectWindowFactory, OpenProjectWindowFactory>();
-            services.AddTransient<IEditProjectWindowFactory, EditProjectWindowFactory>();
+           // services.AddTransient<IOpenProjectWindowFactory, OpenProjectWindowFactory>();
+           // services.AddTransient<IEditProjectWindowFactory, EditProjectWindowFactory>();
             services.AddTransient<IOpenApprovalRequestWindowFactory, OpenApprovalRequestWindowFactory>();
             services.AddTransient<IOpenEmployeeWindowFactory, OpenEmployeeWindowFactory>();
            // services.AddTransient<IEditLeaveRequestWindowFactory, EditLeaveRequestWindowFactory>();
@@ -72,8 +72,9 @@ namespace test2
             services.AddTransient<EditLeaveRequestViewModel>();
             services.AddTransient<ProjectsViewModel>();
             services.AddTransient<NewProjectViewModel>();
+            services.AddTransient<EditProjectViewModel>();
+            services.AddTransient<OpenProjectViewModel>();
             
-
 
             services.AddSingleton<IDialogService, DialogService>();
            // services.AddSingleton<IEventAggregator, EventAggregator>();

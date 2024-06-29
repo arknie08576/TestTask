@@ -40,8 +40,7 @@ namespace test2.ViewModels
            // EndDate=DateTime.Now;
             //CloseCommand = new RelayCommand<object>(Close);
         }
-        private ObservableCollection<string> _items;
-        private string _selectedItem;
+       
 
         public ObservableCollection<string> Items
         {
@@ -68,7 +67,8 @@ namespace test2.ViewModels
                 OnPropertyChanged(nameof(Comment));
             }
         }
-
+        private ObservableCollection<string> _items;
+        private string _selectedItem;
         public string SelectedItem
         {
             get => _selectedItem;

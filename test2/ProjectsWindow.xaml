@@ -32,9 +32,7 @@
             <DataGrid x:Name="ProjectDataGrid2" AutoGenerateColumns="False" 
           CanUserAddRows="False" CanUserDeleteRows="False"
           CanUserSortColumns="True" IsReadOnly="True"
-          SelectionMode="Single"
-
-  ItemsSource="{Binding FilteredProjects}" 
+          SelectionMode="Single" ItemsSource="{Binding FilteredProjects}" 
           SelectedItem="{Binding Selectedproject, Mode=TwoWay}" behaviors:DoubleClickBehavior.Command="{Binding RowDoubleClickCommand}">
             <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" />

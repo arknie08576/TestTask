@@ -305,8 +305,15 @@ namespace test2.ViewModels
             // Handle double-click on the row
             if (item != null)
             {
+                if (AuthenticationHelper.loggedUser == null)
+                {
+                    _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _windowService.CloseWindow<LeaveRequestsViewModel>();
+                    return;
+                }
                 // Perform your action here
-                MessageBox.Show($"Double-clicked on: {item.Id}");
+                
+                _dialogService.ShowMessage($"Double-clicked on: {item.Id}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _windowService.ShowWindow<EditLeaveRequestViewModel>(item.Id);
             }
         }

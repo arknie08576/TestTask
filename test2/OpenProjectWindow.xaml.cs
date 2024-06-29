@@ -26,14 +26,14 @@ namespace test2
     {
         int id;
         private readonly OfficeContex context;
-        public OpenProjectWindow(int Id, OfficeContex officeContex )
+        public OpenProjectWindow(OfficeContex officeContex )
         {
             InitializeComponent();
-            this.id = Id;
+           
             
             context = officeContex;
-            LoadOpenProject();
-        }
+            //LoadOpenProject();
+        }/*
         private void LoadOpenProject()
         {
 
@@ -70,6 +70,6 @@ namespace test2
         private void comboBox2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
+        }*/
     }
 }
