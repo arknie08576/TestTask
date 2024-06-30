@@ -15,19 +15,15 @@ using test2.Data;
 
 namespace test2.ViewModels
 {
-    public class EmployeeViewModel : INotifyPropertyChanged
-    {
-        private readonly OfficeContex context;
-        private readonly IDialogService _dialogService;
+    public class EmployeeViewModel : ViewModelBase
+    {   
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         public ICommand ProjectsCommand { get; }
         public ICommand LeaveRequestsCommand { get; }
         public ICommand LogoutCommand { get; }
-        public EmployeeViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
+        public EmployeeViewModel(IWindowService windowService)
         {
-            context = officeContex;
-            _dialogService = dialogService;
+            
 
 
             _windowService = windowService;
@@ -46,29 +42,12 @@ namespace test2.ViewModels
         private void OnLeaveRequests(object parameter)
         {
             _windowService.ShowWindow<LeaveRequestsViewModel>();
-
         }
         private void OnLogout(object parameter)
         {
             AuthenticationHelper.loggedUser = null;
             _windowService.ShowWindow<MainViewModel>();
             _windowService.CloseWindow<EmployeeViewModel>();
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

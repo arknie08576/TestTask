@@ -23,12 +23,11 @@ using test2.Enums;
 
 namespace test2.ViewModels
 {
-    public class OpenApprovalRequestViewModel : INotifyPropertyChanged, IParameterReceiver
+    public class OpenApprovalRequestViewModel : ViewModelBase, IParameterReceiver
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         public string user;
         int id;
         public OpenApprovalRequestViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
@@ -41,8 +40,8 @@ namespace test2.ViewModels
             Items = new ObservableCollection<string> { "New", "Approved", "Rejected", "Canceled" };
 
 
-            ApproveCommand = new RelayCommand<object>(OnApprove);
-            RejectCommand = new RelayCommand<object>(OnReject);
+            ApproveCommand = new AsyncRelayCommand<object>(OnApproveAsync);
+            RejectCommand = new AsyncRelayCommand<object>(OnRejectAsync);
 
         }
         public ICommand ApproveCommand { get; }
@@ -141,15 +140,16 @@ namespace test2.ViewModels
                 }
             }
         }
-        private void LoadOpenApprovalRequest()
+        private async Task LoadOpenApprovalRequestAsync()
         {
             Id = id.ToString();
-            var t = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Approver).FirstOrDefault();
-            Approver = context.Employes.Where(e => e.Id == t).Select(x => x.FullName).FirstOrDefault();
-            LeaveRequestt = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.LeaveRequest).FirstOrDefault().ToString();
+            var t = await context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Approver).FirstOrDefaultAsync();
+            Approver = await context.Employes.Where(e => e.Id == t).Select(x => x.FullName).FirstOrDefaultAsync();
+            var lr = await context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.LeaveRequest).FirstOrDefaultAsync();
+            LeaveRequestt = lr.ToString();
 
 
-            ApprovalRequestStatus k = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault();
+            ApprovalRequestStatus k = await context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefaultAsync();
             switch (k)
             {
                 case ApprovalRequestStatus.New:
@@ -179,12 +179,12 @@ namespace test2.ViewModels
                     break;
             }
             IsComboBoxEnabled = false;
-            Comment = context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Comment).FirstOrDefault();
+            Comment = await context.ApprovalRequests.Where(e => e.Id == id).Select(x => x.Comment).FirstOrDefaultAsync();
 
 
 
         }
-        private void OnApprove(object parameter)
+        private async Task OnApproveAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -192,23 +192,23 @@ namespace test2.ViewModels
                 _windowService.CloseWindow<OpenApprovalRequestViewModel>();
                 return;
             }
-            var obj = context.ApprovalRequests.Find(id);
-            obj.Approver = context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefault();
+            var obj = await context.ApprovalRequests.FindAsync(id);
+            obj.Approver = await context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
             obj.Status = ApprovalRequestStatus.Approved;
             obj.Comment = Comment;
-            var lr = context.LeaveRequests.Where(e => e.Id == obj.LeaveRequest).FirstOrDefault();
-            var emp = context.Employes.Where((e) => e.Id == lr.Employee).FirstOrDefault();
+            var lr = await context.LeaveRequests.Where(e => e.Id == obj.LeaveRequest).FirstOrDefaultAsync();
+            var emp = await context.Employes.Where((e) => e.Id == lr.Employee).FirstOrDefaultAsync();
             lr.Status = LeaveRequestStatus.Approved;
             emp.Out_of_OfficeBalance -= (obj.leaveRequest.EndDate.ToDateTime(TimeOnly.MinValue) - obj.leaveRequest.StartDate.ToDateTime(TimeOnly.MinValue)).Days + 1;
             context.Entry(lr).State = EntityState.Modified;
             context.Entry(emp).State = EntityState.Modified;
             context.Entry(obj).State = EntityState.Modified;
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             
             _dialogService.ShowMessage("Approval request approved", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<OpenApprovalRequestViewModel>();
         }
-        private void OnReject(object parameter)
+        private async Task OnRejectAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -216,11 +216,11 @@ namespace test2.ViewModels
                 _windowService.CloseWindow<OpenApprovalRequestViewModel>();
                 return;
             }
-            var obj = context.ApprovalRequests.Find(id);
-            var lr = context.LeaveRequests.Where(e => e.Id == obj.LeaveRequest).FirstOrDefault();
-            obj.Approver = context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefault();
+            var obj = await context.ApprovalRequests.FindAsync(id);
+            var lr = await context.LeaveRequests.Where(e => e.Id == obj.LeaveRequest).FirstOrDefaultAsync();
+            obj.Approver = await context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
 
-            var emp = context.Employes.Where((e) => e.Id == lr.Employee).FirstOrDefault();
+            var emp = await context.Employes.Where((e) => e.Id == lr.Employee).FirstOrDefaultAsync();
             if (obj.Status == ApprovalRequestStatus.Approved)
             {
                 emp.Out_of_OfficeBalance += (obj.leaveRequest.EndDate.ToDateTime(TimeOnly.MinValue) - obj.leaveRequest.StartDate.ToDateTime(TimeOnly.MinValue)).Days + 1;
@@ -234,7 +234,7 @@ namespace test2.ViewModels
             //obj.leaveRequest.Status = LeaveRequestStatus.Rejected;
             context.Entry(lr).State = EntityState.Modified;
             context.Entry(obj).State = EntityState.Modified;
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             _dialogService.ShowMessage("Approval request rejected", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<OpenApprovalRequestViewModel>();
         }
@@ -244,24 +244,8 @@ namespace test2.ViewModels
             {
                 id = data;
 
-                LoadOpenApprovalRequest();
+                await LoadOpenApprovalRequestAsync();
             }
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

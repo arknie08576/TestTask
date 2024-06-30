@@ -16,16 +16,16 @@ using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
 using test2.Enums;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace test2.ViewModels
 {
-    public class EmployesViewModel : INotifyPropertyChanged
+    public class EmployesViewModel : ViewModelBase
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         string user;
         public ICommand FilterCommand { get; }
         public ICommand NewEmployeeCommand { get; }
@@ -39,11 +39,12 @@ namespace test2.ViewModels
             _windowService = windowService;
 
             // Initialize commands
-            FilterCommand = new RelayCommand<object>(OnFilter);
+            FilterCommand = new AsyncRelayCommand<object>(OnFilterAsync);
             NewEmployeeCommand = new RelayCommand<object>(OnNewEmployee);
             RowDoubleClickCommand = new RelayCommand<ViewEmployee>(OnRowDoubleClick);
             //CloseCommand = new RelayCommand<object>(Close);
-            LoadEmployes();
+            Task.Run(LoadEmployesAsync);
+            
         }
         private string _id;
         public string Id
@@ -165,10 +166,10 @@ namespace test2.ViewModels
                 }
             }
         }
-        private void LoadEmployes()
+        private async Task LoadEmployesAsync()
         {
 
-            var ob = context.Employes.Where(x => x.Username == user).FirstOrDefault();
+            var ob = await context.Employes.Where(x => x.Username == user).FirstOrDefaultAsync();
             if (ob.Position == Position.HRManager)
             {
 
@@ -185,11 +186,12 @@ namespace test2.ViewModels
             {
                 IsButtonVisible = true;
             }
-            var employes = context.Employes.ToList();
+            var employes = await context.Employes.ToListAsync();
             var viewemployes = new List<ViewEmployee>();
             foreach (var employe in employes)
             {
 
+                var peoplePartner = await context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefaultAsync();
                 ViewEmployee p = new ViewEmployee
                 {
                     Id = employe.Id,
@@ -200,7 +202,7 @@ namespace test2.ViewModels
                     Subdivisionn = employe.Subdivision,
                     Positionn = employe.Position,
                     Status = employe.Status,
-                    PeoplePartner = context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefault(),
+                    PeoplePartner = peoplePartner,
                     Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
                     //Photo = employe.Photo,
                     AssignedProject = employe.AssignedProject
@@ -216,7 +218,7 @@ namespace test2.ViewModels
 
 
         }
-        private void OnFilter(object parameter)
+        private async Task OnFilterAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -224,11 +226,11 @@ namespace test2.ViewModels
                 _windowService.CloseWindow<EmployesViewModel>();
                 return;
             }
-            var employes = context.Employes.ToList();
+            var employes = await context.Employes.ToListAsync();
             var viewemployes = new List<ViewEmployee>();
             foreach (var employe in employes)
             {
-
+                var peoplePartner = await context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefaultAsync();
                 ViewEmployee p = new ViewEmployee
                 {
                     Id = employe.Id,
@@ -239,7 +241,7 @@ namespace test2.ViewModels
                     Subdivisionn = employe.Subdivision,
                     Positionn = employe.Position,
                     Status = employe.Status,
-                    PeoplePartner = context.Employes.Where(x => x.Id == employe.PeoplePartner).Select(x => x.FullName).FirstOrDefault(),
+                    PeoplePartner = peoplePartner,
                     Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
                     //  Photo = employe.Photo,
                     AssignedProject = employe.AssignedProject
@@ -420,22 +422,6 @@ namespace test2.ViewModels
                 _dialogService.ShowMessage($"Double-clicked on: {item.Id}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _windowService.ShowWindow<OpenEmployeeViewModel>(item.Id);
             }
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

@@ -18,15 +18,15 @@ using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
 using test2.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace test2.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : ViewModelBase
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         public ICommand LoginCommand { get; }
         public ICommand RegisterCommand { get; }
         private string _username;
@@ -54,27 +54,25 @@ namespace test2.ViewModels
         {
             context = officeContex;
             _dialogService = dialogService;
-
-
             _windowService = windowService;
 
-            // Initialize commands
-            LoginCommand = new RelayCommand<object>(OnLogin);
+            
+            LoginCommand = new AsyncRelayCommand<object>(OnLoginAsync);
             RegisterCommand = new RelayCommand<object>(OnRegister);
-            //CloseCommand = new RelayCommand<object>(Close);
+            
         }
-        private void OnLogin(object parameter)
+        private async Task OnLoginAsync(object parameter)
         {
             string username = Username;
             string password = Password;
-
-            if (AuthenticationHelper.AuthenticateUser(username, password))
+            var isAuthenticated = await AuthenticationHelper.AuthenticateUserAsync(username, password);
+            if (isAuthenticated)
             {
                 Position role = Position.Employee;
                 _dialogService.ShowMessage("Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
 
-                var partner = context.Employes.Where(x => x.Username == username).Select(x => x.Position).FirstOrDefault();
+                var partner = await context.Employes.Where(x => x.Username == username).Select(x => x.Position).FirstOrDefaultAsync();
 
                 role = partner;
 
@@ -119,22 +117,6 @@ namespace test2.ViewModels
         private void OnRegister(object parameter)
         {
             _windowService.ShowWindow<RegisterViewModel>();
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

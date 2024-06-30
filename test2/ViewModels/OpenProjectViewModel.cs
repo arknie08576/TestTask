@@ -14,15 +14,15 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using test2.Services;
 using test2.Interfaces;
 using test2.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace test2.ViewModels
 {
-    public class OpenProjectViewModel : INotifyPropertyChanged, IParameterReceiver
+    public class OpenProjectViewModel : ViewModelBase, IParameterReceiver
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         public string user;
         int id;
 
@@ -33,17 +33,7 @@ namespace test2.ViewModels
             user = AuthenticationHelper.loggedUser;
 
             _windowService = windowService;
-           // Items = new ObservableCollection<string> { "A", "B", "C", "D" };
-           // Items3 = new ObservableCollection<string> { "Inactive", "Active" };
-           // var pms = context.Employes.Where(x => x.Position == Position.ProjectManager).Select(x => x.FullName).ToList();
-           // Items2 = new ObservableCollection<string>(pms);
-            //  SelectedItem2 = Items[0];
-            // Employee = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefault();
-            // Initialize commands
-           // UpdateCommand = new RelayCommand<object>(OnUpdate);
-            // StartDate=DateTime.Now;
-            // EndDate=DateTime.Now;
-            //CloseCommand = new RelayCommand<object>(Close);
+ 
         }
         private string _id;
         public string Id
@@ -109,10 +99,10 @@ namespace test2.ViewModels
             get => _endDate;
             set => SetProperty(ref _endDate, value);
         }
-        private void LoadOpenProject()
+        private async Task LoadOpenProjectAsync()
         {
 
-            var project = context.Projects.Where(e => e.Id == id).ToList()[0];
+            var project = await context.Projects.Where(e => e.Id == id).FirstOrDefaultAsync();
             Id = id.ToString();
             ProjectTypee = project.ProjectType.ToString();
             StartDate = project.StartDate.ToDateTime(TimeOnly.Parse("10:00 PM"));
@@ -123,19 +113,9 @@ namespace test2.ViewModels
 
             }
 
-            ProjectManager = context.Employes.Where(e => e.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefault();
+            ProjectManager = await context.Employes.Where(e => e.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefaultAsync();
             Comment = project.Comment;
             ProjectStatuss = project.ProjectStatus.ToString();
-
-
-
-
-
-
-
-
-
-
         }
 
         public async Task ReceiveParameterAsync(object parameter)
@@ -144,24 +124,8 @@ namespace test2.ViewModels
             {
                 id = data;
 
-                LoadOpenProject();
+                await LoadOpenProjectAsync();
             }
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

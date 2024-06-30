@@ -18,15 +18,15 @@ using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
 using test2.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace test2.ViewModels
 {
-    public class LeaveRequestsViewModel : INotifyPropertyChanged
+    public class LeaveRequestsViewModel : ViewModelBase
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         string user;
         public ICommand FilterCommand { get; }
         public ICommand NewLeaveRequestCommand { get; }
@@ -40,29 +40,32 @@ namespace test2.ViewModels
 
             _windowService = windowService;
 
-            // Initialize commands
-            FilterCommand = new RelayCommand<object>(OnFilter);
+            
+            FilterCommand = new AsyncRelayCommand<object>(OnFilterAsync);
             NewLeaveRequestCommand = new RelayCommand<object>(OnNewLeaveRequest);
             RowDoubleClickCommand = new RelayCommand<ViewLeaveRequest>(OnRowDoubleClick);
-            //CloseCommand = new RelayCommand<object>(Close);
-            LoadLeaveRequests();
+            
+            Task.Run(LoadLeaveRequestsAsync);
+            
         }
-        private void LoadLeaveRequests()
+        private async Task LoadLeaveRequestsAsync()
         {
-            var leaveRequests = context.LeaveRequests.ToList();
-            if (context.Employes.Where(x => x.Username == user).FirstOrDefault().Position == Position.Employee)
+            var leaveRequests = await context.LeaveRequests.ToListAsync();
+            var position = await context.Employes.Where(x => x.Username == user).Select(x=>x.Position).FirstOrDefaultAsync();
+            if (position == Position.Employee)
             {
-                leaveRequests = leaveRequests.Where(x => x.Employee == context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefault()).ToList();
+                var employeId = await context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
+                leaveRequests = leaveRequests.Where(x => x.Employee == employeId).ToList();
 
             }
             var viewleaveRequests = new List<ViewLeaveRequest>();
             foreach (var leaveRequest in leaveRequests)
             {
-
+                var fullName = await context.Employes.Where(x => x.Id == leaveRequest.Employee).Select(x => x.FullName).FirstOrDefaultAsync();
                 ViewLeaveRequest p = new ViewLeaveRequest
                 {
                     Id = leaveRequest.Id,
-                    Employee = context.Employes.Where(x => x.Id == leaveRequest.Employee).Select(x => x.FullName).FirstOrDefault(),
+                    Employee = fullName,
                     AbsenceReasonn = leaveRequest.AbsenceReason,
                     StartDate = leaveRequest.StartDate,
                     EndDate = leaveRequest.EndDate,
@@ -162,7 +165,7 @@ namespace test2.ViewModels
             }
         }
 
-        private void OnFilter(object parameter)
+        private async Task OnFilterAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -170,20 +173,22 @@ namespace test2.ViewModels
                 _windowService.CloseWindow<LeaveRequestsViewModel>();
                 return;
             }
-            var leaveRequests = context.LeaveRequests.ToList();
-            if (context.Employes.Where(x => x.Username == user).FirstOrDefault().Position == Position.Employee)
+            var leaveRequests = await context.LeaveRequests.ToListAsync();
+            var position = await context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefaultAsync();
+            if (position == Position.Employee)
             {
-                leaveRequests = leaveRequests.Where(x => x.Employee == context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefault()).ToList();
+                var employeeId = await context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
+                leaveRequests = leaveRequests.Where(x => x.Employee == employeeId).ToList();
 
             }
             var viewleaveRequests = new List<ViewLeaveRequest>();
             foreach (var leaveRequest in leaveRequests)
             {
-
+                var fullName = await context.Employes.Where(x => x.Id == leaveRequest.Employee).Select(x => x.FullName).FirstOrDefaultAsync();
                 ViewLeaveRequest p = new ViewLeaveRequest
                 {
                     Id = leaveRequest.Id,
-                    Employee = context.Employes.Where(x => x.Id == leaveRequest.Employee).Select(x => x.FullName).FirstOrDefault(),
+                    Employee = fullName,
                     AbsenceReasonn = leaveRequest.AbsenceReason,
                     StartDate = leaveRequest.StartDate,
                     EndDate = leaveRequest.EndDate,
@@ -199,7 +204,7 @@ namespace test2.ViewModels
             if (!string.IsNullOrEmpty(Id))
             {
 
-                viewleaveRequests = viewleaveRequests.Where(x => x.Id == Convert.ToInt32(_id)).ToList();
+                viewleaveRequests = viewleaveRequests.Where(x => x.Id.ToString() == Id).ToList();
             }
 
             if (!string.IsNullOrEmpty(Employee))
@@ -297,17 +302,9 @@ namespace test2.ViewModels
 
             _leaveRequests = new ObservableCollection<ViewLeaveRequest>(viewleaveRequests);
             FilteredLeaveRequests = _leaveRequests;
-
-
-
-
-
-
-
         }
         private void OnRowDoubleClick(ViewLeaveRequest item)
         {
-            // Handle double-click on the row
             if (item != null)
             {
                 if (AuthenticationHelper.loggedUser == null)
@@ -315,9 +312,7 @@ namespace test2.ViewModels
                     _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     _windowService.CloseWindow<LeaveRequestsViewModel>();
                     return;
-                }
-                // Perform your action here
-                
+                }             
                 _dialogService.ShowMessage($"Double-clicked on: {item.Id}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _windowService.ShowWindow<EditLeaveRequestViewModel>(item.Id);
             }
@@ -325,23 +320,6 @@ namespace test2.ViewModels
         private void OnNewLeaveRequest(object parameter)
         {
             _windowService.ShowWindow<NewLeaveRequestViewModel>();
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

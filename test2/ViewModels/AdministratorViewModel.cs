@@ -15,11 +15,10 @@ using test2.Data;
 
 namespace test2.ViewModels
 {
-    public class AdministratorViewModel : INotifyPropertyChanged
+    public class AdministratorViewModel : ViewModelBase
     {
         
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         public ICommand ProjectsCommand { get; }
         public ICommand LeaveRequestsCommand { get; }
         public ICommand EmployesCommand { get; }
@@ -62,22 +61,6 @@ namespace test2.ViewModels
             AuthenticationHelper.loggedUser = null;
             _windowService.ShowWindow<MainViewModel>();
             _windowService.CloseWindow<AdministratorViewModel>();
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

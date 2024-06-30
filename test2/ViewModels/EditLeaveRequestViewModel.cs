@@ -20,12 +20,11 @@ using test2.Enums;
 
 namespace test2.ViewModels
 {
-    public class EditLeaveRequestViewModel : INotifyPropertyChanged, IParameterReceiver
+    public class EditLeaveRequestViewModel : ViewModelBase, IParameterReceiver
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         public string user;
         int id;
         public ICommand UpdateCommand { get; }
@@ -449,7 +448,6 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-
                 _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _windowService.CloseWindow<EditLeaveRequestViewModel>();
                 return;
@@ -466,26 +464,8 @@ namespace test2.ViewModels
             ar.Status = ApprovalRequestStatus.Canceled;
             context.Entry(obj).State = EntityState.Modified;
             await context.SaveChangesAsync();
-
             _dialogService.ShowMessage("Leave request canceled", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<EditLeaveRequestViewModel>();
-
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

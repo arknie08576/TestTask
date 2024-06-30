@@ -24,12 +24,11 @@ using test2.Enums;
 
 namespace test2.ViewModels
 {
-    public class OpenEmployeeViewModel : INotifyPropertyChanged, IParameterReceiver
+    public class OpenEmployeeViewModel : ViewModelBase, IParameterReceiver
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         public string user;
         int id;
         public OpenEmployeeViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
@@ -42,22 +41,20 @@ namespace test2.ViewModels
             Items = new ObservableCollection<string> { "A", "B", "C", "D", "E", "F" };
             Items2 = new ObservableCollection<string> { "Employee", "HRManager", "ProjectManager", "Administrator" };
             Items3 = new ObservableCollection<string> { "Inactive", "Active" };
-            var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
-            Items4 = new ObservableCollection<string>(products);
-            var projects = context.Projects.Select(x => x.Id.ToString()).ToList();
-            Items5 = new ObservableCollection<string>(projects);
-            // Items3 = new ObservableCollection<string> { "Inactive", "Active" };
-            // var pms = context.Employes.Where(x => x.Position == Position.ProjectManager).Select(x => x.FullName).ToList();
-            // Items2 = new ObservableCollection<string>(pms);
-            //  SelectedItem2 = Items[0];
-            // Employee = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefault();
-            // Initialize commands
-            // UpdateCommand = new RelayCommand<object>(OnUpdate);
-            // StartDate=DateTime.Now;
-            // EndDate=DateTime.Now;
+
+
             AddPhotoCommand = new RelayCommand<object>(OnAddPhoto);
-            UpdateCommand = new RelayCommand<object>(OnUpdate);
-            DeleteCommand = new RelayCommand<object>(OnDelete);
+            UpdateCommand = new AsyncRelayCommand<object>(OnUpdateAsync);
+            DeleteCommand = new AsyncRelayCommand<object>(OnDeleteAsync);
+            Task.Run(LoadItemsAsync);
+        }
+        private async Task LoadItemsAsync()
+        {
+            var products = await context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToListAsync();
+            Items4 = new ObservableCollection<string>(products);
+            var projects = await context.Projects.Select(x => x.Id.ToString()).ToListAsync();
+            Items5 = new ObservableCollection<string>(projects);
+
         }
         public ICommand AddPhotoCommand { get; }
         public ICommand UpdateCommand { get; }
@@ -186,13 +183,13 @@ namespace test2.ViewModels
                 }
             }
         }
-        private void LoadOpenEmployee()
+        private async Task LoadOpenEmployeeAsync()
         {
-            var ob = context.Employes.Where(x => x.Username == user).FirstOrDefault();
+            var ob = await context.Employes.Where(x => x.Username == user).FirstOrDefaultAsync();
 
             if (ob.Position == Position.ProjectManager)
             {
-                //UpdateButton.Visibility = Visibility.Collapsed;
+                
                 IsButtonVisible = false;
 
             }
@@ -200,11 +197,10 @@ namespace test2.ViewModels
             {
                 IsButtonVisible = true;
             }
-            Employee obj = context.Employes.Where(x => x.Id == id).FirstOrDefault();
+            Employee obj = await context.Employes.Where(x => x.Id == id).FirstOrDefaultAsync();
             Id = obj.Id.ToString();
             Username = obj.Username;
-            // PasswordBox.Text = obj.PasswordHash;
-            //SaltBox.Text = obj.Salt;
+            
             FullName = obj.FullName;
             Subdivision k = obj.Subdivision;
             switch (k)
@@ -260,35 +256,37 @@ namespace test2.ViewModels
 
             }
 
-            var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
-            //comboBox4.ItemsSource = products;
+            var products = await context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToListAsync();
+            
             var t = obj.PeoplePartner;
 
             for (int i = 0; i < products.Count; i++)
             {
-                if (products[i] == context.Employes.Where(e => e.Id == t).Select(x => x.FullName).FirstOrDefault())
+                var fullName = await context.Employes.Where(e => e.Id == t).Select(x => x.FullName).FirstOrDefaultAsync();
+                if (products[i] == fullName)
                 {
-                    // comboBox4.SelectedIndex = i;
+                    
                     SelectedItem4 = Items4[i];
                 }
 
 
             }
             OutofOfficeBalance = obj.Out_of_OfficeBalance.ToString();
-            //PhotoTextBox.Text = obj.Photo;
+            
             if (obj.Photo != null)
             {
                 ImageSource = obj.Photo;
             }
-            var product = context.Projects.Select(x => x.Id).ToList();
-            //comboBox5.ItemsSource = product;
+            var product = await context.Projects.Select(x => x.Id).ToListAsync();
+            
             var a = obj.AssignedProject;
 
             for (int i = 0; i < product.Count; i++)
             {
-                if (product[i] == context.Projects.Where(e => e.Id == a).Select(x => x.Id).FirstOrDefault())
+                var prj = await context.Projects.Where(e => e.Id == a).Select(x => x.Id).FirstOrDefaultAsync();
+                if (product[i] == prj)
                 {
-                    //comboBox5.SelectedIndex = i;
+                    
                     SelectedItem5 = Items5[i];
                 }
 
@@ -313,7 +311,7 @@ namespace test2.ViewModels
                 // SavePhotoToDatabase(photoData);
             }
         }
-        private void OnUpdate(object parameter)
+        private async Task OnUpdateAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -324,13 +322,12 @@ namespace test2.ViewModels
 
 
 
-            Employee obj = context.Employes.Where(x => x.Id == id).FirstOrDefault();
+            Employee obj = await context.Employes.Where(x => x.Id == id).FirstOrDefaultAsync();
 
 
 
             obj.Username = Username;
-            // obj.PasswordHash = PasswordBox.Text;
-            // obj.Salt = SaltBox.Text;
+            
             obj.FullName = FullName;
 
             switch (SelectedItem)
@@ -385,32 +382,32 @@ namespace test2.ViewModels
 
 
             }
-            var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
+            var products = await context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToListAsync();
             if (!string.IsNullOrEmpty(SelectedItem4))
             {
-                obj.PeoplePartner = context.Employes.Where(e => e.FullName == SelectedItem4).Select(x => x.Id).FirstOrDefault();
+                obj.PeoplePartner = await context.Employes.Where(e => e.FullName == SelectedItem4).Select(x => x.Id).FirstOrDefaultAsync();
             }
 
 
             if (!string.IsNullOrEmpty(SelectedItem5))
             {
-                obj.AssignedProject = context.Projects.Where(e => e.Id.ToString() == SelectedItem5).Select(x => x.Id).FirstOrDefault();
+                obj.AssignedProject = await context.Projects.Where(e => e.Id.ToString() == SelectedItem5).Select(x => x.Id).FirstOrDefaultAsync();
             }
             obj.Out_of_OfficeBalance = int.Parse(OutofOfficeBalance);
-            // obj.Photo = PhotoTextBox.Text;
+            
             if (ImageSource != null)
             {
                 obj.Photo = ImageSource;
 
             }
             context.Entry(obj).State = EntityState.Modified;
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             _dialogService.ShowMessage("Employee updated.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<OpenEmployeeViewModel>();
 
         }
-        private void OnDelete(object parameter)
+        private async Task OnDeleteAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -420,12 +417,13 @@ namespace test2.ViewModels
 
             }
 
-            Employee obj = context.Employes.Where(x => x.Id == id).ToList()[0];
-            var leaveRequests = context.LeaveRequests.Where(x => x.Employee == obj.Id).ToList();
+            Employee obj = await context.Employes.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var leaveRequests = await context.LeaveRequests.Where(x => x.Employee == obj.Id).ToListAsync();
             var approvalRequests = new List<ApprovalRequest>();
             foreach (var lr in leaveRequests)
             {
-                approvalRequests.AddRange(context.ApprovalRequests.Where(x => x.LeaveRequest == lr.Id));
+                var ars = await context.ApprovalRequests.Where(x => x.LeaveRequest == lr.Id).ToListAsync();
+                approvalRequests.AddRange(ars);
 
 
             }
@@ -444,7 +442,7 @@ namespace test2.ViewModels
             {
                 var employes = new List<Employee>();
 
-                employes = context.Employes.Where(x => x.PeoplePartner == obj.Id).ToList();
+                employes = await context.Employes.Where(x => x.PeoplePartner == obj.Id).ToListAsync();
                 foreach (var emp in employes)
                 {
                     emp.PeoplePartner = null;
@@ -457,20 +455,15 @@ namespace test2.ViewModels
             {
                 var projects = new List<Project>();
 
-                projects = context.Projects.Where(x => x.ProjectManager == obj.Id).ToList();
+                projects = await context.Projects.Where(x => x.ProjectManager == obj.Id).ToListAsync();
                 foreach (var p in projects)
                 {
                     p.ProjectManager = null;
                 }
-
-
-
             }
 
-
-
             context.Employes.Remove(obj);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             _dialogService.ShowMessage("Employee deleted.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<OpenEmployeeViewModel>();
 
@@ -482,7 +475,7 @@ namespace test2.ViewModels
             {
                 id = data;
 
-                LoadOpenEmployee();
+                await LoadOpenEmployeeAsync();
             }
         }
         private BitmapImage LoadImage(byte[] imageData)
@@ -500,22 +493,6 @@ namespace test2.ViewModels
             }
             image.Freeze();
             return image;
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

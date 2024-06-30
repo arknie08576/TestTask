@@ -26,10 +26,10 @@ namespace test2.Helpers
 
 
 
-        public static void RegisterUser(string username, string password, string fullName, Subdivision? subdivision, Position? position, EmployeeStatus? status, int? peoplePartner, int out_of_OfficeBalance, byte[] photo)
+        public static async Task RegisterUserAsync(string username, string password, string fullName, Subdivision? subdivision, Position? position, EmployeeStatus? status, int? peoplePartner, int out_of_OfficeBalance, byte[] photo)
         {
-
-            if (context.Employes.Any(u => u.Username == username))
+            var isAny = await context.Employes.AnyAsync(u => u.Username == username);
+            if (isAny)
             {
                 throw new InvalidOperationException("Username already exists.");
             }
@@ -38,15 +38,15 @@ namespace test2.Helpers
             var hash = HashPassword(password, salt);
 
             var user = new Employee { Username = username, PasswordHash = hash, Salt = salt, FullName = fullName, Subdivision = (Subdivision)subdivision, Position = (Position)position, Status = (EmployeeStatus)status, PeoplePartner = peoplePartner, Out_of_OfficeBalance = out_of_OfficeBalance, Photo = photo };
-            context.Employes.Add(user);
-            context.SaveChanges();
+            await context.Employes.AddAsync(user);
+            await context.SaveChangesAsync();
 
         }
 
-        public static bool AuthenticateUser(string username, string password)
+        public static async Task<bool> AuthenticateUserAsync(string username, string password)
         {
 
-            var user = context.Employes.SingleOrDefault(u => u.Username == username);
+            var user = await context.Employes.SingleOrDefaultAsync(u => u.Username == username);
             if (user == null) return false;
 
             var hash = HashPassword(password, user.Salt);

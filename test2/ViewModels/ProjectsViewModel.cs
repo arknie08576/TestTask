@@ -18,35 +18,30 @@ using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
 using test2.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace test2.ViewModels
 {
-    public class ProjectsViewModel : INotifyPropertyChanged
+    public class ProjectsViewModel : ViewModelBase
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         string user;
         public ICommand FilterCommand { get; }
         public ICommand NewProjectCommand { get; }
         public ICommand RowDoubleClickCommand { get; }
-        //var _projects = new ObservableCollection<ViewProject>(viewprojects);
         private ObservableCollection<ViewProject> _projects;
         public ProjectsViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
         {
             context = officeContex;
             _dialogService = dialogService;
             user = AuthenticationHelper.loggedUser;
-
             _windowService = windowService;
-
-            // Initialize commands
-            FilterCommand = new RelayCommand<object>(OnFilter);
+            FilterCommand = new AsyncRelayCommand<object>(OnFilterAsync);
             NewProjectCommand = new RelayCommand<object>(OnNewProject);
-            RowDoubleClickCommand = new RelayCommand<ViewProject>(OnRowDoubleClick);
-            //CloseCommand = new RelayCommand<object>(Close);
-            LoadProjects();
+            RowDoubleClickCommand = new AsyncRelayCommand<ViewProject>(OnRowDoubleClickAsync);
+            Task.Run(LoadProjectsAsync);
         }
 
         private string _id;
@@ -147,9 +142,9 @@ namespace test2.ViewModels
             }
         }
 
-        private void LoadProjects()
+        private async Task LoadProjectsAsync()
         {
-            var u = context.Employes.Where(x => x.Username == user).FirstOrDefault();
+            var u = await context.Employes.Where(x => x.Username == user).FirstOrDefaultAsync();
 
             if (u.Position != Position.ProjectManager && u.Position != Position.Administrator)
             {
@@ -163,18 +158,18 @@ namespace test2.ViewModels
 
 
 
-            var projects = context.Projects.ToList();
+            var projects = await context.Projects.ToListAsync();
             var viewprojects = new List<ViewProject>();
             foreach (var project in projects)
             {
-
+                var pm = await context.Employes.Where(e => e.Position == Position.ProjectManager).Where(x => x.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefaultAsync();
                 ViewProject p = new ViewProject
                 {
                     Id = project.Id,
                     ProjectTypee = project.ProjectType,
                     StartDate = project.StartDate,
                     EndDate = project.EndDate,
-                    ProjectManager = context.Employes.Where(e => e.Position == Position.ProjectManager).Where(x => x.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefault(),
+                    ProjectManager = pm,
                     Comment = project.Comment,
                     ProjectStatuss = project.ProjectStatus
 
@@ -190,7 +185,7 @@ namespace test2.ViewModels
             FilteredProjects = _projects;
 
         }
-        private void OnFilter(object parameter)
+        private async Task OnFilterAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -198,18 +193,18 @@ namespace test2.ViewModels
                 _windowService.CloseWindow<ProjectsViewModel>();
                 return;
             }
-            var projects = context.Projects.ToList();
+            var projects = await context.Projects.ToListAsync();
             var viewprojects = new List<ViewProject>();
             foreach (var project in projects)
             {
-
+                var pm = await context.Employes.Where(e => e.Position == Position.ProjectManager).Where(x => x.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefaultAsync();
                 ViewProject p = new ViewProject
                 {
                     Id = project.Id,
                     ProjectTypee = project.ProjectType,
                     StartDate = project.StartDate,
                     EndDate = project.EndDate,
-                    ProjectManager = context.Employes.Where(e => e.Position == Position.ProjectManager).Where(x => x.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefault(),
+                    ProjectManager = pm,
                     Comment = project.Comment,
                     ProjectStatuss = project.ProjectStatus
 
@@ -309,93 +304,40 @@ namespace test2.ViewModels
                 default:
                     viewprojects = new List<ViewProject> { };
                     break;
-
-
-
             }
-
             if (!string.IsNullOrEmpty(ProjectStatuss))
             {
-
                 viewprojects = viewprojects.Where(y => y.ProjectStatuss == s).ToList();
             }
-
-
-
-
-
             _projects = new ObservableCollection<ViewProject>(viewprojects);
-            
             FilteredProjects = _projects;
-
-
-
-
         }
         private void OnNewProject(object parameter)
         {
-
             _windowService.ShowWindow<NewProjectViewModel>();
-
         }
-        private void OnRowDoubleClick(ViewProject item)
+        private async Task OnRowDoubleClickAsync(ViewProject item)
         {
-            
-                // Perform your action here
-              //  MessageBox.Show($"Double-clicked on: {item.Id}");
-              //  _windowService.ShowWindow<EditLeaveRequestViewModel>(item.Id);
-
-                if (AuthenticationHelper.loggedUser == null)
-                {
+            if (AuthenticationHelper.loggedUser == null)
+            {
                 _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<ProjectsViewModel>();
                 return;
-               
-                }
-
+            }
             if (item != null)
             {
-
                 _dialogService.ShowMessage($"Double-clicked on: {item.Id}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-
-                if (context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager || context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefault() == Position.Administrator)
-                    {
-
-                     _windowService.ShowWindow<EditProjectViewModel>(item.Id);
-
+                var position = await context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefaultAsync();
+                if (position == Position.ProjectManager || position == Position.Administrator)
+                {
+                    _windowService.ShowWindow<EditProjectViewModel>(item.Id);
                 }
                 else
-                    {
-
+                {
                     _windowService.ShowWindow<OpenProjectViewModel>(item.Id);
                 }
-
-
-
-
-
-                }
-            
-
-
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
             }
-
-            return false;
         }
     }
 }

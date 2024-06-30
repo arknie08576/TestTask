@@ -24,10 +24,11 @@ using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
 using test2.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace test2.ViewModels
 {
-    public class RegisterViewModel : INotifyPropertyChanged
+    public class RegisterViewModel : ViewModelBase
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
@@ -36,20 +37,22 @@ namespace test2.ViewModels
         public RegisterViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
         {
             context = officeContex;
-            _dialogService = dialogService;
-           
+            _dialogService = dialogService;  
             ItemsSubdivision = new ObservableCollection<string> { "A", "B", "C", "D", "E", "F" };
             ItemsPosition = new ObservableCollection<string> { "Employee", "HRManager", "ProjectManager", "Administrator" };
-            ItemsStatus = new ObservableCollection<string> { "Active", "Inactive" };
-            var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
-            ItemsPP = new ObservableCollection<string>(products);
+            ItemsStatus = new ObservableCollection<string> { "Active", "Inactive" };       
             _windowService = windowService;
-
-            // Initialize commands
             AddPhotoCommand = new RelayCommand<object>(OnAddPhoto);
-            RegisterCommand = new RelayCommand<object>(OnRegister);
-            //CloseCommand = new RelayCommand<object>(Close);
+            RegisterCommand = new AsyncRelayCommand<object>(OnRegisterAsync);
+            Task.Run(LoadItemsAsync);
         }
+        private async Task LoadItemsAsync()
+        {
+            var products = await context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToListAsync();
+            ItemsPP = new ObservableCollection<string>(products);
+
+        }
+
         private string _username;
         public string Username
         {
@@ -97,11 +100,6 @@ namespace test2.ViewModels
                 OnPropertyChanged(nameof(ConfirmPassword));
             }
         }
-        private void Close()
-        {
-            
-        }
-        // Properties for ComboBoxes
         public ObservableCollection<string> ItemsSubdivision { get; set; }
         public ObservableCollection<string> ItemsPosition { get; set; }
         public ObservableCollection<string> ItemsStatus { get; set; }
@@ -152,7 +150,6 @@ namespace test2.ViewModels
             }
         }
 
-        // Property for Image
         private byte[] _imageSource;
         public byte[] ImageSource
         {
@@ -164,7 +161,6 @@ namespace test2.ViewModels
             }
         }
 
-        // Commands
         public ICommand AddPhotoCommand { get; }
         public ICommand RegisterCommand { get; }
 
@@ -172,23 +168,16 @@ namespace test2.ViewModels
 
         private void OnAddPhoto(object parameter)
         {
-            // Add photo logic
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
             if (openFileDialog.ShowDialog() == true)
             {
-                // Read the photo from the file
                 var photoData = File.ReadAllBytes(openFileDialog.FileName);
-
-                // Display the photo in the Image control
                 ImageSource = photoData;
-
-                // Save the photo to the database
-                // SavePhotoToDatabase(photoData);
             }
         }
 
-        private void OnRegister(object parameter)
+        private async Task OnRegisterAsync(object parameter)
         {
             string username = _username;
             string password = _password;
@@ -268,7 +257,7 @@ namespace test2.ViewModels
                 string x = _selectedItem4;
 
 
-                var partner = context.Employes.Where(e => e.Position == Position.HRManager).Where(x => x.FullName == _selectedItem4).Select(x => x.Id).FirstOrDefault();
+                var partner = await context.Employes.Where(e => e.Position == Position.HRManager).Where(x => x.FullName == _selectedItem4).Select(x => x.Id).FirstOrDefaultAsync();
 
                 peoplePartner = partner;
 
@@ -297,40 +286,15 @@ namespace test2.ViewModels
             try
             {
 
-                AuthenticationHelper.RegisterUser(username, password, fullName, subdivision, position, status, peoplePartner, out_of_OfficeBalance, photo);
+                await AuthenticationHelper.RegisterUserAsync(username, password, fullName, subdivision, position, status, peoplePartner, out_of_OfficeBalance, photo);
                 _dialogService.ShowMessage("Registration successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _windowService.CloseWindow<RegisterViewModel>();
             }
             catch (InvalidOperationException ex)
             {
                 _dialogService.ShowMessage(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            // Registration logic
-            //  string passwordText = SecurePasswordBoxBehavior.SecureStringToString(Password);
-            //System.Windows.MessageBox.Show("Registered Successfully!");
+            }     
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
-        }
-
-        // private System.Collections.IEnumerable itemsStatus;
-
-        // public System.Collections.IEnumerable ItemsStatus { get => itemsStatus; set => SetProperty(ref itemsStatus, value); }
         private BitmapImage LoadImage(byte[] imageData)
         {
             BitmapImage image = new BitmapImage();

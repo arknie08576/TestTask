@@ -16,15 +16,15 @@ using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
 using test2.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace test2.ViewModels
 {
-    public class NewProjectViewModel : INotifyPropertyChanged
+    public class NewProjectViewModel : ViewModelBase
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         public string user;
         public NewProjectViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
         {
@@ -35,15 +35,15 @@ namespace test2.ViewModels
             _windowService = windowService;
             Items = new ObservableCollection<string> { "A", "B", "C", "D" };
             Items3 = new ObservableCollection<string> { "Inactive", "Active" };
-            Items2 = new ObservableCollection<string>(context.Employes.Where(x => x.Position == Position.ProjectManager).Select(x => x.FullName).ToList());
-            AddProjectCommand = new RelayCommand<object>(OnAddProject);
-            // SelectedItem2 = Items[0];
-            // Employee = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefault();
-            // Initialize commands
-            // SubmitCommand = new RelayCommand<object>(OnSubmit);
-            // StartDate=DateTime.Now;
-            // EndDate=DateTime.Now;
-            //CloseCommand = new RelayCommand<object>(Close);
+            
+            AddProjectCommand = new AsyncRelayCommand<object>(OnAddProjectAsync);
+            Task.Run(LoadItems2Async);
+        }
+        private async Task LoadItems2Async()
+        {
+            var pms = await context.Employes.Where(x => x.Position == Position.ProjectManager).Select(x => x.FullName).ToListAsync();
+            Items2 = new ObservableCollection<string>(pms);
+
         }
         public ICommand AddProjectCommand { get; }
         private string _comment;
@@ -108,7 +108,7 @@ namespace test2.ViewModels
             get => _endDate;
             set => SetProperty(ref _endDate, value);
         }
-        private void OnAddProject(object parameter)
+        private async Task OnAddProjectAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -169,27 +169,11 @@ namespace test2.ViewModels
 
 
             }
-            context.Projects.Add(obj);
+            await context.Projects.AddAsync(obj);
             
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             _dialogService.ShowMessage("Project added.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<NewProjectViewModel>();
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

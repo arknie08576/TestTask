@@ -20,12 +20,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace test2.ViewModels
 {
-    public class ApprovalRequestsViewModel : INotifyPropertyChanged
+    public class ApprovalRequestsViewModel : ViewModelBase
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         string user;
         public ICommand FilterCommand { get; }
         public ICommand NewEmployeeCommand { get; }
@@ -220,23 +219,16 @@ namespace test2.ViewModels
 
             if (!string.IsNullOrEmpty(Status))
             {
-
                 viewapprovalRequests = viewapprovalRequests.Where(y => y.Status == x).ToList();
             }
-
             if (!string.IsNullOrEmpty(Comment))
             {
-
                 viewapprovalRequests = viewapprovalRequests.Where(x => x.Comment == Comment).ToList();
             }
-
             FilteredApprovalRequests = new ObservableCollection<ViewApprovalRequest>(viewapprovalRequests);
-
-
         }
         private void OnRowDoubleClick(ViewApprovalRequest item)
         {
-
             if (item != null)
             {
                 if (AuthenticationHelper.loggedUser == null)
@@ -245,29 +237,9 @@ namespace test2.ViewModels
                     _windowService.CloseWindow<ApprovalRequestsViewModel>();
                     return;
                 }
-                // Perform your action here
-
                 _dialogService.ShowMessage($"Double-clicked on: {item.Id}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _windowService.ShowWindow<OpenApprovalRequestViewModel>(item.Id);
             }
-
-
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

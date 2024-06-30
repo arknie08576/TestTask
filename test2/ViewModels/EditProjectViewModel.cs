@@ -19,12 +19,11 @@ using test2.Enums;
 
 namespace test2.ViewModels
 {
-    public class EditProjectViewModel : INotifyPropertyChanged, IParameterReceiver
+    public class EditProjectViewModel : ViewModelBase, IParameterReceiver
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         public string user;
         int id;
         public ICommand UpdateCommand { get; }
@@ -33,19 +32,12 @@ namespace test2.ViewModels
             context = officeContex;
             _dialogService = dialogService;
             user = AuthenticationHelper.loggedUser;
-
             _windowService = windowService;
             Items = new ObservableCollection<string> { "A", "B", "C", "D" };
             Items3 = new ObservableCollection<string> { "Inactive", "Active" };
             var pms=context.Employes.Where(x=>x.Position==Position.ProjectManager).Select(x=>x.FullName).ToList();
             Items2 = new ObservableCollection<string>(pms);
-          //  SelectedItem2 = Items[0];
-           // Employee = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefault();
-            // Initialize commands
             UpdateCommand = new RelayCommand<object>(OnUpdate);
-            // StartDate=DateTime.Now;
-            // EndDate=DateTime.Now;
-            //CloseCommand = new RelayCommand<object>(Close);
         }
         private string _id;
         public string Id
@@ -251,25 +243,8 @@ namespace test2.ViewModels
             if (parameter is int data)
             {
                 id = data;
-
                 LoadEditProject();
             }
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }

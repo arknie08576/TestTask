@@ -19,35 +19,34 @@ using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
 using test2.Enums;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace test2.ViewModels
 {
-    public class NewLeaveRequestViewModel : INotifyPropertyChanged
+    public class NewLeaveRequestViewModel : ViewModelBase
     {
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        public event PropertyChangedEventHandler PropertyChanged;
         public string user;
         public NewLeaveRequestViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
         {
             context = officeContex;
             _dialogService = dialogService;
             user = AuthenticationHelper.loggedUser;
-
             _windowService = windowService;
             Items = new ObservableCollection<string> { "A", "B", "C", "D" };
             Items2 = new ObservableCollection<string> { "New", "Approved", "Rejected", "Canceled" };
             SelectedItem2 = Items2[0];
-            Employee= context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefault();
-            // Initialize commands
-            SubmitCommand = new RelayCommand<object>(OnSubmit);
-           // StartDate=DateTime.Now;
-           // EndDate=DateTime.Now;
-            //CloseCommand = new RelayCommand<object>(Close);
+            SubmitCommand = new AsyncRelayCommand<object>(OnSubmitAsync);
+            Task.Run(LoadEmployeeAsync);
         }
-       
+       private async Task LoadEmployeeAsync()
+        {
+            Employee = await context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefaultAsync();
+
+        }
 
         public ObservableCollection<string> Items
         {
@@ -110,7 +109,7 @@ namespace test2.ViewModels
             set => SetProperty(ref _endDate, value);
         }
         public ICommand SubmitCommand { get; }
-        private void OnSubmit(object parameter)
+        private async Task OnSubmitAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -137,8 +136,8 @@ namespace test2.ViewModels
                     return;
                 }
             }
-
-            var leaveRequests = context.LeaveRequests.Where(x => x.Employee == context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefault()).Where(x => (x.Status == LeaveRequestStatus.New || x.Status == LeaveRequestStatus.Approved)).OrderBy(x => x.StartDate).ToList();
+            var emp = await context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
+            var leaveRequests = await context.LeaveRequests.Where(x => x.Employee == emp).Where(x => (x.Status == LeaveRequestStatus.New || x.Status == LeaveRequestStatus.Approved)).OrderBy(x => x.StartDate).ToListAsync();
 
             bool isCandidateOverlaping = false;
 
@@ -189,7 +188,7 @@ namespace test2.ViewModels
 
 
             var obj = new LeaveRequest();
-            obj.Employee = context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefault();
+            obj.Employee = await context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
             switch (SelectedItem)
             {
                 case "A":
@@ -205,40 +204,19 @@ namespace test2.ViewModels
                     obj.AbsenceReason = AbsenceReason.D;
                     break;
             }
-
             obj.StartDate = DateOnly.FromDateTime(StartDate.Value);
             obj.EndDate = DateOnly.FromDateTime(EndDate.Value);
             obj.Comment = Comment;
             obj.Status = LeaveRequestStatus.New;
-
-
-            context.LeaveRequests.Add(obj);
-            context.SaveChanges();
+            await context.LeaveRequests.AddAsync(obj);
+            await context.SaveChangesAsync();
             var ar = new ApprovalRequest();
             ar.LeaveRequest = obj.Id;
             ar.Status = ApprovalRequestStatus.New;
-            context.ApprovalRequests.Add(ar);
-            context.SaveChanges();
-
-            
+            await context.ApprovalRequests.AddAsync(ar);
+            await context.SaveChangesAsync();  
             _dialogService.ShowMessage("Leave request added.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<NewLeaveRequestViewModel>();
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
         }
     }
 }
