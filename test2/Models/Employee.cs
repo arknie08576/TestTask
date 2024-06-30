@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using test2.Enums;
 
 namespace test2.Models
 {
@@ -32,8 +33,8 @@ namespace test2.Models
         public byte[]? Photo { get; set; }
         [ForeignKey("project")]
         public int? AssignedProject {  get; set; }
-        public Employee employee { get; set; }
-        public Project project { get; set; }
+        public Employee? employee { get; set; }
+        public Project? project { get; set; }
 
 
 

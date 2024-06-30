@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using test2.Views;
 using System.Collections.ObjectModel;
-using test2.Models;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows;
@@ -18,6 +17,7 @@ using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
+using test2.Enums;
 
 namespace test2.ViewModels
 {

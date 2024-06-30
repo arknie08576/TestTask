@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using test2.Models;
+using test2.Enums;
 
 namespace test2.TableModels
 {
@@ -13,7 +13,7 @@ namespace test2.TableModels
 
     {
         public int Id { get; set; }
-        public string Approver { get; set; }
+        public string? Approver { get; set; }
 
         
         public int? LeaveRequestt { get; set; }

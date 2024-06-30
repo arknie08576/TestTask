@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using test2.Models;
+using test2.Enums;
 
 namespace test2.TableModels
 {

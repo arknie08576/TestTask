@@ -61,11 +61,6 @@ namespace test2
             services.AddTransient<OpenEmployeeWindow>();
             services.AddTransient<EditLeaveRequestWindow>();
             services.AddTransient<OpenProjectWindow>();
-           // services.AddTransient<IOpenProjectWindowFactory, OpenProjectWindowFactory>();
-           // services.AddTransient<IEditProjectWindowFactory, EditProjectWindowFactory>();
-           // services.AddTransient<IOpenApprovalRequestWindowFactory, OpenApprovalRequestWindowFactory>();
-           // services.AddTransient<IOpenEmployeeWindowFactory, OpenEmployeeWindowFactory>();
-           // services.AddTransient<IEditLeaveRequestWindowFactory, EditLeaveRequestWindowFactory>();
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<EmployeeViewModel>();
@@ -89,7 +84,7 @@ namespace test2
 
 
             services.AddSingleton<IDialogService, DialogService>();
-           // services.AddSingleton<IEventAggregator, EventAggregator>();
+           
 
             services.AddDbContext<OfficeContex>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));

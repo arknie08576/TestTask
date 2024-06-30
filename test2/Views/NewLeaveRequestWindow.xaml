@@ -28,7 +28,7 @@ HorizontalAlignment="Center">
             <TextBlock TextWrapping="Wrap" Text="Comment"/>
             <TextBox x:Name="CommentTextBox"  Text="{Binding Comment}" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Status"/>
-            <ComboBox Name="comboBox2" ItemsSource="{Binding Items2}"
+            <ComboBox Name="comboBox2" IsEnabled="False" ItemsSource="{Binding Items2}"
                   SelectedItem="{Binding SelectedItem2}"
 Width="200" 
 Height="30" 

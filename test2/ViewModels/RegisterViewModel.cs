@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.ComponentModel;
-using test2.Models;
 using System.Windows.Documents;
 using System.Security;
 using System.Windows.Input;
@@ -24,6 +23,7 @@ using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
+using test2.Enums;
 
 namespace test2.ViewModels
 {

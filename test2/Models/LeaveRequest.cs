@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using test2.Enums;
 
 namespace test2.Models
 {
@@ -18,7 +19,7 @@ namespace test2.Models
         public string? Comment { get; set; }
         [Required]
         public LeaveRequestStatus Status { get; set; }
-        public Employee employee { get; set; }
+        public Employee? employee { get; set; }
 
 
 

@@ -18,6 +18,8 @@ using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
+using test2.Enums;
+
 
 namespace test2.ViewModels
 {
@@ -37,7 +39,7 @@ namespace test2.ViewModels
             _windowService = windowService;
             Items = new ObservableCollection<string> { "A", "B", "C", "D" };
             Items2 = new ObservableCollection<string> { "New", "Approved", "Rejected", "Canceled" };
-            SelectedItem2 = Items[0];
+            SelectedItem2 = Items2[0];
             Employee= context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefault();
             // Initialize commands
             SubmitCommand = new RelayCommand<object>(OnSubmit);
