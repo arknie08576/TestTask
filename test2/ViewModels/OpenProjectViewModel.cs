@@ -8,7 +8,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using test2.Models;
-using test2.Views;
 using test2.Helpers;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using test2.Services;

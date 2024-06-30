@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using test2.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Controls;

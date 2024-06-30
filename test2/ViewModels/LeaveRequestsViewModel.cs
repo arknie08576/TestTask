@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using test2.TableModels;
-using test2.Views;
 using test2.Helpers;
 using test2.Services;
 using test2.Interfaces;

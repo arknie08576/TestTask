@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 using System.Windows;
 using System.Windows.Input;
-using test2.Views;
 using test2.Helpers;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.EntityFrameworkCore;

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace test2.Views
+namespace test2.Interfaces
 {
     public interface IDialogService
     {

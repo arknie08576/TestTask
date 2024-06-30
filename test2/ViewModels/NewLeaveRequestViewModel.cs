@@ -12,7 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Linq;
 using test2.Models;
-using test2.Views;
 using test2.Helpers;
 using test2.Services;
 using test2.Interfaces;
