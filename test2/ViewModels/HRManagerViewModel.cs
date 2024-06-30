@@ -5,10 +5,14 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using test2.View;
+using test2.Views;
 using test2.ViewModels;
-using test2;
+using test2.Helpers;
 using System.ComponentModel;
+using test2.Services;
+using test2.Interfaces;
+using test2.Commands;
+using test2.Data;
 
 namespace test2.ViewModels
 {

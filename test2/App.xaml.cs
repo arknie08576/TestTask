@@ -9,14 +9,19 @@ using System;
 using System.IO;
 
 using test2.ViewModels;
-using test2.View;
+using test2.Views;
+using test2.Helpers;
 using Prism.Events;
+using test2.Services;
+using test2.Interfaces;
+using System.Windows.Media.Animation;
+using test2.Data;
 
 
 
 namespace test2
 {
-    
+
     public partial class App : Application
     {
         private ServiceProvider _serviceProvider;

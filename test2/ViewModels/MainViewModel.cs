@@ -6,14 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using test2.View;
-using test2;
+using test2.Views;
 using System.Collections.ObjectModel;
 using test2.Models;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows;
 using test2.ViewModels;
+using test2.Helpers;
+using test2.Services;
+using test2.Interfaces;
+using test2.Commands;
+using test2.Data;
 
 namespace test2.ViewModels
 {

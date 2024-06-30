@@ -17,9 +17,13 @@ using System.IO;
 using Microsoft.Win32;
 using System.Windows.Controls;
 using System.Windows;
-using test2.View;
+using test2.Views;
+using test2.Helpers;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
-
+using test2.Services;
+using test2.Interfaces;
+using test2.Commands;
+using test2.Data;
 
 namespace test2.ViewModels
 {

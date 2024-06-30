@@ -1,0 +1,51 @@
+﻿<Window x:Class="test2.Views.LeaveRequestsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:test2.Views" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:LeaveRequestsViewModel}"
+        mc:Ignorable="d" xmlns:behaviors="clr-namespace:test2.Behaviors"
+        Title="LeaveRequestsWindow" Height="750" Width="800">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="675">
+            <TextBlock TextWrapping="Wrap" Text="Id"/>
+            <TextBox x:Name="IdTextBox" Text="{Binding Id}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Employee"/>
+            <TextBox x:Name="EmployeeTextBox" Text="{Binding Employee}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Absence Reason"/>
+            <TextBox x:Name="AbsenceReasonTextBox" Text="{Binding AbsenceReasonn}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Start Date"/>
+            <TextBox x:Name="StartDateTextBox" Text="{Binding StartDate}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="End Date"/>
+            <TextBox x:Name="EndDateTextBox" Text="{Binding EndDate}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Comment"/>
+            <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <TextBlock TextWrapping="Wrap" Text="Status"/>
+            <TextBox x:Name="StatusTextBox" Text="{Binding Status}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+            <Button Content="Filter" Width="200"  Command="{Binding FilterCommand}" HorizontalAlignment="Left"/>
+            <Button Content="New Leave Request" Width="200"  Command="{Binding NewLeaveRequestCommand}" HorizontalAlignment="Left"/>
+
+            <DataGrid x:Name="ProjectDataGrid" AutoGenerateColumns="False" 
+          CanUserAddRows="False" CanUserDeleteRows="False"
+          CanUserSortColumns="True" IsReadOnly="True"
+          SelectionMode="Single" ItemsSource="{Binding FilteredLeaveRequests}" 
+          SelectedItem="{Binding SelectedLeaveRequest, Mode=TwoWay}" behaviors:DoubleClickBehavior.Command="{Binding RowDoubleClickCommand}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Employee" Binding="{Binding Employee}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Absence Reason" Binding="{Binding AbsenceReasonn}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate, StringFormat=dd/MM/yyyy}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="End Date" Binding="{Binding EndDate , StringFormat=dd/MM/yyyy}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="False"/>
+                </DataGrid.Columns>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Focusable" Value="True" />
+                        <Setter Property="behaviors:DoubleClickBehavior.Command" Value="{Binding DataContext.RowDoubleClickCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                    </Style>
+                </DataGrid.RowStyle>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>

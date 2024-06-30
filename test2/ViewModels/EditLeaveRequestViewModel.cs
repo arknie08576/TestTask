@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using test2.View;
-using test2;
+using test2.Views;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Windows;
 using test2.Models;
+using test2.Helpers;
 using Microsoft.EntityFrameworkCore;
+using test2.Services;
+using test2.Interfaces;
+using test2.Commands;
+using test2.Data;
 
 namespace test2.ViewModels
 {

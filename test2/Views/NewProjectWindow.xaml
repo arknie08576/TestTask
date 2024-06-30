@@ -1,0 +1,51 @@
+﻿<Window x:Class="test2.Views.NewProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:test2.Views" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:NewProjectViewModel}"
+        mc:Ignorable="d"
+        Title="NewProjectWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            <TextBlock TextWrapping="Wrap"  Text="Project Type (Required)"/>
+            <ComboBox Name="comboBox"  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
+      Width="200" 
+      Height="30" 
+      VerticalAlignment="Center" 
+      HorizontalAlignment="Center">
+                
+            </ComboBox>
+            <TextBlock TextWrapping="Wrap" Text="Start Date (Required)"/>
+            <DatePicker Name="StartDatePicker"  SelectedDate="{Binding StartDate}" >
+            </DatePicker>
+            <TextBlock TextWrapping="Wrap" Text="End Date" />
+            <DatePicker Name="EndDatePicker"  SelectedDate="{Binding EndDate}" >
+            </DatePicker>
+            <TextBlock TextWrapping="Wrap" Text="Project Manager"/>
+            <ComboBox Name="comboBox2" ItemsSource="{Binding Items2}"
+                  SelectedItem="{Binding SelectedItem2}"
+      Width="200" 
+      Height="30" 
+      VerticalAlignment="Center" 
+      HorizontalAlignment="Center">
+            </ComboBox>
+            <TextBlock TextWrapping="Wrap" Text="Comment"/>
+            <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" Width="200" Margin="0,0,0,10"/>
+            <TextBlock TextWrapping="Wrap" Text="Project Status (Required)"/>
+            <ComboBox Name="comboBox3"  ItemsSource="{Binding Items3}"
+                  SelectedItem="{Binding SelectedItem3}"
+Width="200" 
+Height="30" 
+VerticalAlignment="Center" 
+HorizontalAlignment="Center"
+>
+                
+
+            </ComboBox>
+            <Button Content="Add project" Width="200" Command="{Binding AddProjectCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

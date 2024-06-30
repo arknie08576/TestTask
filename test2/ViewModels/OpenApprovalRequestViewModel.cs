@@ -12,9 +12,14 @@ using System.Windows.Controls.Primitives;
 using System.Windows;
 using System.Windows.Input;
 using test2.Models;
-using test2.View;
+using test2.Views;
+using test2.Helpers;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.EntityFrameworkCore;
+using test2.Services;
+using test2.Interfaces;
+using test2.Commands;
+using test2.Data;
 
 namespace test2.ViewModels
 {
