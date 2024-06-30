@@ -1,12 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+﻿using System.Windows;
 namespace test2
 {
     public interface IWindowService
