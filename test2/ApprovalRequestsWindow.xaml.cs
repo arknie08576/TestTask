@@ -34,8 +34,9 @@ namespace test2
             windowService = _windowService;
             InitializeComponent();
             this.user = user;
-            LoadApprovalRequests();
+           // LoadApprovalRequests();
         }
+        /*
         private void LoadApprovalRequests()
         {
 
@@ -48,7 +49,7 @@ namespace test2
                 {
                     Id = approvalRequest.Id,
                     Approver = context.Employes.Where(x => x.Id == approvalRequest.Approver).Select(x => x.FullName).FirstOrDefault(),
-                    LeaveRequest = approvalRequest.LeaveRequest,
+                    LeaveRequestt = approvalRequest.LeaveRequest,
                     Status = approvalRequest.Status,
                     Comment = approvalRequest.Comment
 
@@ -92,7 +93,7 @@ namespace test2
                 {
                     Id = approvalRequest.Id,
                     Approver = context.Employes.Where(x => x.Id == approvalRequest.Approver).Select(x => x.FullName).FirstOrDefault(),
-                    LeaveRequest = approvalRequest.LeaveRequest,
+                    LeaveRequestt = approvalRequest.LeaveRequest,
                     Status = approvalRequest.Status,
                     Comment = approvalRequest.Comment
 
@@ -121,7 +122,7 @@ namespace test2
             if (LeaveRequestTextBox.Text != "")
             {
 
-                viewapprovalRequests = viewapprovalRequests.Where(x => x.LeaveRequest.ToString() == LeaveRequestTextBox.Text).ToList();
+                viewapprovalRequests = viewapprovalRequests.Where(x => x.LeaveRequestt.ToString() == LeaveRequestTextBox.Text).ToList();
             }
 
 
@@ -201,7 +202,7 @@ namespace test2
 
 
 
-        }
+        }*/
     }
 }
 

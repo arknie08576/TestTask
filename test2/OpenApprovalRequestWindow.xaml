@@ -3,36 +3,36 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:test2"
+        xmlns:local="clr-namespace:test2" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:OpenApprovalRequestViewModel}"
         mc:Ignorable="d"
         Title="OpenApprovalRequestWindow" Height="450" Width="800">
+    <Window.Resources>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock TextWrapping="Wrap" Text="Id"/>
-            <TextBox x:Name="IdTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="IdTextBox" Text="{Binding Id}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Approver"/>
-            <TextBox x:Name="ApproverTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="ApproverTextBox" Text="{Binding Approver}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Leave request"/>
-            <TextBox x:Name="LeaverequestTextBox" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="LeaverequestTextBox" Text="{Binding LeaveRequestt}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Status"/>
-            <ComboBox Name="comboBox" 
+            <ComboBox Name="comboBox" IsEnabled="{Binding IsComboBoxEnabled}"  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
 Width="200" 
 Height="30" 
 VerticalAlignment="Center" 
-HorizontalAlignment="Center"
-SelectionChanged="comboBox_SelectionChanged">
-                <ComboBoxItem Content="New" />
-                <ComboBoxItem Content="Approved" />
-                <ComboBoxItem Content="Rejected" />
-                <ComboBoxItem Content="Canceled" />
+HorizontalAlignment="Center">
+                
             </ComboBox>
             
             <TextBlock TextWrapping="Wrap" Text="Comment"/>
-            <TextBox x:Name="CommentTextBox" Width="200" Margin="0,0,0,10"/>
+            <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" Width="200" Margin="0,0,0,10"/>
 
 
-            <Button Name="ApproveButton" Content="Approve request" Width="200" Click="ApproveButton_Click"/>
-            <Button Name="RejectButton" Content="Reject request" Width="200" Click="RejectButton_Click"/>
+            <Button Name="ApproveButton" Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding ApproveCommand}" Content="Approve request" Width="200"/>
+            <Button Name="RejectButton" Visibility="{Binding IsButtonVisible2, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding RejectCommand}" Content="Reject request" Width="200"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -34,12 +34,12 @@ namespace test2.ViewModels
             user = AuthenticationHelper.loggedUser;
 
             _windowService = windowService;
-             Items = new ObservableCollection<string> { "A", "B", "C", "D", "E", "F" };
+            Items = new ObservableCollection<string> { "A", "B", "C", "D", "E", "F" };
             Items2 = new ObservableCollection<string> { "Employee", "HRManager", "ProjectManager", "Administrator" };
             Items3 = new ObservableCollection<string> { "Inactive", "Active" };
             var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
             Items4 = new ObservableCollection<string>(products);
-            var projects = context.Projects.Select(x=>x.Id.ToString()).ToList();
+            var projects = context.Projects.Select(x => x.Id.ToString()).ToList();
             Items5 = new ObservableCollection<string>(projects);
             // Items3 = new ObservableCollection<string> { "Inactive", "Active" };
             // var pms = context.Employes.Where(x => x.Position == Position.ProjectManager).Select(x => x.FullName).ToList();
@@ -205,7 +205,7 @@ namespace test2.ViewModels
             switch (k)
             {
                 case Subdivision.A:
-                    
+
                     SelectedItem = Items[0];
                     break;
                 case Subdivision.B:
@@ -263,7 +263,7 @@ namespace test2.ViewModels
             {
                 if (products[i] == context.Employes.Where(e => e.Id == t).Select(x => x.FullName).FirstOrDefault())
                 {
-                   // comboBox4.SelectedIndex = i;
+                    // comboBox4.SelectedIndex = i;
                     SelectedItem4 = Items4[i];
                 }
 
@@ -400,7 +400,7 @@ namespace test2.ViewModels
             }
             context.Entry(obj).State = EntityState.Modified;
             context.SaveChanges();
-          
+
             _dialogService.ShowMessage("Employee updated.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<OpenEmployeeViewModel>();
 
@@ -412,7 +412,7 @@ namespace test2.ViewModels
                 _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _windowService.CloseWindow<OpenEmployeeViewModel>();
                 return;
-                
+
             }
 
             Employee obj = context.Employes.Where(x => x.Id == id).ToList()[0];
@@ -471,7 +471,7 @@ namespace test2.ViewModels
 
 
         }
-            public void ReceiveParameter(object parameter)
+        public void ReceiveParameter(object parameter)
         {
             if (parameter is int data)
             {

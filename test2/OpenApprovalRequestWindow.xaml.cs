@@ -23,16 +23,16 @@ namespace test2
         string user;
         int id;
         private readonly OfficeContex context;
-        public OpenApprovalRequestWindow(int Id, OfficeContex officeContex)
+        public OpenApprovalRequestWindow( OfficeContex officeContex)
         {
             InitializeComponent();
             user = AuthenticationHelper.loggedUser;
             context = officeContex;
-            id = Id;
-            LoadApprovalRequest();
+            //id = Id;
+           // LoadApprovalRequest();
 
         }
-
+        /*
         private void LoadApprovalRequest()
         {
 
@@ -144,6 +144,6 @@ namespace test2
         private void comboBox2_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
 
-        }
+        }*/
     }
 }

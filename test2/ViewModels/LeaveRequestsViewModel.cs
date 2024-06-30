@@ -191,20 +191,20 @@ namespace test2.ViewModels
 
 
             }
-            if (!string.IsNullOrEmpty(_id))
+            if (!string.IsNullOrEmpty(Id))
             {
 
                 viewleaveRequests = viewleaveRequests.Where(x => x.Id == Convert.ToInt32(_id)).ToList();
             }
 
-            if (!string.IsNullOrEmpty(_employee))
+            if (!string.IsNullOrEmpty(Employee))
             {
 
                 viewleaveRequests = viewleaveRequests.Where(x => x.Employee == _employee).ToList();
             }
             AbsenceReason x = AbsenceReason.A;
 
-            switch (_absenceReason)
+            switch (AbsenceReasonn)
             {
                 case "A":
                     x = AbsenceReason.A;
@@ -229,14 +229,14 @@ namespace test2.ViewModels
 
             }
 
-            if (!string.IsNullOrEmpty(_absenceReason))
+            if (!string.IsNullOrEmpty(AbsenceReasonn))
             {
 
                 viewleaveRequests = viewleaveRequests.Where(y => y.AbsenceReasonn == x).ToList();
             }
-            if (!string.IsNullOrEmpty(_startDate))
+            if (!string.IsNullOrEmpty(StartDate))
             {
-                string dateString = _startDate;
+                string dateString = StartDate;
                 string format = "dd/MM/yyyy";
                 if (DateOnly.TryParseExact(dateString, format, null, DateTimeStyles.None, out DateOnly date))
                 {
@@ -244,9 +244,9 @@ namespace test2.ViewModels
                 }
 
             }
-            if (!string.IsNullOrEmpty(_endDate))
+            if (!string.IsNullOrEmpty(EndDate))
             {
-                string dateString = _endDate;
+                string dateString = EndDate;
                 string format = "dd/MM/yyyy";
                 if (DateOnly.TryParseExact(dateString, format, null, DateTimeStyles.None, out DateOnly date))
                 {
@@ -254,13 +254,13 @@ namespace test2.ViewModels
                 }
 
             }
-            if (!string.IsNullOrEmpty(_comment))
+            if (!string.IsNullOrEmpty(Comment))
             {
 
-                viewleaveRequests = viewleaveRequests.Where(x => x.Comment == _comment).ToList();
+                viewleaveRequests = viewleaveRequests.Where(x => x.Comment == Comment).ToList();
             }
             LeaveRequestStatus f = LeaveRequestStatus.New;
-            switch (_status)
+            switch (Status)
             {
                 case "New":
                     f = LeaveRequestStatus.New;
@@ -284,7 +284,7 @@ namespace test2.ViewModels
 
 
             }
-            if (!string.IsNullOrEmpty(_status))
+            if (!string.IsNullOrEmpty(Status))
             {
 
                 viewleaveRequests = viewleaveRequests.Where(y => y.Status == f).ToList();

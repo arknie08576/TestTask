@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace test2
 {
-
+    /*
     public interface IOpenApprovalRequestWindowFactory
     {
         OpenApprovalRequestWindow Create(int id);
@@ -29,5 +29,5 @@ namespace test2
             
             return new OpenApprovalRequestWindow(id, dbContext);
         }
-    }
+    }*/
 }

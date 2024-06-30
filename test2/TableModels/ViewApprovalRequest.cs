@@ -16,7 +16,7 @@ namespace test2.TableModels
         public string Approver { get; set; }
 
         
-        public int? LeaveRequest { get; set; }
+        public int? LeaveRequestt { get; set; }
       
         public ApprovalRequestStatus Status { get; set; }
        

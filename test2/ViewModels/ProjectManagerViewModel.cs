@@ -50,7 +50,9 @@ namespace test2.ViewModels
             _windowService.ShowWindow<EmployesViewModel>();
         }
         private void OnApprovalRequests(object parameter)
-        { }
+        {
+            _windowService.ShowWindow<ApprovalRequestsViewModel>();
+        }
         private void OnLogout(object parameter)
         {
             AuthenticationHelper.loggedUser = null;
