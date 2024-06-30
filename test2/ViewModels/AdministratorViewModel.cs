@@ -17,8 +17,7 @@ namespace test2.ViewModels
 {
     public class AdministratorViewModel : INotifyPropertyChanged
     {
-        private readonly OfficeContex context;
-        private readonly IDialogService _dialogService;
+        
         private readonly IWindowService _windowService;
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand ProjectsCommand { get; }
@@ -26,10 +25,10 @@ namespace test2.ViewModels
         public ICommand EmployesCommand { get; }
         public ICommand ApprovalRequestsCommand { get; }
         public ICommand LogoutCommand { get; }
-        public AdministratorViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
+        public AdministratorViewModel( IWindowService windowService)
         {
-            context = officeContex;
-            _dialogService = dialogService;
+            
+            
 
 
             _windowService = windowService;

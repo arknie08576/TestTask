@@ -40,11 +40,11 @@ namespace test2.ViewModels
             Items = new ObservableCollection<string> { "A", "B", "C", "D" };
             Items2 = new ObservableCollection<string> { "New", "Approved", "Rejected", "Canceled" };
             // Initialize commands
-            UpdateCommand = new RelayCommand<object>(OnUpdate);
+            UpdateCommand = new AsyncRelayCommand<object>(OnUpdateAsync);
             CancelCommand = new RelayCommand<object>(OnCancel);
-            IsComboBoxEditable2=false;
+            IsComboBoxEditable2 = false;
             IsComboBoxEditable = false;
-            IsComboBoxEnabled2=false;
+            IsComboBoxEnabled2 = false;
 
         }
         private bool _isComboBoxEditable;
@@ -244,27 +244,27 @@ namespace test2.ViewModels
             get => _endDate;
             set => SetProperty(ref _endDate, value);
         }
-        private void LoadLeaveRequest()
+        private async Task LoadLeaveRequestAsync()
         {
             Id = id.ToString();
-            if ((context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault() != LeaveRequestStatus.New || (context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.HRManager || context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager)))
+            var status = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefaultAsync();
+            var position = await context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefaultAsync();
+            if ((status != LeaveRequestStatus.New || (position == Position.HRManager || position == Position.ProjectManager)))
             {
                 IsTextBoxReadOnly = true;
                 IsButtonVisible = false;
+                IsComboBoxEditable = false;
             }
             else
             {
                 IsButtonVisible = true;
                 IsTextBoxReadOnly = false;
             }
-            if ((context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault() != LeaveRequestStatus.New || (context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.HRManager || context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager)))
-            {
-                IsComboBoxEditable = false;
-            }
-            var products = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToList();
+
+            var products = await context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToListAsync();
             Id = id.ToString();
-            Employee = context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefault();
-            AbsenceReason k = context.LeaveRequests.Where(e => e.Id == id).Select(x => x.AbsenceReason).FirstOrDefault();
+            Employee = await context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefaultAsync();
+            AbsenceReason k = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.AbsenceReason).FirstOrDefaultAsync();
             switch (k)
             {
                 case AbsenceReason.A:
@@ -281,10 +281,12 @@ namespace test2.ViewModels
                     break;
             }
 
-            StartDate = context.LeaveRequests.Where(e => e.Id == id).Select(x => x.StartDate).FirstOrDefault().ToDateTime(TimeOnly.Parse("10:00 PM"));
-            EndDate = context.LeaveRequests.Where(e => e.Id == id).Select(x => x.EndDate).FirstOrDefault().ToDateTime(TimeOnly.Parse("10:00 PM"));
-            Comment = context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Comment).FirstOrDefault();
-            LeaveRequestStatus a = context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault();
+            var start = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.StartDate).FirstOrDefaultAsync();
+            StartDate = start.ToDateTime(TimeOnly.Parse("10:00 PM"));
+            var end = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.EndDate).FirstOrDefaultAsync();
+            EndDate = end.ToDateTime(TimeOnly.Parse("10:00 PM"));
+            Comment = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Comment).FirstOrDefaultAsync();
+            LeaveRequestStatus a = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefaultAsync();
             switch (a)
             {
                 case LeaveRequestStatus.New:
@@ -300,7 +302,8 @@ namespace test2.ViewModels
                     SelectedItem2 = Items2[3];
                     break;
             }
-            if (context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefault() != LeaveRequestStatus.New || (context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.HRManager || context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefault() == Position.ProjectManager))
+
+            if (status != LeaveRequestStatus.New || (position == Position.HRManager || position == Position.ProjectManager))
             {
                 IsStartDatePickerEnabled = false;
                 IsEndDatePickerEnabled = false;
@@ -311,20 +314,20 @@ namespace test2.ViewModels
                 IsEndDatePickerEnabled = true;
             }
         }
-        public void ReceiveParameter(object parameter)
+        public async Task ReceiveParameterAsync(object parameter)
         {
             if (parameter is int data)
             {
                 id = data;
-                
-                LoadLeaveRequest();
+
+                await LoadLeaveRequestAsync();
             }
         }
-        private void OnUpdate(object parameter)
+        private async Task OnUpdateAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                
+
                 _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _windowService.CloseWindow<EditLeaveRequestViewModel>();
                 return;
@@ -332,13 +335,15 @@ namespace test2.ViewModels
             if (SelectedItem == "" || SelectedItem == null || !StartDate.HasValue || !EndDate.HasValue || SelectedItem2 == "" || SelectedItem2 == null)
             {
                 _dialogService.ShowMessage("Fill in all required fields", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                
+
 
                 return;
 
 
             }
-            var leaveRequests = context.LeaveRequests.Where(x => x.Employee == context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefault()).Where(x => (x.Status == LeaveRequestStatus.New || x.Status == LeaveRequestStatus.Approved)).OrderBy(x => x.StartDate).ToList();
+            var employeeId = await context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
+            var leaveRequests = await context.LeaveRequests.Where(x => x.Employee == employeeId).ToListAsync();
+            leaveRequests = leaveRequests.Where(x => (x.Status == LeaveRequestStatus.New || x.Status == LeaveRequestStatus.Approved)).OrderBy(x => x.StartDate).ToList();
             leaveRequests = leaveRequests.Where(x => x.Id != id).ToList();
             bool isCandidateOverlaping = false;
 
@@ -379,7 +384,7 @@ namespace test2.ViewModels
             }
             if (!isSpace || isCandidateOverlaping)
             {
-                
+
                 _dialogService.ShowMessage("A specific date range covers a different New or Approved Leave Request.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
 
@@ -392,13 +397,13 @@ namespace test2.ViewModels
                 if (StartDate.Value > EndDate.Value)
                 {
 
-                    
+
                     _dialogService.ShowMessage("Start date must be earlier than end date.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
             }
 
-            var obj = context.LeaveRequests.Find(id);
+            var obj = await context.LeaveRequests.FindAsync(id);
             switch (SelectedItem)
             {
                 case "A":
@@ -435,33 +440,33 @@ namespace test2.ViewModels
             }
 
             context.Entry(obj).State = EntityState.Modified;
-            context.SaveChanges();
-            
+            await context.SaveChangesAsync();
+
             _dialogService.ShowMessage("Leave request updated", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<EditLeaveRequestViewModel>();
         }
-        private void OnCancel(object parameter)
+        private async void OnCancel(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                
+
                 _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _windowService.CloseWindow<EditLeaveRequestViewModel>();
                 return;
             }
 
-            var obj = context.LeaveRequests.Find(id);
+            var obj = await context.LeaveRequests.FindAsync(id);
             if (obj.Status == LeaveRequestStatus.Approved)
             {
-                var emp = context.Employes.Find(obj.Employee);
+                var emp = await context.Employes.FindAsync(obj.Employee);
                 emp.Out_of_OfficeBalance += (obj.EndDate.ToDateTime(TimeOnly.MinValue) - obj.StartDate.ToDateTime(TimeOnly.MinValue)).Days + 1;
             }
             obj.Status = LeaveRequestStatus.Canceled;
-            var ar = context.ApprovalRequests.Where(x => x.LeaveRequest == obj.Id).FirstOrDefault();
+            var ar = await context.ApprovalRequests.Where(x => x.LeaveRequest == obj.Id).FirstOrDefaultAsync();
             ar.Status = ApprovalRequestStatus.Canceled;
             context.Entry(obj).State = EntityState.Modified;
-            context.SaveChanges();
-            
+            await context.SaveChangesAsync();
+
             _dialogService.ShowMessage("Leave request canceled", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<EditLeaveRequestViewModel>();
 

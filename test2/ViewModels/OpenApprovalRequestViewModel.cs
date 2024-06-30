@@ -238,7 +238,7 @@ namespace test2.ViewModels
             _dialogService.ShowMessage("Approval request rejected", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<OpenApprovalRequestViewModel>();
         }
-        public void ReceiveParameter(object parameter)
+        public async Task ReceiveParameterAsync(object parameter)
         {
             if (parameter is int data)
             {

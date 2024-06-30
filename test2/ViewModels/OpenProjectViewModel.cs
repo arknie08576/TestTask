@@ -138,7 +138,7 @@ namespace test2.ViewModels
 
         }
 
-        public void ReceiveParameter(object parameter)
+        public async Task ReceiveParameterAsync(object parameter)
         {
             if (parameter is int data)
             {

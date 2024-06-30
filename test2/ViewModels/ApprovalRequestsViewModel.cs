@@ -16,6 +16,7 @@ using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
 using test2.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace test2.ViewModels
 {
@@ -38,11 +39,12 @@ namespace test2.ViewModels
             _windowService = windowService;
 
             // Initialize commands
-            FilterCommand = new RelayCommand<object>(OnFilter);
+            FilterCommand = new AsyncRelayCommand<object>(OnFilterAsync);
 
             RowDoubleClickCommand = new RelayCommand<ViewApprovalRequest>(OnRowDoubleClick);
             //CloseCommand = new RelayCommand<object>(Close);
-            LoadApprovalRequests();
+            // LoadApprovalRequestsAsync();
+            Task.Run(LoadApprovalRequestsAsync);
         }
         private string _id;
         public string Id
@@ -107,17 +109,17 @@ namespace test2.ViewModels
                 }
             }
         }
-        private void LoadApprovalRequests()
+        private async Task LoadApprovalRequestsAsync()
         {
-            var approvalRequests = context.ApprovalRequests.ToList();
+            var approvalRequests =await context.ApprovalRequests.ToListAsync();
             var viewapprovalRequests = new List<ViewApprovalRequest>();
             foreach (var approvalRequest in approvalRequests)
             {
-
+                var approver = await context.Employes.Where(x => x.Id == approvalRequest.Approver).Select(x => x.FullName).FirstOrDefaultAsync();
                 ViewApprovalRequest p = new ViewApprovalRequest
                 {
                     Id = approvalRequest.Id,
-                    Approver = context.Employes.Where(x => x.Id == approvalRequest.Approver).Select(x => x.FullName).FirstOrDefault(),
+                    Approver = approver,
                     LeaveRequestt = approvalRequest.LeaveRequest,
                     Status = approvalRequest.Status,
                     Comment = approvalRequest.Comment
@@ -135,7 +137,7 @@ namespace test2.ViewModels
 
 
         }
-        private void OnFilter(object parameter)
+        private async Task OnFilterAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -144,15 +146,15 @@ namespace test2.ViewModels
                 return;
             }
 
-            var approvalRequests = context.ApprovalRequests.ToList();
+            var approvalRequests = await context.ApprovalRequests.ToListAsync();
             var viewapprovalRequests = new List<ViewApprovalRequest>();
             foreach (var approvalRequest in approvalRequests)
             {
-
+                var approver = await context.Employes.Where(x => x.Id == approvalRequest.Approver).Select(x => x.FullName).FirstOrDefaultAsync();
                 ViewApprovalRequest p = new ViewApprovalRequest
                 {
                     Id = approvalRequest.Id,
-                    Approver = context.Employes.Where(x => x.Id == approvalRequest.Approver).Select(x => x.FullName).FirstOrDefault(),
+                    Approver = approver,
                     LeaveRequestt = approvalRequest.LeaveRequest,
                     Status = approvalRequest.Status,
                     Comment = approvalRequest.Comment

@@ -8,6 +8,6 @@ namespace test2.Interfaces
 {
     public interface IParameterReceiver
     {
-        void ReceiveParameter(object parameter);
+        Task ReceiveParameterAsync(object parameter);
     }
 }

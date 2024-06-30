@@ -17,8 +17,8 @@ namespace test2.Models
         [MaxLength(100)]
         
         public string? Comment { get; set; }
-        public Employee employee { get; set; }
-        public LeaveRequest leaveRequest { get; set; }
+        public Employee? employee { get; set; }
+        public LeaveRequest? leaveRequest { get; set; }
 
     }
 }

@@ -59,7 +59,7 @@ namespace test2.Services
             window.DataContext = viewModel;
             if (viewModel is IParameterReceiver receiver)
             {
-                receiver.ReceiveParameter(parameter);
+                receiver.ReceiveParameterAsync(parameter);
             }
             return window;
         }
