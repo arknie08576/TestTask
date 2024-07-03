@@ -153,7 +153,7 @@ namespace test2.ViewModels
             }
             if (string.IsNullOrEmpty(SelectedItem2))
             {
-                obj.ProjectManager = context.Employes.Where(x => x.FullName == SelectedItem2).Select(x => x.Id).FirstOrDefault();
+                obj.ProjectManager = await context.Employes.Where(x => x.FullName == SelectedItem2).Select(x => x.Id).FirstOrDefaultAsync();
             }
             obj.Comment = Comment;
             switch (SelectedItem3)

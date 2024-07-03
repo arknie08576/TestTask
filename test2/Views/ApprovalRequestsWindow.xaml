@@ -6,41 +6,64 @@
         xmlns:local="clr-namespace:test2.Views" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ApprovalRequestsViewModel}"
         mc:Ignorable="d" xmlns:behaviors="clr-namespace:test2.Behaviors"
         Title="ApprovalRequestsWindow" Height="750" Width="800">
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="675">
-            <TextBlock TextWrapping="Wrap" Text="Id"/>
-            <TextBox x:Name="IdTextBox" Text="{Binding Id}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <TextBlock TextWrapping="Wrap" Text="Approver"/>
-            <TextBox x:Name="ApproverTextBox" Text="{Binding Approver}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <TextBlock TextWrapping="Wrap" Text="Leave Request"/>
-            <TextBox x:Name="LeaveRequestTextBox" Text="{Binding LeaveRequestt}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <TextBlock TextWrapping="Wrap" Text="Status"/>
-            <TextBox x:Name="StatusTextBox" Text="{Binding Status}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <TextBlock TextWrapping="Wrap" Text="Comment"/>
-            <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <Button Content="Filter" Command="{Binding FilterCommand}" Width="200" HorizontalAlignment="Left"/>
-            
+    <Border CornerRadius="12">
+        <Border CornerRadius="10"                     
+BorderThickness="1"
+Opacity="0.75">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="0,1">
+                    <GradientStop Color="#2946AA" Offset="0"/>
+                    <GradientStop Color="#BDBEDD" Offset="0.6"/>
+                    <GradientStop Color="#FF3EFA18" Offset="1"/>
 
-            <DataGrid x:Name="ProjectDataGrid" AutoGenerateColumns="False" 
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#2946AA" Offset="0"/>
+                    <GradientStop Color="#BDBEDD" Offset="0.6"/>
+                    <GradientStop Color="#FF3EFA18"  Offset="1"/>
+
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="675">
+                    <TextBlock TextWrapping="Wrap" Text="Id"/>
+                    <TextBox x:Name="IdTextBox" Text="{Binding Id}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="Approver"/>
+                    <TextBox x:Name="ApproverTextBox" Text="{Binding Approver}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="Leave Request"/>
+                    <TextBox x:Name="LeaveRequestTextBox" Text="{Binding LeaveRequestt}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="Status"/>
+                    <TextBox x:Name="StatusTextBox" Text="{Binding Status}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="Comment"/>
+                    <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <Button Content="Filter" Command="{Binding FilterCommand}" Width="200" HorizontalAlignment="Left"/>
+
+
+                    <DataGrid x:Name="ProjectDataGrid" AutoGenerateColumns="False" 
   CanUserAddRows="True" CanUserDeleteRows="True"
   CanUserSortColumns="True" IsReadOnly="True"
   SelectionMode="Single" ItemsSource="{Binding FilteredApprovalRequests}" 
           SelectedItem="{Binding SelectedApprovalRequest, Mode=TwoWay}" behaviors:DoubleClickBehavior.Command="{Binding RowDoubleClickCommand}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="Approver" Binding="{Binding Approver}" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="Leave Request" Binding="{Binding LeaveRequestt}" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" IsReadOnly="False"/>
-   
-                </DataGrid.Columns>
-                <DataGrid.RowStyle>
-                    <Style TargetType="DataGridRow">
-                        <Setter Property="Focusable" Value="True" />
-                        <Setter Property="behaviors:DoubleClickBehavior.Command" Value="{Binding DataContext.RowDoubleClickCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                    </Style>
-                </DataGrid.RowStyle>
-            </DataGrid>
-        </StackPanel>
-    </Grid>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="False"/>
+                            <DataGridTextColumn Header="Approver" Binding="{Binding Approver}" IsReadOnly="False"/>
+                            <DataGridTextColumn Header="Leave Request" Binding="{Binding LeaveRequestt}" IsReadOnly="False"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="False"/>
+                            <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" IsReadOnly="False"/>
+
+                        </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Focusable" Value="True" />
+                                <Setter Property="behaviors:DoubleClickBehavior.Command" Value="{Binding DataContext.RowDoubleClickCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Border>
 </Window>

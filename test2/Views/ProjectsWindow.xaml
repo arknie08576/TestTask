@@ -10,46 +10,69 @@
     <Window.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="575">
-            <TextBlock TextWrapping="Wrap" Text="Id"/>
-            <TextBox x:Name="IdTypeTextBox" Text="{Binding Id}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <TextBlock TextWrapping="Wrap" Text="Project Type"/>
-            <TextBox x:Name="ProjectTypeTextBox" Text="{Binding ProjectTypee}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <TextBlock TextWrapping="Wrap" Text="Start Date"/>
-            <TextBox x:Name="StartDateTextBox" Text="{Binding StartDate}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <TextBlock TextWrapping="Wrap" Text="End Date"/>
-            <TextBox x:Name="EndDateTextBox" Text="{Binding EndDate}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <TextBlock TextWrapping="Wrap" Text="Project Manager"/>
-            <TextBox x:Name="ProjectManagerTextBox" Text="{Binding ProjectManager}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <TextBlock TextWrapping="Wrap" Text="Comment"/>
-            <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <TextBlock TextWrapping="Wrap" Text="Project Status"/>
-            <TextBox x:Name="ProjectStatusTextBox" Text="{Binding ProjectStatuss}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-            <Button Content="Filter" Width="200" Command="{Binding FilterCommand}"  HorizontalAlignment="Left"/>
-            <Button Name="myButton" Content="New Project" Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding NewProjectCommand}" Width="200" HorizontalAlignment="Left"/>
+    <Border CornerRadius="12">
+        <Border CornerRadius="10"                     
+ BorderThickness="1"
+ Opacity="0.75">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="0,1">
+                    <GradientStop Color="#2946AA" Offset="0"/>
+                    <GradientStop Color="#BDBEDD" Offset="0.6"/>
+                    <GradientStop Color="#FF3EFA18" Offset="1"/>
 
-            <DataGrid x:Name="ProjectDataGrid2" AutoGenerateColumns="False" 
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#2946AA" Offset="0"/>
+                    <GradientStop Color="#BDBEDD" Offset="0.6"/>
+                    <GradientStop Color="#FF3EFA18"  Offset="1"/>
+
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="575">
+                    <TextBlock TextWrapping="Wrap" Text="Id"/>
+                    <TextBox x:Name="IdTypeTextBox" Text="{Binding Id}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="Project Type"/>
+                    <TextBox x:Name="ProjectTypeTextBox" Text="{Binding ProjectTypee}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="Start Date"/>
+                    <TextBox x:Name="StartDateTextBox" Text="{Binding StartDate}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="End Date"/>
+                    <TextBox x:Name="EndDateTextBox" Text="{Binding EndDate}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="Project Manager"/>
+                    <TextBox x:Name="ProjectManagerTextBox" Text="{Binding ProjectManager}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="Comment"/>
+                    <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="Project Status"/>
+                    <TextBox x:Name="ProjectStatusTextBox" Text="{Binding ProjectStatuss}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
+                    <Button Content="Filter" Width="200" Command="{Binding FilterCommand}"  HorizontalAlignment="Left"/>
+                    <Button Name="myButton" Content="New Project" Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding NewProjectCommand}" Width="200" HorizontalAlignment="Left"/>
+
+                    <DataGrid x:Name="ProjectDataGrid2" AutoGenerateColumns="False" 
           CanUserAddRows="False" CanUserDeleteRows="False"
           CanUserSortColumns="True" IsReadOnly="True"
           SelectionMode="Single" ItemsSource="{Binding FilteredProjects}" 
           SelectedItem="{Binding Selectedproject, Mode=TwoWay}" behaviors:DoubleClickBehavior.Command="{Binding RowDoubleClickCommand}">
-            <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectTypee}" />
-                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate , StringFormat=dd/MM/yyyy}" />
-                    <DataGridTextColumn Header="End Date" Binding="{Binding EndDate, StringFormat=dd/MM/yyyy}" />
-                <DataGridTextColumn Header="Project Manager" Binding="{Binding ProjectManager}" />
-                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" />
-                <DataGridTextColumn Header="Project Status" Binding="{Binding ProjectStatuss}" />
-            </DataGrid.Columns>
-                <DataGrid.RowStyle>
-                    <Style TargetType="DataGridRow">
-                        <Setter Property="Focusable" Value="True" />
-                        <Setter Property="behaviors:DoubleClickBehavior.Command" Value="{Binding DataContext.RowDoubleClickCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                    </Style>
-                </DataGrid.RowStyle>
-            </DataGrid>
-        </StackPanel>
-    </Grid>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                            <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectTypee}" />
+                            <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate , StringFormat=dd/MM/yyyy}" />
+                            <DataGridTextColumn Header="End Date" Binding="{Binding EndDate, StringFormat=dd/MM/yyyy}" />
+                            <DataGridTextColumn Header="Project Manager" Binding="{Binding ProjectManager}" />
+                            <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" />
+                            <DataGridTextColumn Header="Project Status" Binding="{Binding ProjectStatuss}" />
+                        </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Focusable" Value="True" />
+                                <Setter Property="behaviors:DoubleClickBehavior.Command" Value="{Binding DataContext.RowDoubleClickCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Border>
 </Window>

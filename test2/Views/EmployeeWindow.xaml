@@ -6,11 +6,34 @@
         xmlns:local="clr-namespace:test2.Views" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:EmployeeViewModel}"
         mc:Ignorable="d"
         Title="EmployeeWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Content="Projects"  Command="{Binding ProjectsCommand}" Width="200" />
-            <Button Content="Leave Requests" Command="{Binding LeaveRequestsCommand}" Width="200"/>
-            <Button Content="Log out" Command="{Binding LogoutCommand}" Width="200"/>
-        </StackPanel>
-    </Grid>
+    <Border CornerRadius="12">
+        <Border CornerRadius="10"                     
+BorderThickness="1"
+Opacity="0.75">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="0,1">
+                    <GradientStop Color="#2946AA" Offset="0"/>
+                    <GradientStop Color="#BDBEDD" Offset="0.6"/>
+                    <GradientStop Color="#FF3EFA18" Offset="1"/>
+
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#2946AA" Offset="0"/>
+                    <GradientStop Color="#BDBEDD" Offset="0.6"/>
+                    <GradientStop Color="#FF3EFA18"  Offset="1"/>
+
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Button Content="Projects"  Command="{Binding ProjectsCommand}" Width="200" />
+                    <Button Content="Leave Requests" Command="{Binding LeaveRequestsCommand}" Width="200"/>
+                    <Button Content="Log out" Command="{Binding LogoutCommand}" Width="200"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Border>
 </Window>

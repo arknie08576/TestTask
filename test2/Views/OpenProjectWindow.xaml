@@ -6,37 +6,60 @@
         xmlns:local="clr-namespace:test2.Views" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:OpenProjectViewModel}"
         mc:Ignorable="d"
         Title="OpenProjectWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock TextWrapping="Wrap" Text="Id"/>
-            <TextBox x:Name="IdTextBox" Text="{Binding Id}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap"  Text="Project Type"/>
-            <TextBox x:Name="ProjectTypeTextBox" Text="{Binding ProjectTypee}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Start Date"/>
-            <DatePicker Name="StartDatePicker" SelectedDate="{Binding StartDate}"  IsEnabled="False" >
-                <DatePicker.Resources>
-                    <Style TargetType="DatePickerTextBox">
-                        <Setter Property="IsHitTestVisible" Value="False" />
-                        <Setter Property="Focusable" Value="False" />
-                    </Style>
-                </DatePicker.Resources>
-            </DatePicker>
-            <TextBlock TextWrapping="Wrap" Text="End Date" />
-            <DatePicker Name="EndDatePicker"  SelectedDate="{Binding EndDate}" IsEnabled="False" >
-                <DatePicker.Resources>
-                    <Style TargetType="DatePickerTextBox">
-                        <Setter Property="IsHitTestVisible" Value="False" />
-                        <Setter Property="Focusable" Value="False" />
-                    </Style>
-                </DatePicker.Resources>
-            </DatePicker>
-            <TextBlock TextWrapping="Wrap" Text="Project Manager"/>
-            <TextBox x:Name="ProjectManagerTextBox" Text="{Binding ProjectManager}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Comment"/>
-            <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Project Status"/>
-            <TextBox x:Name="ProjectStatusTextBox" Text="{Binding ProjectStatuss}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
-           
-        </StackPanel>
-    </Grid>
+    <Border CornerRadius="12">
+        <Border CornerRadius="10"                     
+BorderThickness="1"
+Opacity="0.75">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="0,1">
+                    <GradientStop Color="#2946AA" Offset="0"/>
+                    <GradientStop Color="#BDBEDD" Offset="0.6"/>
+                    <GradientStop Color="#FF3EFA18" Offset="1"/>
+
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#2946AA" Offset="0"/>
+                    <GradientStop Color="#BDBEDD" Offset="0.6"/>
+                    <GradientStop Color="#FF3EFA18"  Offset="1"/>
+
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock TextWrapping="Wrap" Text="Id"/>
+                    <TextBox x:Name="IdTextBox" Text="{Binding Id}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+                    <TextBlock TextWrapping="Wrap"  Text="Project Type"/>
+                    <TextBox x:Name="ProjectTypeTextBox" Text="{Binding ProjectTypee}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+                    <TextBlock TextWrapping="Wrap" Text="Start Date"/>
+                    <DatePicker Name="StartDatePicker" SelectedDate="{Binding StartDate}"  IsEnabled="False" >
+                        <DatePicker.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                                <Setter Property="Focusable" Value="False" />
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+                    <TextBlock TextWrapping="Wrap" Text="End Date" />
+                    <DatePicker Name="EndDatePicker"  SelectedDate="{Binding EndDate}" IsEnabled="False" >
+                        <DatePicker.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                                <Setter Property="Focusable" Value="False" />
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+                    <TextBlock TextWrapping="Wrap" Text="Project Manager"/>
+                    <TextBox x:Name="ProjectManagerTextBox" Text="{Binding ProjectManager}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+                    <TextBlock TextWrapping="Wrap" Text="Comment"/>
+                    <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+                    <TextBlock TextWrapping="Wrap" Text="Project Status"/>
+                    <TextBox x:Name="ProjectStatusTextBox" Text="{Binding ProjectStatuss}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
+
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Border>
 </Window>

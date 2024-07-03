@@ -34,9 +34,17 @@ namespace test2.ViewModels
             _windowService = windowService;
             Items = new ObservableCollection<string> { "A", "B", "C", "D" };
             Items3 = new ObservableCollection<string> { "Inactive", "Active" };
-            var pms=context.Employes.Where(x=>x.Position==Position.ProjectManager).Select(x=>x.FullName).ToList();
+            
+            UpdateCommand = new AsyncRelayCommand<object>(OnUpdateAsync);
+            Task.Run(LoadItems2Async);
+        }
+
+        private async Task LoadItems2Async()
+        {
+            var pms = await context.Employes.Where(x => x.Position == Position.ProjectManager).Select(x => x.FullName).ToListAsync();
             Items2 = new ObservableCollection<string>(pms);
-            UpdateCommand = new RelayCommand<object>(OnUpdate);
+
+
         }
         private string _id;
         public string Id
@@ -113,14 +121,14 @@ namespace test2.ViewModels
                 OnPropertyChanged(nameof(Comment));
             }
         }
-        private void LoadEditProject()
+        private async Task LoadEditProjectAsync()
         {
-            var project = context.Projects.Where(e => e.Id == id).FirstOrDefault();
+            var project = await context.Projects.Where(e => e.Id == id).FirstOrDefaultAsync();
             Id = id.ToString();
 
 
 
-            ProjectType k = context.Projects.Where(e => e.Id == id).Select(x => x.ProjectType).FirstOrDefault();
+            ProjectType k = await context.Projects.Where(e => e.Id == id).Select(x => x.ProjectType).FirstOrDefaultAsync();
             switch (k)
             {
                 case ProjectType.A:
@@ -146,9 +154,9 @@ namespace test2.ViewModels
                 EndDate = project.EndDate.Value.ToDateTime(TimeOnly.Parse("10:00 PM"));
 
             }
-            var products = context.Employes.Where(e => e.Position == Position.ProjectManager).Select(x => x.FullName).ToList();
+            var products = await context.Employes.Where(e => e.Position == Position.ProjectManager).Select(x => x.FullName).ToListAsync();
             
-            var pm = context.Employes.Where(e => e.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefault();
+            var pm = await context.Employes.Where(e => e.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefaultAsync();
             for (int i = 0; i < products.Count; i++)
             {
                 if (products[i] == pm)
@@ -167,7 +175,7 @@ namespace test2.ViewModels
 
             Comment = project.Comment;
 
-            ProjectStatus c = context.Projects.Where(e => e.Id == id).Select(x => x.ProjectStatus).FirstOrDefault();
+            ProjectStatus c = await context.Projects.Where(e => e.Id == id).Select(x => x.ProjectStatus).FirstOrDefaultAsync();
             switch (c)
             {
                 case ProjectStatus.Inactive:
@@ -181,7 +189,7 @@ namespace test2.ViewModels
 
 
         }
-        private void OnUpdate(object parameter)
+        private async Task OnUpdateAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
@@ -191,7 +199,7 @@ namespace test2.ViewModels
                 return;
             }
   
-            var obj = context.Projects.Where(x => x.Id == id).FirstOrDefault();
+            var obj = await context.Projects.Where(x => x.Id == id).FirstOrDefaultAsync();
             switch (SelectedItem)
             {
                 case "A":
@@ -216,7 +224,7 @@ namespace test2.ViewModels
             }
             if (!string.IsNullOrEmpty(SelectedItem2))
             {
-                obj.ProjectManager = context.Employes.Where(x => x.FullName == SelectedItem2).Select(x => x.Id).FirstOrDefault();
+                obj.ProjectManager = await context.Employes.Where(x => x.FullName == SelectedItem2).Select(x => x.Id).FirstOrDefaultAsync();
             }
             obj.Comment = Comment;
             switch (SelectedItem3)
@@ -232,7 +240,7 @@ namespace test2.ViewModels
 
             }
             context.Entry(obj).State = EntityState.Modified;
-            context.SaveChanges();
+            await context.SaveChangesAsync();
           
             _dialogService.ShowMessage("Project updated..", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<EditProjectViewModel>();
@@ -242,7 +250,7 @@ namespace test2.ViewModels
             if (parameter is int data)
             {
                 id = data;
-                LoadEditProject();
+                await LoadEditProjectAsync();
             }
         }
     }
