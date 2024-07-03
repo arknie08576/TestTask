@@ -187,7 +187,7 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<OpenApprovalRequestViewModel>();
                 return;
             }
@@ -211,7 +211,7 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<OpenApprovalRequestViewModel>();
                 return;
             }

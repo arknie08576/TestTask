@@ -149,9 +149,16 @@ namespace test2.ViewModels
             }
             if (EndDate.HasValue)
             {
+                if(StartDate.Value> EndDate.Value)
+                {
+                    _dialogService.ShowMessage("End date can't be earlier than Start Date", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+
+                }
+
                 obj.EndDate = DateOnly.FromDateTime(EndDate.Value);
             }
-            if (string.IsNullOrEmpty(SelectedItem2))
+            if (!string.IsNullOrEmpty(SelectedItem2))
             {
                 obj.ProjectManager = await context.Employes.Where(x => x.FullName == SelectedItem2).Select(x => x.Id).FirstOrDefaultAsync();
             }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test2.Views" xmlns:converters="clr-namespace:test2.Converters" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:OpenEmployeeViewModel}"
         mc:Ignorable="d"
-        Title="OpenEmployeeWindow" Height="1000" Width="800">
+        Title="Employee" Height="1000" Width="800" MinHeight="1000" MinWidth="400">
     <Window.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
@@ -100,6 +100,7 @@ HorizontalAlignment="Center">
 
                     </ComboBox>
                     <Button Content="Add photo" Command="{Binding AddPhotoCommand}" Width="200"/>
+                    <Button Content="Remove photo" Command="{Binding RemovePhotoCommand}" Width="200" />
                     <Button x:Name="UpdateButton" Command="{Binding UpdateCommand}" Content="Update" Width="200"/>
                     <Button x:Name="DeleteButton" Command="{Binding DeleteCommand}" Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Content="Delete employee" Width="200"/>
 

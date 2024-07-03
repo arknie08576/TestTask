@@ -74,5 +74,28 @@ namespace test2.Helpers
                 return Convert.ToBase64String(bytes);
             }
         }
+        public static async Task ChangePasswordAsync(string username, string newPassword)
+        {
+            
+            var user = await context.Employes.SingleOrDefaultAsync(u => u.Username == username);
+
+            if (user == null)
+            {
+                throw new InvalidOperationException("User does not exist.");
+            }
+
+
+            // Generate new salt and hash the new password
+            var newSalt = GenerateSalt();
+            var newHash = HashPassword(newPassword, newSalt);
+
+            // Update the user with the new password hash and salt
+            user.Salt = newSalt;
+            user.PasswordHash = newHash;
+
+            // Save changes to the database
+            await context.SaveChangesAsync();
+        }
     }
+
 }

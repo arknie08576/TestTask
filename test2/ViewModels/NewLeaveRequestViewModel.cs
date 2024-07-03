@@ -112,7 +112,7 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                //MessageBox.Show("User logged out");
+               
                 _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<NewLeaveRequestViewModel>();
                 return;

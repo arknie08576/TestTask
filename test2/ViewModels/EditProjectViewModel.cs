@@ -36,7 +36,7 @@ namespace test2.ViewModels
             Items3 = new ObservableCollection<string> { "Inactive", "Active" };
             
             UpdateCommand = new AsyncRelayCommand<object>(OnUpdateAsync);
-            Task.Run(LoadItems2Async);
+            
         }
 
         private async Task LoadItems2Async()
@@ -220,6 +220,12 @@ namespace test2.ViewModels
             obj.StartDate = DateOnly.FromDateTime(StartDate.Value);
             if (EndDate.HasValue)
             {
+                if (StartDate.Value > EndDate.Value)
+                {
+                    _dialogService.ShowMessage("End date can't be earlier than Start Date", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+
+                }
                 obj.EndDate = DateOnly.FromDateTime(EndDate.Value);
             }
             if (!string.IsNullOrEmpty(SelectedItem2))
@@ -250,6 +256,7 @@ namespace test2.ViewModels
             if (parameter is int data)
             {
                 id = data;
+                await LoadItems2Async();
                 await LoadEditProjectAsync();
             }
         }

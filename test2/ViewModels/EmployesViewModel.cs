@@ -221,7 +221,7 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<EmployesViewModel>();
                 return;
             }
@@ -416,9 +416,7 @@ namespace test2.ViewModels
                     _windowService.CloseWindow<EmployesViewModel>();
                     return;
                 }
-                // Perform your action here
-
-                _dialogService.ShowMessage($"Double-clicked on: {item.Id}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                
                 _windowService.ShowWindow<OpenEmployeeViewModel>(item.Id);
             }
         }

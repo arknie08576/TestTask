@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test2.Views" xmlns:converters="clr-namespace:test2.Converters" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:EmployesViewModel}"
         mc:Ignorable="d" xmlns:behaviors="clr-namespace:test2.Behaviors"
-        Title="EmployesWindow" Height="1000" Width="800">
+        Title="Employes Window" Height="1000" Width="800" MinHeight="1000" MinWidth="800">
     <Window.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
@@ -32,6 +32,12 @@ Opacity="0.75">
             </Border.Background>
 
             <Grid>
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+
+                </Grid.RowDefinitions>
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="900">
                     <TextBlock TextWrapping="Wrap" Text="Id"/>
                     <TextBox x:Name="IdTextBox" Text="{Binding Id}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
@@ -48,37 +54,38 @@ Opacity="0.75">
                     <TextBox x:Name="StatusTextBox" Text="{Binding Status}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
                     <TextBlock TextWrapping="Wrap" Text="People Partner"/>
                     <TextBox x:Name="PeoplePartnerTextBox" Text="{Binding PeoplePartner}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-                    <TextBlock TextWrapping="Wrap" Text="Out of office Balance"/>
+                    <TextBlock TextWrapping="Wrap" Text="Out of Office Balance"/>
                     <TextBox x:Name="OutOfOfficeBalanceTextBox" Text="{Binding OutOfOfficeBalance}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
 
                     <TextBlock TextWrapping="Wrap" Text="Assigned project"/>
                     <TextBox x:Name="AssignedProjectTextBox" Text="{Binding AssignedProject}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-                    <Button Content="Filter" Command="{Binding FilterCommand}" Width="200" HorizontalAlignment="Left"/>
+                    <Button Content="Filter/Refresh" Command="{Binding FilterCommand}" Width="200" HorizontalAlignment="Left"/>
                     <Button  x:Name="NewButton" Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding NewEmployeeCommand}" Content="New Employee" Width="200" HorizontalAlignment="Left"/>
-
-                    <DataGrid x:Name="ProjectDataGrid" ItemsSource="{Binding FilteredEmployes}" 
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <DataGrid x:Name="ProjectDataGrid" ItemsSource="{Binding FilteredEmployes}" 
           SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}" behaviors:DoubleClickBehavior.Command="{Binding RowDoubleClickCommand}" AutoGenerateColumns="False" 
   CanUserAddRows="True" CanUserDeleteRows="True"
   CanUserSortColumns="True" IsReadOnly="True"
-  SelectionMode="Single">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="False"/>
-                            <DataGridTextColumn Header="Username" Binding="{Binding Username}" IsReadOnly="False"/>
-                            <DataGridTextColumn Header="Full Name" Binding="{Binding FullName , StringFormat=dd/MM/yyyy}" IsReadOnly="False"/>
-                            <DataGridTextColumn Header="Subdivision" Binding="{Binding Subdivisionn}" IsReadOnly="False"/>
-                            <DataGridTextColumn Header="Position" Binding="{Binding Positionn}" IsReadOnly="False"/>
-                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="False"/>
-                            <DataGridTextColumn Header="People Partner" Binding="{Binding PeoplePartner}" IsReadOnly="False"/>
-                            <DataGridTextColumn Header="Out of OfficeBalance" Binding="{Binding Out_of_OfficeBalance}" IsReadOnly="False"/>
-                            <DataGridTextColumn Header="Assigned Project" Binding="{Binding AssignedProject}" IsReadOnly="False"/>
-                        </DataGrid.Columns>
-                        <DataGrid.RowStyle>
-                            <Style TargetType="DataGridRow">
-                                <Setter Property="Focusable" Value="True" />
-                                <Setter Property="behaviors:DoubleClickBehavior.Command" Value="{Binding DataContext.RowDoubleClickCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                            </Style>
-                        </DataGrid.RowStyle>
-                    </DataGrid>
+  SelectionMode="Single" Height="463">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="False"/>
+                                <DataGridTextColumn Header="Username" Binding="{Binding Username}" IsReadOnly="False"/>
+                                <DataGridTextColumn Header="Full Name" Binding="{Binding FullName , StringFormat=dd/MM/yyyy}" IsReadOnly="False"/>
+                                <DataGridTextColumn Header="Subdivision" Binding="{Binding Subdivisionn}" IsReadOnly="False"/>
+                                <DataGridTextColumn Header="Position" Binding="{Binding Positionn}" IsReadOnly="False"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="False"/>
+                                <DataGridTextColumn Header="People Partner" Binding="{Binding PeoplePartner}" IsReadOnly="False"/>
+                                <DataGridTextColumn Header="Out of Office Balance" Binding="{Binding Out_of_OfficeBalance}" IsReadOnly="False"/>
+                                <DataGridTextColumn Header="Assigned Project" Binding="{Binding AssignedProject}" IsReadOnly="False"/>
+                            </DataGrid.Columns>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Focusable" Value="True" />
+                                    <Setter Property="behaviors:DoubleClickBehavior.Command" Value="{Binding DataContext.RowDoubleClickCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                </Style>
+                            </DataGrid.RowStyle>
+                        </DataGrid>
+                    </ScrollViewer>
                 </StackPanel>
             </Grid>
         </Border>

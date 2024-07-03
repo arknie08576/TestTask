@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test2.Views"  xmlns:helpers="clr-namespace:test2.Helpers" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:RegisterViewModel}"
         mc:Ignorable="d"
-        Title="RegisterWindow" Height="850" Width="800">
+        Title="Register" Height="850" Width="800" MinHeight="850" MinWidth="400">
     <Border CornerRadius="12">
         <Border CornerRadius="10"                     
     BorderThickness="1"
@@ -75,9 +75,9 @@
 
 
                     </ComboBox>
-                    <TextBlock TextWrapping="Wrap" Text="People Partner (Required)"/>
+                    <TextBlock TextWrapping="Wrap" Text="People Partner"/>
                     <ComboBox Name="comboBox4" ItemsSource="{Binding ItemsPP}" 
-                  DisplayMemberPath="Name" 
+                  
                   SelectedItem="{Binding SelectedItem4, Mode=TwoWay}" 
 Width="200" 
 Height="30" 
@@ -92,6 +92,7 @@ HorizontalAlignment="Center"
                     <TextBlock TextWrapping="Wrap" Text="Photo"/>
                     <Image Name="PhotoImage" Source="{Binding ImageSource}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Width="200" Height="200"/>
                     <Button Content="Add photo" Command="{Binding AddPhotoCommand}" Width="200" />
+                    <Button Content="Remove photo" Command="{Binding RemovePhotoCommand}" Width="200" />
                     <Button Content="Register" Command="{Binding RegisterCommand}" Width="200" />
                 </StackPanel>
 

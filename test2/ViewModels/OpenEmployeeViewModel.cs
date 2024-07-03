@@ -45,19 +45,21 @@ namespace test2.ViewModels
             AddPhotoCommand = new RelayCommand<object>(OnAddPhoto);
             UpdateCommand = new AsyncRelayCommand<object>(OnUpdateAsync);
             DeleteCommand = new AsyncRelayCommand<object>(OnDeleteAsync);
-            Task.Run(LoadItemsAsync);
+            RemovePhotoCommand = new RelayCommand<object>(OnRemovePhoto);
+            
         }
         private async Task LoadItemsAsync()
         {
             var products = await context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToListAsync();
             Items4 = new ObservableCollection<string>(products);
-            var projects = await context.Projects.Select(x => x.Id.ToString()).ToListAsync();
+            var projects = await context.Projects.OrderBy(x=>x.Id).Select(x => x.Id.ToString()).ToListAsync();
             Items5 = new ObservableCollection<string>(projects);
 
         }
         public ICommand AddPhotoCommand { get; }
         public ICommand UpdateCommand { get; }
         public ICommand DeleteCommand { get; }
+        public ICommand RemovePhotoCommand { get; }
         private string _id;
         public string Id
         {
@@ -188,7 +190,7 @@ namespace test2.ViewModels
 
             if (ob.Position == Position.ProjectManager)
             {
-                
+
                 IsButtonVisible = false;
 
             }
@@ -199,7 +201,7 @@ namespace test2.ViewModels
             Employee obj = await context.Employes.Where(x => x.Id == id).FirstOrDefaultAsync();
             Id = obj.Id.ToString();
             Username = obj.Username;
-            
+
             FullName = obj.FullName;
             Subdivision k = obj.Subdivision;
             switch (k)
@@ -256,7 +258,7 @@ namespace test2.ViewModels
             }
 
             var products = await context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToListAsync();
-            
+
             var t = obj.PeoplePartner;
 
             for (int i = 0; i < products.Count; i++)
@@ -264,20 +266,20 @@ namespace test2.ViewModels
                 var fullName = await context.Employes.Where(e => e.Id == t).Select(x => x.FullName).FirstOrDefaultAsync();
                 if (products[i] == fullName)
                 {
-                    
+
                     SelectedItem4 = Items4[i];
                 }
 
 
             }
             OutofOfficeBalance = obj.Out_of_OfficeBalance.ToString();
-            
+
             if (obj.Photo != null)
             {
                 ImageSource = obj.Photo;
             }
             var product = await context.Projects.Select(x => x.Id).ToListAsync();
-            
+
             var a = obj.AssignedProject;
 
             for (int i = 0; i < product.Count; i++)
@@ -285,7 +287,7 @@ namespace test2.ViewModels
                 var prj = await context.Projects.Where(e => e.Id == a).Select(x => x.Id).FirstOrDefaultAsync();
                 if (product[i] == prj)
                 {
-                    
+
                     SelectedItem5 = Items5[i];
                 }
 
@@ -310,11 +312,15 @@ namespace test2.ViewModels
                 // SavePhotoToDatabase(photoData);
             }
         }
+        private void OnRemovePhoto(object parameter)
+        {
+            ImageSource = null;
+        }
         private async Task OnUpdateAsync(object parameter)
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<OpenEmployeeViewModel>();
                 return;
             }
@@ -326,7 +332,7 @@ namespace test2.ViewModels
 
 
             obj.Username = Username;
-            
+
             obj.FullName = FullName;
 
             switch (SelectedItem)
@@ -392,13 +398,22 @@ namespace test2.ViewModels
             {
                 obj.AssignedProject = await context.Projects.Where(e => e.Id.ToString() == SelectedItem5).Select(x => x.Id).FirstOrDefaultAsync();
             }
-            obj.Out_of_OfficeBalance = int.Parse(OutofOfficeBalance);
+           
             
-            if (ImageSource != null)
+            if (int.TryParse(OutofOfficeBalance, out int result))
             {
-                obj.Photo = ImageSource;
-
+                obj.Out_of_OfficeBalance = result;
             }
+            else
+            {
+                _dialogService.ShowMessage("Out of Office Balance is not number.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            
+            }
+
+            obj.Photo = ImageSource;
+
+
             context.Entry(obj).State = EntityState.Modified;
             await context.SaveChangesAsync();
 
@@ -410,7 +425,7 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<OpenEmployeeViewModel>();
                 return;
 
@@ -473,7 +488,7 @@ namespace test2.ViewModels
             if (parameter is int data)
             {
                 id = data;
-
+                await LoadItemsAsync();
                 await LoadOpenEmployeeAsync();
             }
         }

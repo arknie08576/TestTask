@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test2.Views" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:HRManagerViewModel}"
         mc:Ignorable="d"
-        Title="HRManagerWindow" Height="450" Width="800">
+        Title="HRManager Window" Height="450" Width="800" MinHeight="180" MinWidth="300">
     <Border CornerRadius="12">
         <Border CornerRadius="10"                     
 BorderThickness="1"
@@ -33,6 +33,7 @@ Opacity="0.75">
                     <Button Content="Leave Requests" Command="{Binding LeaveRequestsCommand}" Width="200"/>
                     <Button Content="Employes" Command="{Binding EmployesCommand}" Width="200"/>
                     <Button Content="Approval Requests" Command="{Binding ApprovalRequestsCommand}" Width="200"/>
+                    <Button Content="Change password" Command="{Binding ChangePasswordCommand}" Width="200"/>
                     <Button Content="Log out" Command="{Binding LogoutCommand}" Width="200"/>
                 </StackPanel>
             </Grid>

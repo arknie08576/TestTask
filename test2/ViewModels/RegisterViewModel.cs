@@ -30,17 +30,20 @@ namespace test2.ViewModels
         private readonly OfficeContex context;
         private readonly IDialogService _dialogService;
         private readonly IWindowService _windowService;
-        
+
         public RegisterViewModel(OfficeContex officeContex, IDialogService dialogService, IWindowService windowService)
         {
             context = officeContex;
-            _dialogService = dialogService;  
+            _dialogService = dialogService;
             ItemsSubdivision = new ObservableCollection<string> { "A", "B", "C", "D", "E", "F" };
             ItemsPosition = new ObservableCollection<string> { "Employee", "HRManager", "ProjectManager", "Administrator" };
-            ItemsStatus = new ObservableCollection<string> { "Active", "Inactive" };       
+            ItemsStatus = new ObservableCollection<string> { "Active", "Inactive" };
             _windowService = windowService;
             AddPhotoCommand = new RelayCommand<object>(OnAddPhoto);
+            RemovePhotoCommand = new RelayCommand<object>(OnRemovePhoto);
             RegisterCommand = new AsyncRelayCommand<object>(OnRegisterAsync);
+            var products = context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToList();
+            ItemsPP = new ObservableCollection<string>(products);
             Task.Run(LoadItemsAsync);
         }
         private async Task LoadItemsAsync()
@@ -49,7 +52,8 @@ namespace test2.ViewModels
             ItemsPP = new ObservableCollection<string>(products);
 
         }
-
+        private readonly Lazy<Task> _initializationTask;
+        public Task Initialization => _initializationTask.Value;
         private string _username;
         public string Username
         {
@@ -160,11 +164,17 @@ namespace test2.ViewModels
 
         public ICommand AddPhotoCommand { get; }
         public ICommand RegisterCommand { get; }
+        public ICommand RemovePhotoCommand { get; }
 
 
 
+        private void OnRemovePhoto(object parameter)
+        {
+            ImageSource = null;
+        }
         private void OnAddPhoto(object parameter)
         {
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
             if (openFileDialog.ShowDialog() == true)
@@ -176,6 +186,7 @@ namespace test2.ViewModels
 
         private async Task OnRegisterAsync(object parameter)
         {
+            
             string username = _username;
             string password = _password;
             string confirmPassword = _confirmPassword;
@@ -249,7 +260,7 @@ namespace test2.ViewModels
 
             }
 
-            if (!string.IsNullOrEmpty(_selectedItem4) )
+            if (!string.IsNullOrEmpty(_selectedItem4))
             {
                 string x = _selectedItem4;
 
@@ -275,7 +286,7 @@ namespace test2.ViewModels
                 _dialogService.ShowMessage("Passwords do not match.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(fullName) || subdivision==null || position==null || status==null)
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(fullName) || subdivision == null || position == null || status == null)
             {
                 _dialogService.ShowMessage("Not all requiered fields are completed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -290,7 +301,7 @@ namespace test2.ViewModels
             catch (InvalidOperationException ex)
             {
                 _dialogService.ShowMessage(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }     
+            }
         }
         private BitmapImage LoadImage(byte[] imageData)
         {

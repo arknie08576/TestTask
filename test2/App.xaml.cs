@@ -61,6 +61,8 @@ namespace test2
             services.AddTransient<OpenEmployeeWindow>();
             services.AddTransient<EditLeaveRequestWindow>();
             services.AddTransient<OpenProjectWindow>();
+            services.AddTransient<ChangePasswordWindow>();
+
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<EmployeeViewModel>();
@@ -78,8 +80,8 @@ namespace test2
             services.AddTransient<OpenEmployeeViewModel>();
             services.AddTransient<ApprovalRequestsViewModel>();
             services.AddTransient<OpenApprovalRequestViewModel>();
+            services.AddTransient<ChangePasswordViewModel>();
             
-
 
 
 

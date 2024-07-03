@@ -168,7 +168,7 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<LeaveRequestsViewModel>();
                 return;
             }
@@ -209,7 +209,7 @@ namespace test2.ViewModels
             if (!string.IsNullOrEmpty(Employee))
             {
 
-                viewleaveRequests = viewleaveRequests.Where(x => x.Employee == _employee).ToList();
+                viewleaveRequests = viewleaveRequests.Where(x => x.Employee == Employee).ToList();
             }
             AbsenceReason x = AbsenceReason.A;
 
@@ -312,7 +312,7 @@ namespace test2.ViewModels
                     _windowService.CloseWindow<LeaveRequestsViewModel>();
                     return;
                 }             
-                _dialogService.ShowMessage($"Double-clicked on: {item.Id}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                
                 _windowService.ShowWindow<EditLeaveRequestViewModel>(item.Id);
             }
         }

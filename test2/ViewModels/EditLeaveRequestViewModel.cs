@@ -259,9 +259,10 @@ namespace test2.ViewModels
                 IsTextBoxReadOnly = false;
             }
 
-            var products = await context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToListAsync();
+            //var products = await context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToListAsync();
             Id = id.ToString();
-            Employee = await context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefaultAsync();
+            var employeId = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Employee).FirstOrDefaultAsync();
+            Employee = await context.Employes.Where(e => e.Id == employeId).Select(x => x.FullName).FirstOrDefaultAsync();
             AbsenceReason k = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.AbsenceReason).FirstOrDefaultAsync();
             switch (k)
             {
@@ -326,7 +327,7 @@ namespace test2.ViewModels
             if (AuthenticationHelper.loggedUser == null)
             {
 
-                _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<EditLeaveRequestViewModel>();
                 return;
             }
@@ -447,7 +448,7 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<EditLeaveRequestViewModel>();
                 return;
             }

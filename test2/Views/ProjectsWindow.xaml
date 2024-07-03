@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:test2.Views" xmlns:converters="clr-namespace:test2.Converters" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ProjectsViewModel}"
         mc:Ignorable="d" xmlns:behaviors="clr-namespace:test2.Behaviors"
         
-        Title="ProjectsWindow" Height="750" Width="800">
+        Title="Projects" Height="750" Width="800" MinHeight="750" MinWidth="800">
     <Window.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
@@ -32,7 +32,13 @@
                 </LinearGradientBrush>
             </Border.Background>
             <Grid>
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="575">
+                <Grid.RowDefinitions>
+                    
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                   
+                </Grid.RowDefinitions>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="629">
                     <TextBlock TextWrapping="Wrap" Text="Id"/>
                     <TextBox x:Name="IdTypeTextBox" Text="{Binding Id}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
                     <TextBlock TextWrapping="Wrap" Text="Project Type"/>
@@ -47,30 +53,31 @@
                     <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
                     <TextBlock TextWrapping="Wrap" Text="Project Status"/>
                     <TextBox x:Name="ProjectStatusTextBox" Text="{Binding ProjectStatuss}" Width="200" Margin="0,0,0,10 " HorizontalAlignment="Left"/>
-                    <Button Content="Filter" Width="200" Command="{Binding FilterCommand}"  HorizontalAlignment="Left"/>
+                    <Button Content="Filter/Refresh" Width="200" Command="{Binding FilterCommand}"  HorizontalAlignment="Left"/>
                     <Button Name="myButton" Content="New Project" Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding NewProjectCommand}" Width="200" HorizontalAlignment="Left"/>
-
-                    <DataGrid x:Name="ProjectDataGrid2" AutoGenerateColumns="False" 
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <DataGrid x:Name="ProjectDataGrid2" AutoGenerateColumns="False" 
           CanUserAddRows="False" CanUserDeleteRows="False"
           CanUserSortColumns="True" IsReadOnly="True"
           SelectionMode="Single" ItemsSource="{Binding FilteredProjects}" 
-          SelectedItem="{Binding Selectedproject, Mode=TwoWay}" behaviors:DoubleClickBehavior.Command="{Binding RowDoubleClickCommand}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                            <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectTypee}" />
-                            <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate , StringFormat=dd/MM/yyyy}" />
-                            <DataGridTextColumn Header="End Date" Binding="{Binding EndDate, StringFormat=dd/MM/yyyy}" />
-                            <DataGridTextColumn Header="Project Manager" Binding="{Binding ProjectManager}" />
-                            <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" />
-                            <DataGridTextColumn Header="Project Status" Binding="{Binding ProjectStatuss}" />
-                        </DataGrid.Columns>
-                        <DataGrid.RowStyle>
-                            <Style TargetType="DataGridRow">
-                                <Setter Property="Focusable" Value="True" />
-                                <Setter Property="behaviors:DoubleClickBehavior.Command" Value="{Binding DataContext.RowDoubleClickCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                            </Style>
-                        </DataGrid.RowStyle>
-                    </DataGrid>
+          SelectedItem="{Binding Selectedproject, Mode=TwoWay}" behaviors:DoubleClickBehavior.Command="{Binding RowDoubleClickCommand}" Height="281">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                                <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectTypee}" />
+                                <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate , StringFormat=dd/MM/yyyy}" />
+                                <DataGridTextColumn Header="End Date" Binding="{Binding EndDate, StringFormat=dd/MM/yyyy}" />
+                                <DataGridTextColumn Header="Project Manager" Binding="{Binding ProjectManager}" />
+                                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" />
+                                <DataGridTextColumn Header="Project Status" Binding="{Binding ProjectStatuss}" />
+                            </DataGrid.Columns>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Focusable" Value="True" />
+                                    <Setter Property="behaviors:DoubleClickBehavior.Command" Value="{Binding DataContext.RowDoubleClickCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                </Style>
+                            </DataGrid.RowStyle>
+                        </DataGrid>
+                    </ScrollViewer>
                 </StackPanel>
             </Grid>
         </Border>

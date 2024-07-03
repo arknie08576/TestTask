@@ -139,7 +139,7 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<ApprovalRequestsViewModel>();
                 return;
             }
@@ -171,7 +171,7 @@ namespace test2.ViewModels
             if (!string.IsNullOrEmpty(Id))
             {
 
-                viewapprovalRequests = viewapprovalRequests.Where(x => x.Id == Convert.ToInt32(Id)).ToList();
+                viewapprovalRequests = viewapprovalRequests.Where(x => x.Id.ToString() == Id).ToList();
             }
 
             if (!string.IsNullOrEmpty(Approver))
@@ -236,7 +236,7 @@ namespace test2.ViewModels
                     _windowService.CloseWindow<ApprovalRequestsViewModel>();
                     return;
                 }
-                _dialogService.ShowMessage($"Double-clicked on: {item.Id}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                
                 _windowService.ShowWindow<OpenApprovalRequestViewModel>(item.Id);
             }
         }

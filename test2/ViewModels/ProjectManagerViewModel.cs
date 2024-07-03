@@ -23,6 +23,7 @@ namespace test2.ViewModels
         public ICommand LeaveRequestsCommand { get; }
         public ICommand EmployesCommand { get; }
         public ICommand ApprovalRequestsCommand { get; }
+        public ICommand ChangePasswordCommand { get; }
         public ICommand LogoutCommand { get; }
         public ProjectManagerViewModel(IWindowService windowService)
         {
@@ -31,7 +32,8 @@ namespace test2.ViewModels
             LeaveRequestsCommand = new RelayCommand<object>(OnLeaveRequests);
             EmployesCommand = new RelayCommand<object>(OnEmployes);
             ApprovalRequestsCommand = new RelayCommand<object>(OnApprovalRequests);
-            LogoutCommand = new RelayCommand<object>(OnLogout);      
+            LogoutCommand = new RelayCommand<object>(OnLogout);
+            ChangePasswordCommand = new RelayCommand<object>(OnChangePassword);
         }
         private void OnProcjects(object parameter)
         {
@@ -54,6 +56,10 @@ namespace test2.ViewModels
             AuthenticationHelper.loggedUser = null;
             _windowService.ShowWindow<MainViewModel>();
             _windowService.CloseWindow<ProjectManagerViewModel>();
+        }
+        private void OnChangePassword(object parameter)
+        {
+            _windowService.ShowWindow<ChangePasswordViewModel>();
         }
     }
 }

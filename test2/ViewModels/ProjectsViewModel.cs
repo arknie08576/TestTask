@@ -123,7 +123,7 @@ namespace test2.ViewModels
                 if (_isButtonVisible != value)
                 {
                     _isButtonVisible = value;
-                    //OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsButtonVisible));
                 }
             }
         }
@@ -188,7 +188,7 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-                _dialogService.ShowMessage("User logged out", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<ProjectsViewModel>();
                 return;
             }
@@ -325,7 +325,7 @@ namespace test2.ViewModels
             }
             if (item != null)
             {
-                _dialogService.ShowMessage($"Double-clicked on: {item.Id}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+               
 
                 var position = await context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefaultAsync();
                 if (position == Position.ProjectManager || position == Position.Administrator)
