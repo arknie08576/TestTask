@@ -62,6 +62,17 @@ namespace test2.ViewModels
             }
             if (!string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(ConfirmPassword))
             {
+                if (Password.Length > 100)
+                {
+                    _dialogService.ShowMessage("Password can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    
+                    return;
+
+
+                }
+
+
+
                 if (Password == ConfirmPassword)
                 {
 

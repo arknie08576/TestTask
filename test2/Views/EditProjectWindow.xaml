@@ -31,7 +31,7 @@
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock TextWrapping="Wrap" Text="Id"/>
                     <TextBox x:Name="IdTextBox" Text="{Binding Id}" IsReadOnly="True" Width="200" Margin="0,0,0,10"/>
-                    <TextBlock TextWrapping="Wrap"  Text="Project Type"/>
+                    <TextBlock TextWrapping="Wrap"  Text="Project Type (Required)"/>
                     <ComboBox Name="comboBox" ItemsSource="{Binding Items}"
                   SelectedItem="{Binding SelectedItem}"
       Width="200" 
@@ -41,7 +41,7 @@
       >
 
                     </ComboBox>
-                    <TextBlock TextWrapping="Wrap" Text="Start Date"/>
+                    <TextBlock TextWrapping="Wrap" Text="Start Date (Required)"/>
                     <DatePicker Name="StartDatePicker"  SelectedDate="{Binding StartDate}" >
                     </DatePicker>
                     <TextBlock TextWrapping="Wrap" Text="End Date" />

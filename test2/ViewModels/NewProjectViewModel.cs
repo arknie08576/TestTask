@@ -34,7 +34,7 @@ namespace test2.ViewModels
             _windowService = windowService;
             Items = new ObservableCollection<string> { "A", "B", "C", "D" };
             Items3 = new ObservableCollection<string> { "Inactive", "Active" };
-            
+
             AddProjectCommand = new AsyncRelayCommand<object>(OnAddProjectAsync);
             Task.Run(LoadItems2Async);
         }
@@ -119,11 +119,18 @@ namespace test2.ViewModels
             if (string.IsNullOrEmpty(SelectedItem) || !StartDate.HasValue || string.IsNullOrEmpty(SelectedItem3))
             {
 
-                
+
                 _dialogService.ShowMessage("Fill in all required fields", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            if (Comment.Length > 100)
+            {
+                _dialogService.ShowMessage("Comment can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
+                return;
+
+
+            }
 
 
             var obj = new Project();
@@ -149,7 +156,7 @@ namespace test2.ViewModels
             }
             if (EndDate.HasValue)
             {
-                if(StartDate.Value> EndDate.Value)
+                if (StartDate.Value > EndDate.Value)
                 {
                     _dialogService.ShowMessage("End date can't be earlier than Start Date", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
@@ -176,7 +183,7 @@ namespace test2.ViewModels
 
             }
             await context.Projects.AddAsync(obj);
-            
+
             await context.SaveChangesAsync();
             _dialogService.ShowMessage("Project added.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<NewProjectViewModel>();

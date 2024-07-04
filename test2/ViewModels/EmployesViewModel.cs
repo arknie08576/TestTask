@@ -148,7 +148,7 @@ namespace test2.ViewModels
                 if (_isButtonVisible != value)
                 {
                     _isButtonVisible = value;
-                    //OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsButtonVisible));
                 }
             }
         }

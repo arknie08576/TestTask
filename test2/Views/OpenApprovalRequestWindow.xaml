@@ -50,7 +50,7 @@
                     </ComboBox>
 
                     <TextBlock TextWrapping="Wrap" Text="Comment"/>
-                    <TextBox x:Name="CommentTextBox" Text="{Binding Comment}" Width="200" Margin="0,0,0,10"/>
+                    <TextBox x:Name="CommentTextBox" IsReadOnly="{Binding IsReadOnlyComment}" Text="{Binding Comment}" Width="200" Margin="0,0,0,10"/>
 
 
                     <Button Name="ApproveButton" Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding ApproveCommand}" Content="Approve request" Width="200"/>

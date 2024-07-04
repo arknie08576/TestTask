@@ -170,6 +170,34 @@ namespace test2.ViewModels
                 OnPropertyChanged(nameof(ImageSource));
             }
         }
+        private bool _isReadOnly;
+
+        public bool IsReadOnly
+        {
+            get => _isReadOnly;
+            set
+            {
+                if (_isReadOnly != value)
+                {
+                    _isReadOnly = value;
+                    OnPropertyChanged(nameof(IsReadOnly));
+                }
+            }
+        }
+        private bool _isEnabled;
+
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                if (_isEnabled != value)
+                {
+                    _isEnabled = value;
+                    OnPropertyChanged(nameof(IsEnabled));
+                }
+            }
+        }
         private bool _isButtonVisible;
 
         public bool IsButtonVisible
@@ -180,7 +208,35 @@ namespace test2.ViewModels
                 if (_isButtonVisible != value)
                 {
                     _isButtonVisible = value;
-                    //OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsButtonVisible));
+                }
+            }
+        }
+        private bool _isButtonVisible2;
+
+        public bool IsButtonVisible2
+        {
+            get => _isButtonVisible2;
+            set
+            {
+                if (_isButtonVisible2 != value)
+                {
+                    _isButtonVisible2 = value;
+                    OnPropertyChanged(nameof(IsButtonVisible2));
+                }
+            }
+        }
+        private bool _isButtonVisible3;
+
+        public bool IsButtonVisible3
+        {
+            get => _isButtonVisible3;
+            set
+            {
+                if (_isButtonVisible3 != value)
+                {
+                    _isButtonVisible3 = value;
+                    OnPropertyChanged(nameof(IsButtonVisible3));
                 }
             }
         }
@@ -192,11 +248,19 @@ namespace test2.ViewModels
             {
 
                 IsButtonVisible = false;
+                IsButtonVisible2=false;
+                IsButtonVisible3=false;
+                IsEnabled = false;
+                IsReadOnly=true;
 
             }
             else
             {
                 IsButtonVisible = true;
+                IsButtonVisible2 = true;
+                IsButtonVisible3 = true;
+                IsEnabled = true;
+                IsReadOnly = false;
             }
             Employee obj = await context.Employes.Where(x => x.Id == id).FirstOrDefaultAsync();
             Id = obj.Id.ToString();
@@ -325,7 +389,22 @@ namespace test2.ViewModels
                 return;
             }
 
+            if (Username.Length > 100)
+            {
+                _dialogService.ShowMessage("Username can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
+                return;
+
+
+            }
+            if (FullName.Length > 100)
+            {
+                _dialogService.ShowMessage("Full Name can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+
+
+            }
 
             Employee obj = await context.Employes.Where(x => x.Id == id).FirstOrDefaultAsync();
 
@@ -402,6 +481,14 @@ namespace test2.ViewModels
             
             if (int.TryParse(OutofOfficeBalance, out int result))
             {
+                if (result < 0)
+                {
+                    _dialogService.ShowMessage("Out of Office Balance can't be less than zero.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+
+                }
+
+
                 obj.Out_of_OfficeBalance = result;
             }
             else

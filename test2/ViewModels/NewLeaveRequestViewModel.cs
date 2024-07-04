@@ -41,7 +41,7 @@ namespace test2.ViewModels
             SubmitCommand = new AsyncRelayCommand<object>(OnSubmitAsync);
             Task.Run(LoadEmployeeAsync);
         }
-       private async Task LoadEmployeeAsync()
+        private async Task LoadEmployeeAsync()
         {
             Employee = await context.Employes.Where(e => e.Username == user).Select(x => x.FullName).FirstOrDefaultAsync();
 
@@ -112,16 +112,24 @@ namespace test2.ViewModels
         {
             if (AuthenticationHelper.loggedUser == null)
             {
-               
+
                 _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<NewLeaveRequestViewModel>();
                 return;
             }
-            if (!StartDate.HasValue || !EndDate.HasValue || string.IsNullOrEmpty(SelectedItem) )
+            if (!StartDate.HasValue || !EndDate.HasValue || string.IsNullOrEmpty(SelectedItem))
             {
-                
+
                 _dialogService.ShowMessage("Fill in all required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
+            }
+            if (Comment.Length > 100)
+            {
+                _dialogService.ShowMessage("Comment can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+
+
             }
 
 
@@ -130,12 +138,33 @@ namespace test2.ViewModels
                 if (StartDate > EndDate)
                 {
 
-                    
+
                     _dialogService.ShowMessage("Start date must be earlier than end date.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
             }
             var emp = await context.Employes.Where(x => x.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
+            var nlrs = await context.LeaveRequests.Where(x => x.Employee == emp).Where(x => x.Status == LeaveRequestStatus.New).ToListAsync();
+            int sum = 0;
+            foreach (var nlr in nlrs)
+            {
+                sum += (nlr.EndDate.ToDateTime(TimeOnly.MinValue) - nlr.StartDate.ToDateTime(TimeOnly.MinValue)).Days + 1;
+
+
+
+            }
+            var oOOBalance = await context.Employes.Where(x => x.Username == user).Select(x => x.Out_of_OfficeBalance).FirstOrDefaultAsync();
+            var howManyDaysLeft = oOOBalance - sum;
+
+            if ((EndDate.Value - StartDate.Value).Days + 1 > howManyDaysLeft)
+            {
+                _dialogService.ShowMessage("You have only " + howManyDaysLeft + " days left", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+
+            }
+
+
+
             var leaveRequests = await context.LeaveRequests.Where(x => x.Employee == emp).Where(x => (x.Status == LeaveRequestStatus.New || x.Status == LeaveRequestStatus.Approved)).OrderBy(x => x.StartDate).ToListAsync();
 
             bool isCandidateOverlaping = false;
@@ -178,7 +207,7 @@ namespace test2.ViewModels
             if (!isSpace || isCandidateOverlaping)
             {
                 _dialogService.ShowMessage("A specific date range covers a different New or Approved Leave Request.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                
+
                 return;
 
 
@@ -213,7 +242,7 @@ namespace test2.ViewModels
             ar.LeaveRequest = obj.Id;
             ar.Status = ApprovalRequestStatus.New;
             await context.ApprovalRequests.AddAsync(ar);
-            await context.SaveChangesAsync();  
+            await context.SaveChangesAsync();
             _dialogService.ShowMessage("Leave request added.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<NewLeaveRequestViewModel>();
         }

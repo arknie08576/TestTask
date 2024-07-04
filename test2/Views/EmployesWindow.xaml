@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test2.Views" xmlns:converters="clr-namespace:test2.Converters" xmlns:viewmodels="clr-namespace:test2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:EmployesViewModel}"
         mc:Ignorable="d" xmlns:behaviors="clr-namespace:test2.Behaviors"
-        Title="Employes Window" Height="1000" Width="800" MinHeight="1000" MinWidth="800">
+        Title="Employees Window" Height="1000" Width="800" MinHeight="1000" MinWidth="800">
     <Window.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>

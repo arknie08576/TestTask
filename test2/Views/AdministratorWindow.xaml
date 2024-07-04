@@ -31,7 +31,7 @@
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Button Content="Projects" Command="{Binding ProjectsCommand}" Width="200"/>
                     <Button Content="Leave Requests" Command="{Binding LeaveRequestsCommand}" Width="200"/>
-                    <Button Content="Employes" Command="{Binding EmployesCommand}" Width="200"/>
+                    <Button Content="Employees" Command="{Binding EmployesCommand}" Width="200"/>
                     <Button Content="Approval Requests" Command="{Binding ApprovalRequestsCommand}" Width="200"/>
                     <Button Content="Change password" Command="{Binding ChangePasswordCommand}" Width="200"/>
                     <Button Content="Log out" Command="{Binding LogoutCommand}" Width="200"/>

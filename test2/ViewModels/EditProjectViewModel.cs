@@ -198,7 +198,15 @@ namespace test2.ViewModels
                 
                 return;
             }
-  
+            if (Comment.Length > 100)
+            {
+                _dialogService.ShowMessage("Comment can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+
+
+            }
+
             var obj = await context.Projects.Where(x => x.Id == id).FirstOrDefaultAsync();
             switch (SelectedItem)
             {

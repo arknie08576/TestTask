@@ -34,15 +34,15 @@
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock TextWrapping="Wrap" Text="Id"/>
                     <TextBox x:Name="IdTextBox" Text="{Binding Id}" Width="200" IsReadOnly="True" Margin="0,0,0,10"/>
-                    <TextBlock TextWrapping="Wrap" Text="Username"/>
-                    <TextBox x:Name="UsernameTextBox" Text="{Binding Username}" Width="200" Margin="0,0,0,10"/>
+                    <TextBlock TextWrapping="Wrap" Text="Username (Required)"/>
+                    <TextBox x:Name="UsernameTextBox" Text="{Binding Username}" IsReadOnly="{Binding IsReadOnly}" Width="200" Margin="0,0,0,10"/>
 
-                    <TextBlock TextWrapping="Wrap" Text="Full name"/>
-                    <TextBox x:Name="FullnameTextBox" Text="{Binding FullName}" Width="200"  Margin="0,0,0,10"/>
+                    <TextBlock TextWrapping="Wrap" Text="Full name (Required)"/>
+                    <TextBox x:Name="FullnameTextBox" Text="{Binding FullName}" IsReadOnly="{Binding IsReadOnly}" Width="200"  Margin="0,0,0,10"/>
 
 
-                    <TextBlock TextWrapping="Wrap" Text="Subdivision"/>
-                    <ComboBox Name="comboBox" ItemsSource="{Binding Items}"
+                    <TextBlock TextWrapping="Wrap" Text="Subdivision (Required)"/>
+                    <ComboBox Name="comboBox" IsEnabled="{Binding IsEnabled}" ItemsSource="{Binding Items}"
                   SelectedItem="{Binding SelectedItem}" 
                   Width="200" 
                   Height="30" 
@@ -50,8 +50,8 @@
                   HorizontalAlignment="Center">
 
                     </ComboBox>
-                    <TextBlock TextWrapping="Wrap" Text="Position"/>
-                    <ComboBox Name="comboBox2"  ItemsSource="{Binding Items2}"
+                    <TextBlock TextWrapping="Wrap" Text="Position (Required)"/>
+                    <ComboBox Name="comboBox2" IsEnabled="{Binding IsEnabled}"  ItemsSource="{Binding Items2}"
                   SelectedItem="{Binding SelectedItem2}"
        Width="200" 
        Height="30" 
@@ -61,8 +61,8 @@
 
 
                     </ComboBox>
-                    <TextBlock TextWrapping="Wrap" Text="Status"/>
-                    <ComboBox Name="comboBox3"  ItemsSource="{Binding Items3}"
+                    <TextBlock TextWrapping="Wrap" Text="Status (Required)"/>
+                    <ComboBox Name="comboBox3" IsEnabled="{Binding IsEnabled}"  ItemsSource="{Binding Items3}"
                   SelectedItem="{Binding SelectedItem3}"
         Width="200" 
         Height="30" 
@@ -74,7 +74,7 @@
 
                     </ComboBox>
                     <TextBlock TextWrapping="Wrap" Text="People Partner"/>
-                    <ComboBox Name="comboBox4"  ItemsSource="{Binding Items4}"
+                    <ComboBox Name="comboBox4" IsEnabled="{Binding IsEnabled}"  ItemsSource="{Binding Items4}"
                   SelectedItem="{Binding SelectedItem4}"
 Width="200" 
 Height="30" 
@@ -84,8 +84,8 @@ HorizontalAlignment="Center">
 
 
                     </ComboBox>
-                    <TextBlock TextWrapping="Wrap" Text="Out_of_OfficeBalance"/>
-                    <TextBox x:Name="Out_of_OfficeBalanceTextBox" Text="{Binding OutofOfficeBalance}" Width="200" Margin="0,0,0,10"/>
+                    <TextBlock TextWrapping="Wrap" Text="Out of OfficeBalance (Required)"/>
+                    <TextBox x:Name="Out_of_OfficeBalanceTextBox" Text="{Binding OutofOfficeBalance}" IsReadOnly="{Binding IsReadOnly}" Width="200" Margin="0,0,0,10"/>
                     <TextBlock TextWrapping="Wrap" Text="Photo"/>
                     <Image Name="PhotoImage" Source="{Binding ImageSource}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" Width="200" Height="200"/>
                     <TextBlock TextWrapping="Wrap" Text="Assigned project"/>
@@ -99,8 +99,8 @@ HorizontalAlignment="Center">
 
 
                     </ComboBox>
-                    <Button Content="Add photo" Command="{Binding AddPhotoCommand}" Width="200"/>
-                    <Button Content="Remove photo" Command="{Binding RemovePhotoCommand}" Width="200" />
+                    <Button Content="Add photo" Command="{Binding AddPhotoCommand}" Visibility="{Binding IsButtonVisible2, Converter={StaticResource BooleanToVisibilityConverter}}" Width="200"/>
+                    <Button Content="Remove photo" Command="{Binding RemovePhotoCommand}" Visibility="{Binding IsButtonVisible3, Converter={StaticResource BooleanToVisibilityConverter}}" Width="200" />
                     <Button x:Name="UpdateButton" Command="{Binding UpdateCommand}" Content="Update" Width="200"/>
                     <Button x:Name="DeleteButton" Command="{Binding DeleteCommand}" Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Content="Delete employee" Width="200"/>
 

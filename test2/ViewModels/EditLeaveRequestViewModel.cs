@@ -277,14 +277,14 @@ namespace test2.ViewModels
             var position = await context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefaultAsync();
             var lrOwner = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Employee).FirstOrDefaultAsync();
             var userId = await context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
-            if((status == LeaveRequestStatus.New && lrOwner == userId)|| (status == LeaveRequestStatus.New && position ==Position.Administrator))
+            if (((status == LeaveRequestStatus.New) && lrOwner == userId) || ((status == LeaveRequestStatus.New) && position == Position.Administrator))
             {
                 IsComboBoxEnabled = true;
                 IsStartDatePickerReadOnly = true;
                 IsEndDatePickerReadOnly = true;
                 IsTextBoxReadOnly = false;
                 IsButtonVisible = true;
-                IsButtonVisible2=true;
+                IsButtonVisible2 = true;
 
             }
             else
@@ -296,7 +296,10 @@ namespace test2.ViewModels
                 IsButtonVisible = false;
                 IsButtonVisible2 = false;
             }
-
+            if (((status == LeaveRequestStatus.Approved) && lrOwner == userId) || ((status == LeaveRequestStatus.Approved) && position == Position.Administrator))
+            {
+                IsButtonVisible2 = true;
+            }
 
             /*
             if ((status != LeaveRequestStatus.New || (position == Position.HRManager || position == Position.ProjectManager)))
@@ -387,6 +390,14 @@ namespace test2.ViewModels
             {
                 _dialogService.ShowMessage("Fill in all required fields", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
+
+                return;
+
+
+            }
+            if (Comment.Length > 100)
+            {
+                _dialogService.ShowMessage("Comment can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return;
 

@@ -97,6 +97,21 @@ namespace test2.ViewModels
             get => _items;
             set => SetProperty(ref _items, value);
         }
+
+        private bool _isReadOnlyComment;
+
+        public bool IsReadOnlyComment
+        {
+            get { return _isReadOnlyComment; }
+            set
+            {
+                if (_isReadOnlyComment != value)
+                {
+                    _isReadOnlyComment = value;
+                    OnPropertyChanged(nameof(IsReadOnlyComment));
+                }
+            }
+        }
         private bool _isButtonVisible;
 
         public bool IsButtonVisible
@@ -152,29 +167,32 @@ namespace test2.ViewModels
             switch (k)
             {
                 case ApprovalRequestStatus.New:
-                    
+
                     SelectedItem = Items[0];
                     IsButtonVisible = true;
-                    IsButtonVisible2=true;
-
+                    IsButtonVisible2 = true;
+                    IsReadOnlyComment = false;
 
                     break;
                 case ApprovalRequestStatus.Approved:
                     SelectedItem = Items[1];
-                    IsButtonVisible=false;
+                    IsButtonVisible = false;
                     IsButtonVisible2 = false;
+                    IsReadOnlyComment = true;
                     break;
                 case ApprovalRequestStatus.Rejected:
                     SelectedItem = Items[2];
-                    
+
                     IsButtonVisible = false;
-                    
+
                     IsButtonVisible2 = false;
+                    IsReadOnlyComment = true;
                     break;
                 case ApprovalRequestStatus.Canceled:
                     SelectedItem = Items[3];
                     IsButtonVisible = false;
                     IsButtonVisible2 = false;
+                    IsReadOnlyComment = true;
                     break;
             }
             IsComboBoxEnabled = false;
@@ -191,6 +209,14 @@ namespace test2.ViewModels
                 _windowService.CloseWindow<OpenApprovalRequestViewModel>();
                 return;
             }
+            if (Comment.Length > 100)
+            {
+                _dialogService.ShowMessage("Comment can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+
+
+            }
             var obj = await context.ApprovalRequests.FindAsync(id);
             obj.Approver = await context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
             obj.Status = ApprovalRequestStatus.Approved;
@@ -203,7 +229,7 @@ namespace test2.ViewModels
             context.Entry(emp).State = EntityState.Modified;
             context.Entry(obj).State = EntityState.Modified;
             await context.SaveChangesAsync();
-            
+
             _dialogService.ShowMessage("Approval request approved", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<OpenApprovalRequestViewModel>();
         }
@@ -214,6 +240,14 @@ namespace test2.ViewModels
                 _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<OpenApprovalRequestViewModel>();
                 return;
+            }
+            if (Comment.Length > 100)
+            {
+                _dialogService.ShowMessage("Comment can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+
+
             }
             var obj = await context.ApprovalRequests.FindAsync(id);
             var lr = await context.LeaveRequests.Where(e => e.Id == obj.LeaveRequest).FirstOrDefaultAsync();

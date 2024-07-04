@@ -197,6 +197,31 @@ namespace test2.ViewModels
             int? peoplePartner = null;
             int out_of_OfficeBalance;
             byte[] photo = _imageSource;
+
+            if (FullName.Length > 100)
+            {
+                _dialogService.ShowMessage("Full Name can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+
+
+            }
+            if (Username.Length > 100)
+            {
+                _dialogService.ShowMessage("Username can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+
+
+            }
+            if (Password.Length > 100)
+            {
+                _dialogService.ShowMessage("Password can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+
+
+            }
             switch (_selectedItem)
             {
                 case "A":
