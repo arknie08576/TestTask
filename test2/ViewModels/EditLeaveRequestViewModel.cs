@@ -228,6 +228,34 @@ namespace test2.ViewModels
                 }
             }
         }
+        private bool _isStartDatePickerReadOnly;
+
+        public bool IsStartDatePickerReadOnly
+        {
+            get => _isStartDatePickerReadOnly;
+            set
+            {
+                if (_isStartDatePickerReadOnly != value)
+                {
+                    _isStartDatePickerReadOnly = value;
+                    OnPropertyChanged(nameof(IsStartDatePickerReadOnly));
+                }
+            }
+        }
+        private bool _isEndDatePickerReadOnly;
+
+        public bool IsEndDatePickerReadOnly
+        {
+            get => _isEndDatePickerReadOnly;
+            set
+            {
+                if (_isEndDatePickerReadOnly != value)
+                {
+                    _isEndDatePickerReadOnly = value;
+                    OnPropertyChanged(nameof(IsEndDatePickerReadOnly));
+                }
+            }
+        }
         private DateTime? _startDate;
 
         public DateTime? StartDate
@@ -247,6 +275,30 @@ namespace test2.ViewModels
             Id = id.ToString();
             var status = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Status).FirstOrDefaultAsync();
             var position = await context.Employes.Where(e => e.Username == user).Select(x => x.Position).FirstOrDefaultAsync();
+            var lrOwner = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Employee).FirstOrDefaultAsync();
+            var userId = await context.Employes.Where(e => e.Username == user).Select(x => x.Id).FirstOrDefaultAsync();
+            if((status == LeaveRequestStatus.New && lrOwner == userId)|| (status == LeaveRequestStatus.New && position ==Position.Administrator))
+            {
+                IsComboBoxEnabled = true;
+                IsStartDatePickerReadOnly = true;
+                IsEndDatePickerReadOnly = true;
+                IsTextBoxReadOnly = false;
+                IsButtonVisible = true;
+                IsButtonVisible2=true;
+
+            }
+            else
+            {
+                IsComboBoxEnabled = false;
+                IsStartDatePickerReadOnly = false;
+                IsEndDatePickerReadOnly = false;
+                IsTextBoxReadOnly = true;
+                IsButtonVisible = false;
+                IsButtonVisible2 = false;
+            }
+
+
+            /*
             if ((status != LeaveRequestStatus.New || (position == Position.HRManager || position == Position.ProjectManager)))
             {
                 IsTextBoxReadOnly = true;
@@ -257,7 +309,7 @@ namespace test2.ViewModels
             {
                 IsButtonVisible = true;
                 IsTextBoxReadOnly = false;
-            }
+            } */
 
             //var products = await context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToListAsync();
             Id = id.ToString();

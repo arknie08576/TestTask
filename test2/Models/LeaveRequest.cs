@@ -6,9 +6,9 @@ namespace test2.Models
 {
     public class LeaveRequest : EntityBase
     {
-        
+        [Required]
         [ForeignKey("employee")]
-        public int? Employee {  get; set; }
+        public int Employee {  get; set; }
         [Required] 
         public AbsenceReason AbsenceReason { get; set; }
         [Required]
@@ -19,7 +19,7 @@ namespace test2.Models
         public string? Comment { get; set; }
         [Required]
         public LeaveRequestStatus Status { get; set; }
-        public Employee? employee { get; set; }
+        public Employee employee { get; set; }
 
 
 
