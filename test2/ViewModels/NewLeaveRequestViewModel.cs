@@ -153,6 +153,12 @@ namespace test2.ViewModels
 
 
             }
+            if (DateOnly.FromDateTime(StartDate.Value) < DateOnly.FromDateTime(DateTime.Now))
+            {
+                _dialogService.ShowMessage("You cannot submit a Leave Request with a StartDate in the past", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var oOOBalance = await context.Employes.Where(x => x.Username == user).Select(x => x.Out_of_OfficeBalance).FirstOrDefaultAsync();
             var howManyDaysLeft = oOOBalance - sum;
 

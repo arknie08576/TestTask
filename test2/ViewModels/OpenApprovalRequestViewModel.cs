@@ -222,6 +222,19 @@ namespace test2.ViewModels
             obj.Status = ApprovalRequestStatus.Approved;
             obj.Comment = Comment;
             var lr = await context.LeaveRequests.Where(e => e.Id == obj.LeaveRequest).FirstOrDefaultAsync();
+
+            if (lr.StartDate< DateOnly.FromDateTime(DateTime.Now))
+            {
+                _dialogService.ShowMessage("You cannot approve a Request with a StartDate in the past.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return;
+
+            }
+
+
+
+
+
             var emp = await context.Employes.Where((e) => e.Id == lr.Employee).FirstOrDefaultAsync();
             lr.Status = LeaveRequestStatus.Approved;
             emp.Out_of_OfficeBalance -= (obj.leaveRequest.EndDate.ToDateTime(TimeOnly.MinValue) - obj.leaveRequest.StartDate.ToDateTime(TimeOnly.MinValue)).Days + 1;
