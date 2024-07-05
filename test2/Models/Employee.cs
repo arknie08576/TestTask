@@ -24,15 +24,15 @@ namespace test2.Models
         public Position Position { get; set; }
         [Required]
         public EmployeeStatus Status { get; set; }
-        
+
         [ForeignKey("employee")]
-        public int? PeoplePartner {  get; set; }
+        public int? PeoplePartner { get; set; }
         [Required]
         public int Out_of_OfficeBalance { get; set; }
-        
+
         public byte[]? Photo { get; set; }
         [ForeignKey("project")]
-        public int? AssignedProject {  get; set; }
+        public int? AssignedProject { get; set; }
         public Employee? employee { get; set; }
         public Project? project { get; set; }
 

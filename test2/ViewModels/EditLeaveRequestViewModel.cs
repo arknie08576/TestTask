@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Windows;
 using test2.Helpers;
 using Microsoft.EntityFrameworkCore;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
@@ -301,20 +293,6 @@ namespace test2.ViewModels
                 IsButtonVisible2 = true;
             }
 
-            /*
-            if ((status != LeaveRequestStatus.New || (position == Position.HRManager || position == Position.ProjectManager)))
-            {
-                IsTextBoxReadOnly = true;
-                IsButtonVisible = false;
-                IsComboBoxEditable = false;
-            }
-            else
-            {
-                IsButtonVisible = true;
-                IsTextBoxReadOnly = false;
-            } */
-
-            //var products = await context.Employes.Where(e => e.Username == user).Select(x => x.FullName).ToListAsync();
             Id = id.ToString();
             var employeId = await context.LeaveRequests.Where(e => e.Id == id).Select(x => x.Employee).FirstOrDefaultAsync();
             Employee = await context.Employes.Where(e => e.Id == employeId).Select(x => x.FullName).FirstOrDefaultAsync();
@@ -463,6 +441,11 @@ namespace test2.ViewModels
                     _dialogService.ShowMessage("Start date must be earlier than end date.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
+            }
+            if (DateOnly.FromDateTime(StartDate.Value) < DateOnly.FromDateTime(DateTime.Now))
+            {
+                _dialogService.ShowMessage("You cannot update a Leave Request with a StartDate in the past", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
             var obj = await context.LeaveRequests.FindAsync(id);

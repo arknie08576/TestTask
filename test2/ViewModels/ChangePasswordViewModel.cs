@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using test2.Commands;
 using test2.Data;
@@ -23,9 +17,8 @@ namespace test2.ViewModels
             context = officeContex;
             _dialogService = dialogService;
             _windowService = windowService;
-
             ChangePasswordCommand = new AsyncRelayCommand<object>(OnChangePasswordAsync);
-            
+
         }
         public ICommand ChangePasswordCommand { get; }
         private string _password;
@@ -65,7 +58,7 @@ namespace test2.ViewModels
                 if (Password.Length > 100)
                 {
                     _dialogService.ShowMessage("Password can't be longer than 100 characters.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    
+
                     return;
 
 
@@ -88,7 +81,7 @@ namespace test2.ViewModels
                     }
 
 
-                    
+
                 }
                 else
                 {

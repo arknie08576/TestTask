@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using test2.TableModels;
 using test2.Helpers;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
@@ -34,16 +26,12 @@ namespace test2.ViewModels
             context = officeContex;
             _dialogService = dialogService;
             user = AuthenticationHelper.loggedUser;
-
             _windowService = windowService;
-
-            // Initialize commands
             FilterCommand = new AsyncRelayCommand<object>(OnFilterAsync);
             NewEmployeeCommand = new RelayCommand<object>(OnNewEmployee);
             RowDoubleClickCommand = new RelayCommand<ViewEmployee>(OnRowDoubleClick);
-            //CloseCommand = new RelayCommand<object>(Close);
             Task.Run(LoadEmployesAsync);
-            
+
         }
         private string _id;
         public string Id
@@ -242,7 +230,6 @@ namespace test2.ViewModels
                     Status = employe.Status,
                     PeoplePartner = peoplePartner,
                     Out_of_OfficeBalance = employe.Out_of_OfficeBalance,
-                    //  Photo = employe.Photo,
                     AssignedProject = employe.AssignedProject
 
                 };
@@ -416,7 +403,7 @@ namespace test2.ViewModels
                     _windowService.CloseWindow<EmployesViewModel>();
                     return;
                 }
-                
+
                 _windowService.ShowWindow<OpenEmployeeViewModel>(item.Id);
             }
         }

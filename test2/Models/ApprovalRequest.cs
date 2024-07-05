@@ -6,16 +6,16 @@ namespace test2.Models
 {
     public class ApprovalRequest : EntityBase
     {
-        
+
         [ForeignKey("employee")]
-        public int? Approver {  get; set; }
+        public int? Approver { get; set; }
         [Required]
         [ForeignKey("leaveRequest")]
         public int LeaveRequest { get; set; }
         [Required]
         public ApprovalRequestStatus Status { get; set; }
         [MaxLength(100)]
-        
+
         public string? Comment { get; set; }
         public Employee? employee { get; set; }
         public LeaveRequest leaveRequest { get; set; }

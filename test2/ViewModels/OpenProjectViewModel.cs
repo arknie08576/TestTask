@@ -1,16 +1,4 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using test2.Models;
-using test2.Helpers;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using test2.Services;
+﻿using test2.Helpers;
 using test2.Interfaces;
 using test2.Data;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +20,7 @@ namespace test2.ViewModels
             user = AuthenticationHelper.loggedUser;
 
             _windowService = windowService;
- 
+
         }
         private string _id;
         public string Id

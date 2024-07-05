@@ -1,18 +1,9 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using test2.TableModels;
 using test2.Helpers;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
@@ -325,7 +316,7 @@ namespace test2.ViewModels
             }
             if (item != null)
             {
-               
+
 
                 var position = await context.Employes.Where(x => x.Username == user).Select(x => x.Position).FirstOrDefaultAsync();
                 if (position == Position.ProjectManager || position == Position.Administrator)

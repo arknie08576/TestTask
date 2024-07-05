@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using test2.Views;
+﻿using System.Windows.Input;
 using test2.Helpers;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
-using test2.Data;
 
 namespace test2.ViewModels
 {
     public class ProjectManagerViewModel : ViewModelBase
     {
-        
+
         private readonly IWindowService _windowService;
         public ICommand ProjectsCommand { get; }
         public ICommand LeaveRequestsCommand { get; }

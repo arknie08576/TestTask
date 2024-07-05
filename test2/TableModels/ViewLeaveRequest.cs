@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using test2.Enums;
+﻿using test2.Enums;
 
 namespace test2.TableModels
 {
@@ -12,15 +6,10 @@ namespace test2.TableModels
     {
         public int Id { get; set; }
         public string Employee { get; set; }
-      
         public AbsenceReason AbsenceReasonn { get; set; }
-       
         public DateOnly StartDate { get; set; }
-        
         public DateOnly EndDate { get; set; }
-        
         public string? Comment { get; set; }
-        
         public LeaveRequestStatus Status { get; set; }
     }
 }

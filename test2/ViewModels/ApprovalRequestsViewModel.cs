@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using test2.TableModels;
 using test2.Helpers;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
@@ -33,15 +25,9 @@ namespace test2.ViewModels
             context = officeContex;
             _dialogService = dialogService;
             user = AuthenticationHelper.loggedUser;
-
             _windowService = windowService;
-
-            // Initialize commands
             FilterCommand = new AsyncRelayCommand<object>(OnFilterAsync);
-
             RowDoubleClickCommand = new RelayCommand<ViewApprovalRequest>(OnRowDoubleClick);
-            //CloseCommand = new RelayCommand<object>(Close);
-            // LoadApprovalRequestsAsync();
             Task.Run(LoadApprovalRequestsAsync);
         }
         private string _id;
@@ -109,7 +95,7 @@ namespace test2.ViewModels
         }
         private async Task LoadApprovalRequestsAsync()
         {
-            var approvalRequests =await context.ApprovalRequests.ToListAsync();
+            var approvalRequests = await context.ApprovalRequests.ToListAsync();
             var viewapprovalRequests = new List<ViewApprovalRequest>();
             foreach (var approvalRequest in approvalRequests)
             {
@@ -236,7 +222,7 @@ namespace test2.ViewModels
                     _windowService.CloseWindow<ApprovalRequestsViewModel>();
                     return;
                 }
-                
+
                 _windowService.ShowWindow<OpenApprovalRequestViewModel>(item.Id);
             }
         }

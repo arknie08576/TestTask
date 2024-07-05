@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using test2.Enums;
+﻿using test2.Enums;
 
 namespace test2.TableModels
 {
@@ -14,13 +7,8 @@ namespace test2.TableModels
     {
         public int Id { get; set; }
         public string? Approver { get; set; }
-
-        
         public int? LeaveRequestt { get; set; }
-      
         public ApprovalRequestStatus Status { get; set; }
-       
-
         public string? Comment { get; set; }
 
     }

@@ -1,20 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 using System.Windows.Forms.Design;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.IO;
-
 using test2.ViewModels;
 using test2.Views;
 using test2.Helpers;
-using Prism.Events;
 using test2.Services;
 using test2.Interfaces;
-using System.Windows.Media.Animation;
 using test2.Data;
 
 
@@ -25,12 +19,12 @@ namespace test2
     public partial class App : Application
     {
         private ServiceProvider _serviceProvider;
-      
+
 
         public App()
         {
-            
-          
+
+
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
@@ -62,7 +56,6 @@ namespace test2
             services.AddTransient<EditLeaveRequestWindow>();
             services.AddTransient<OpenProjectWindow>();
             services.AddTransient<ChangePasswordWindow>();
-
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<EmployeeViewModel>();
@@ -81,31 +74,21 @@ namespace test2
             services.AddTransient<ApprovalRequestsViewModel>();
             services.AddTransient<OpenApprovalRequestViewModel>();
             services.AddTransient<ChangePasswordViewModel>();
-            
-
-
-
             services.AddSingleton<IDialogService, DialogService>();
-           
-
             services.AddDbContext<OfficeContex>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-            //services.AddTransient<IMyService, MyService>();
-            
+
+
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            
-               var service = _serviceProvider.GetService<IWindowService>();
+
+            var service = _serviceProvider.GetService<IWindowService>();
             AuthenticationHelper.LoadDbContext(_serviceProvider.GetRequiredService<OfficeContex>());
             service.ShowWindow<MainViewModel>();
         }
-
-
-
-
 
     }
 

@@ -1,16 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using test2.Helpers;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
@@ -34,9 +26,9 @@ namespace test2.ViewModels
             _windowService = windowService;
             Items = new ObservableCollection<string> { "A", "B", "C", "D" };
             Items3 = new ObservableCollection<string> { "Inactive", "Active" };
-            
+
             UpdateCommand = new AsyncRelayCommand<object>(OnUpdateAsync);
-            
+
         }
 
         private async Task LoadItems2Async()
@@ -110,7 +102,7 @@ namespace test2.ViewModels
             set => SetProperty(ref _items3, value);
         }
 
- 
+
         private string _comment;
         public string Comment
         {
@@ -155,7 +147,7 @@ namespace test2.ViewModels
 
             }
             var products = await context.Employes.Where(e => e.Position == Position.ProjectManager).Select(x => x.FullName).ToListAsync();
-            
+
             var pm = await context.Employes.Where(e => e.Id == project.ProjectManager).Select(x => x.FullName).FirstOrDefaultAsync();
             for (int i = 0; i < products.Count; i++)
             {
@@ -195,7 +187,7 @@ namespace test2.ViewModels
             {
                 _dialogService.ShowMessage("User logged out.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 _windowService.CloseWindow<EditProjectViewModel>();
-                
+
                 return;
             }
             if (Comment.Length > 100)
@@ -255,7 +247,7 @@ namespace test2.ViewModels
             }
             context.Entry(obj).State = EntityState.Modified;
             await context.SaveChangesAsync();
-          
+
             _dialogService.ShowMessage("Project updated..", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             _windowService.CloseWindow<EditProjectViewModel>();
         }

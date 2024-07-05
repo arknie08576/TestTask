@@ -11,9 +11,9 @@ namespace test2.Models
         [Required]
         public DateOnly StartDate { get; set; }
         public DateOnly? EndDate { get; set; }
-        
+
         [ForeignKey("employee")]
-        public int? ProjectManager {  get; set; }
+        public int? ProjectManager { get; set; }
         [MaxLength(100)]
         public string? Comment { get; set; }
         [Required]

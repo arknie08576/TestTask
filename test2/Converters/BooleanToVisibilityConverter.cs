@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Windows.Data;
 using System.Windows;
 
@@ -19,7 +14,7 @@ namespace test2.Converters
             }
             else
             {
-                return Visibility.Collapsed; // or Visibility.Hidden as per your requirement
+                return Visibility.Collapsed;
             }
         }
 

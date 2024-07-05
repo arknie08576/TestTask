@@ -1,22 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Windows.Media;
-using System.ComponentModel;
-using System.Windows.Documents;
-using System.Security;
 using System.IO;
 using Microsoft.Win32;
-using System.Windows.Controls;
 using System.Windows;
 using test2.Helpers;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
@@ -186,7 +174,7 @@ namespace test2.ViewModels
 
         private async Task OnRegisterAsync(object parameter)
         {
-            
+
             string username = _username;
             string password = _password;
             string confirmPassword = _confirmPassword;

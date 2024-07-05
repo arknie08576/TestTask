@@ -66,7 +66,7 @@ namespace test2.Services
 
         private Type GetWindowTypeForViewModel(Type viewModelType)
         {
-            // Find the window type associated with the view model type
+
             var viewTypeName = viewModelType.Name.Replace("ViewModel", "Window");
             var windowType = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())

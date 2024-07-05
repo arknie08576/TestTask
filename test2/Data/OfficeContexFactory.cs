@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using test2;
 
 namespace test2.Data
 {

@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using test2.Models;
 using System.Windows;
 using System.IO;
@@ -15,7 +7,6 @@ using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using Microsoft.EntityFrameworkCore;
 using test2.Helpers;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
@@ -46,13 +37,13 @@ namespace test2.ViewModels
             UpdateCommand = new AsyncRelayCommand<object>(OnUpdateAsync);
             DeleteCommand = new AsyncRelayCommand<object>(OnDeleteAsync);
             RemovePhotoCommand = new RelayCommand<object>(OnRemovePhoto);
-            
+
         }
         private async Task LoadItemsAsync()
         {
             var products = await context.Employes.Where(e => e.Position == Position.HRManager).Select(x => x.FullName).ToListAsync();
             Items4 = new ObservableCollection<string>(products);
-            var projects = await context.Projects.OrderBy(x=>x.Id).Select(x => x.Id.ToString()).ToListAsync();
+            var projects = await context.Projects.OrderBy(x => x.Id).Select(x => x.Id.ToString()).ToListAsync();
             Items5 = new ObservableCollection<string>(projects);
 
         }
@@ -248,10 +239,10 @@ namespace test2.ViewModels
             {
 
                 IsButtonVisible = false;
-                IsButtonVisible2=false;
-                IsButtonVisible3=false;
+                IsButtonVisible2 = false;
+                IsButtonVisible3 = false;
                 IsEnabled = false;
-                IsReadOnly=true;
+                IsReadOnly = true;
 
             }
             else
@@ -366,14 +357,8 @@ namespace test2.ViewModels
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
             if (openFileDialog.ShowDialog() == true)
             {
-                // Read the photo from the file
                 var photoData = File.ReadAllBytes(openFileDialog.FileName);
-
-                // Display the photo in the Image control
                 ImageSource = photoData;
-
-                // Save the photo to the database
-                // SavePhotoToDatabase(photoData);
             }
         }
         private void OnRemovePhoto(object parameter)
@@ -477,8 +462,8 @@ namespace test2.ViewModels
             {
                 obj.AssignedProject = await context.Projects.Where(e => e.Id.ToString() == SelectedItem5).Select(x => x.Id).FirstOrDefaultAsync();
             }
-           
-            
+
+
             if (int.TryParse(OutofOfficeBalance, out int result))
             {
                 if (result < 0)
@@ -495,7 +480,7 @@ namespace test2.ViewModels
             {
                 _dialogService.ShowMessage("Out of Office Balance is not number.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
-            
+
             }
 
             obj.Photo = ImageSource;

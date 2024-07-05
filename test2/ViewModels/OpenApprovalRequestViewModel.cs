@@ -1,20 +1,8 @@
-﻿using Prism.Commands;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls.Primitives;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using test2.Helpers;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.EntityFrameworkCore;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;
@@ -223,7 +211,7 @@ namespace test2.ViewModels
             obj.Comment = Comment;
             var lr = await context.LeaveRequests.Where(e => e.Id == obj.LeaveRequest).FirstOrDefaultAsync();
 
-            if (lr.StartDate< DateOnly.FromDateTime(DateTime.Now))
+            if (lr.StartDate < DateOnly.FromDateTime(DateTime.Now))
             {
                 _dialogService.ShowMessage("You cannot approve a Request with a StartDate in the past.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 

@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using test2.Models;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows;
 using test2.Helpers;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
 using test2.Data;

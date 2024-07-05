@@ -1,12 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.VisualBasic.ApplicationServices;
-using System;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows.Forms;
-using test2;
 using test2.Models;
 using test2.Data;
 using test2.Enums;
@@ -76,7 +70,7 @@ namespace test2.Helpers
         }
         public static async Task ChangePasswordAsync(string username, string newPassword)
         {
-            
+
             var user = await context.Employes.SingleOrDefaultAsync(u => u.Username == username);
 
             if (user == null)
@@ -85,15 +79,15 @@ namespace test2.Helpers
             }
 
 
-            // Generate new salt and hash the new password
+
             var newSalt = GenerateSalt();
             var newHash = HashPassword(newPassword, newSalt);
 
-            // Update the user with the new password hash and salt
+
             user.Salt = newSalt;
             user.PasswordHash = newHash;
 
-            // Save changes to the database
+
             await context.SaveChangesAsync();
         }
     }

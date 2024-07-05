@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using test2.Views;
+﻿using System.Windows.Input;
 using test2.Helpers;
-using test2.Services;
 using test2.Interfaces;
 using test2.Commands;
-using test2.Data;
+
 
 namespace test2.ViewModels
 {
     public class AdministratorViewModel : ViewModelBase
     {
-        
+
         private readonly IWindowService _windowService;
         public ICommand ProjectsCommand { get; }
         public ICommand LeaveRequestsCommand { get; }
@@ -25,22 +16,16 @@ namespace test2.ViewModels
         public ICommand ApprovalRequestsCommand { get; }
         public ICommand ChangePasswordCommand { get; }
         public ICommand LogoutCommand { get; }
-        public AdministratorViewModel( IWindowService windowService)
+        public AdministratorViewModel(IWindowService windowService)
         {
-            
-            
-
-
             _windowService = windowService;
-
-            // Initialize commands
             ProjectsCommand = new RelayCommand<object>(OnProcjects);
             LeaveRequestsCommand = new RelayCommand<object>(OnLeaveRequests);
             EmployesCommand = new RelayCommand<object>(OnEmployes);
             ApprovalRequestsCommand = new RelayCommand<object>(OnApprovalRequests);
             LogoutCommand = new RelayCommand<object>(OnLogout);
             ChangePasswordCommand = new RelayCommand<object>(OnChangePassword);
-            //CloseCommand = new RelayCommand<object>(Close);
+
         }
         private void OnProcjects(object parameter)
         {
