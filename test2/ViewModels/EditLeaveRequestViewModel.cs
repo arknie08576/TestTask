@@ -29,7 +29,7 @@ namespace test2.ViewModels
             _windowService = windowService;
             Items = new ObservableCollection<string> { "A", "B", "C", "D" };
             Items2 = new ObservableCollection<string> { "New", "Approved", "Rejected", "Canceled" };
-            // Initialize commands
+            
             UpdateCommand = new AsyncRelayCommand<object>(OnUpdateAsync);
             CancelCommand = new RelayCommand<object>(OnCancel);
             IsComboBoxEditable2 = false;
